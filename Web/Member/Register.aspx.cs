@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace book_shop.Web.Member
 {
-    public partial class Register : System.Web.UI.Page
+    public partial class Register1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,6 +19,7 @@ namespace book_shop.Web.Member
                 }
             }
         }
+
         #region 完成用户注册
         protected void AddUserInfo()
         {
@@ -40,7 +41,7 @@ namespace book_shop.Web.Member
             }
             else
             {
-                Response.Redirect("/ShowMsg.aspx?msg=" + msg);
+                Response.Redirect("/ShowMsg.aspx?msg=" + msg+"&txt=首页"+ "&redirect=/Default.aspx");
             }
         }
         #endregion

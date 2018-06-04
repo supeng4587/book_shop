@@ -131,6 +131,7 @@
     <Compile Include="CheckEmailDAL.cs" />
     <Compile Include="DepartmentDAL.cs" />
     <Compile Include="keyWordsRankDAL.cs" />
+    <Compile Include="MyClass\UsersDAL.cs" />
     <Compile Include="OrderBookDAL.cs" />
     <Compile Include="OrdersDAL.cs" />
     <Compile Include="PublishersDAL.cs" />

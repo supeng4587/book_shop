@@ -71,6 +71,7 @@
     <Content Include="Controls\copyright.ascx" />
     <Content Include="Global.asax" />
     <Content Include="Member\Register.aspx" />
+    <Content Include="ShowMsg.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -106,11 +107,11 @@
     <Compile Include="MasterPage.master.designer.cs">
       <DependentUpon>MasterPage.master</DependentUpon>
     </Compile>
-    <Compile Include="master\MainMaster.Master.cs">
+    <Compile Include="Master\MainMaster.Master.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="master\MainMaster.Master.designer.cs">
+    <Compile Include="Master\MainMaster.Master.designer.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
     </Compile>
     <Compile Include="Member\Register.aspx.cs">
@@ -121,6 +122,13 @@
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShowMsg.aspx.cs">
+      <DependentUpon>ShowMsg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ShowMsg.aspx.designer.cs">
+      <DependentUpon>ShowMsg.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
@@ -162,7 +170,7 @@
     <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="master\MainMaster.Master" />
+    <Content Include="Master\MainMaster.Master" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

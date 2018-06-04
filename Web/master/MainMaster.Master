@@ -1,7 +1,4 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MainMaster.master.cs" Inherits="book_shop.Web.master.MainMaster" %>
-
-<!DOCTYPE html>
-
 <!DOCTYPE html>
 
 <html>
@@ -24,14 +21,12 @@
 <body > 
 <form id="form1" runat="server">
 
-<center>
-
 <div class="top">
 	<div class="m_c" style="width: 736px; height: 27px">
 	<span class="l">
       <a href="http://www.beifabook.com" target="_blank">北发图书网主网站</a> |&nbsp;
       <a href="http://www.bjbb.com" target="_blank">北京图书大厦</a>&nbsp; |
-      <a href="../default.aspx" target="_blank"><font color="#00A0E9">王府井书店</font></a>&nbsp;|
+      <a href="../default.aspx" target="_blank" style="color:#00A0E9">王府井书店</a>&nbsp;|
       <a href="http://www.zgcbb.com/" target="_blank">中关村图书大厦</a>&nbsp; |
       <a href="http://www.yycbook.com/" target="_blank">亚运村图书大厦</a>&nbsp; |
       <a href="http://www.hs-book.com" target="_blank">花市书店</a>&nbsp; |
@@ -51,11 +46,11 @@
  
     </div>
 <div id="footer">
-  <table border="0" width="100%" class="categories1">
+  <table border="0" style="width:100%" class="categories1">
     <tr>
-      <td align="center">　
+      <td style="align-items:center">　
         <ul>
-            <li><a href='#'>关于我们王府井书店</li>
+            <li><a href='#'>关于我们王府井书店</a></li>
           <li><a href="#">书店营业时间：9：30-21：00 </a> </li>
           <li> <a href="#"; target=_blank; ><img src="/images/logo123x40.jpg" width="123" height="40" border="0"></a> <a href="#"; target=_blank; ><img border="0" src="/Images/kaixin.jpg"></a> </li>
           <li>&nbsp;<span lang="zh-cn"><a title="京ICP备08001692号" href="http://www.miibeian.gov.cn">京ICP备08987373号</a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </li>
@@ -63,9 +58,6 @@
     </tr>
   </table>
 </div>
-
-</center>
-
     </form>
 </body>
 

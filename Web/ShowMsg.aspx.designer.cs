@@ -7,9 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace book_shop.Web.Member {
+namespace book_shop.Web {
     
     
-    public partial class Register1 {
+    public partial class ShowMsg {
     }
 }
