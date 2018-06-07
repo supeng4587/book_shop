@@ -37,7 +37,19 @@ namespace book_shop.BLL
         public bool ValidateUserName(string userName)
         {
             return dal.GetModel(userName) != null ? true : false;
-        } 
+        }
+        #endregion
+
+        #region 检查邮箱
+        /// <summary>
+        /// 根据邮箱返回是否被占用
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <returns></returns>
+        public bool CheckUserMail(string mail)
+        {
+            return dal.CheckUserMail(mail) > 0 ? true : false;
+        }
         #endregion
     }
 }

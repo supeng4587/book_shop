@@ -34,5 +34,15 @@ namespace book_shop.DAL
                 return null;
             }
         }
+
+        public int CheckUserMail(string mail)
+        {
+            string sql = "select count(*) from users where mail=@mail";
+            SqlParameter[] parameters ={
+                new SqlParameter("@mail",SqlDbType.NVarChar,100)
+            };
+            parameters[0].Value = mail;
+            return Convert.ToInt32(DbHelperSQL.GetSingle(sql, parameters));
+        }
     }
 }

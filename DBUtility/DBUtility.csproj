@@ -35,8 +35,9 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <OldToolsVersion>14.0</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -60,6 +61,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -83,6 +85,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.4.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
@@ -116,16 +119,11 @@
     <Compile Include="CommandInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DbHelperMySQL.cs" />
     <Compile Include="DbHelperOleDb.cs" />
-    <Compile Include="DbHelperOra.cs" />
     <Compile Include="DbHelperSQL.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DESEncrypt.cs" />
-    <Compile Include="OracleHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PubConstant.cs" />
     <Compile Include="SQLHelper.cs">
       <SubType>Code</SubType>

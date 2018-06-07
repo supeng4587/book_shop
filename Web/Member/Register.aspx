@@ -30,15 +30,29 @@
                 if ($("#userMail").val() == "") { $("#msg").text("邮箱不能为空!!"); return false }
                 if ($("#validateCode").val() == "") { $("#validateCodeMsg").text("验证码不能为空!!"); return false }
                 var par = $("#aspnetForm").serializeArray();
-                $.post("/ashx/UserRegister.ashx", par, function (data) {
-                    $("#validateCodeMsg").text(data);
+                //$.post("/ashx/UserRegister.ashx", par, function (data) {
+                //    $("#validateCodeMsg").text(data);
+                //});
+                $.ajax({
+                    url: "/ashx/UserRegister.ashx",
+                    type: "POST",
+                    data: par,
+                    success: function (data) {
+                        var serverdata = data.split(":");
+                        if (serverdata[0] == "ok") {
+                            window.location.href = "/Default.aspx";
+                        } else {
+                            window.location.href = "/ShowMsg.aspx?msg=" + serverdata[1] + "&txt=首页" + "&redirect=/Default.aspx"
+                        }
+                    }
                 });
+
             });
             $("#ValidateCode").bind("click", function () {
                 this.src = "/ashx/ValidateCode.ashx?time=" + new Date().getMilliseconds();
             });
             //$("#ValidateCode").click(function () {
-            //    $("#ValidateCode").attr("src", "/ashx/ValidateCode.ashx?time=" + new Date().getMilliseconds);
+            //    $("#ValidateCode").attr("src", "/ashx/ValidateCode.ashx?time=" + new Date().getMilliseconds());
             //})
         });
         //验证邮箱
@@ -48,10 +62,19 @@
                 var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
                 if (reg.test(val)) {
                     $("#msg").css("display", "none");
-                    $.post("/ashx/ValidateReg.ashx", { "action": "mail", "userMail": val }, function (data) {
-                        $("#msg").css("display", "block");
-                        $("#msg").text(data);
-                    });
+                    //$.post("/ashx/ValidateReg.ashx", { "action": "mail", "userMail": val }, function (data) {
+                    //    $("#msg").css("display", "block");
+                    //    $("#msg").text(data);
+                    //});
+                    $.ajax({
+                        url: "/ashx/ValidateReg.ashx",
+                        type: "POST",
+                        data: { "action": "mail", "userMail": val },
+                        success: function (data) {
+                            $("#msg").css("display", "block");
+                            $("#msg").text(data);
+                        }
+                    })
                 } else {
                     $("#msg").text("邮箱格式错误!!");
 
@@ -67,18 +90,28 @@
             if (code != "") {
                 var reg = /^[0-9]*$/;
                 if (reg.test(code)) {
-                    $.post("/ashx/ValidateReg.ashx", { "action": "code", "validateCode": code }, function (data) {
-                        $("#validateCodeMsg").text(data);
+                    //$.post("/ashx/ValidateReg.ashx", { "action": "code", "validateCode": code }, function (data) {
+                    //    $("#validateCodeMsg").text(data);
+                    //});
+                    $.ajax({
+                        url: "/ashx/ValidateReg.ashx",
+                        type: "POST",
+                        data: { "action": "code", "validateCode": code },
+                        success: function (data) {
+                            $("#validateCodeMsg").text(data);
+                        }
                     });
                 }
                 else {
-                    $("#validateCodeMsg").text("验证码格式错!!");
+                    $("#validateCodeMsg").text("请按验证码图片填写!!");
                 }
 
             } else {
                 $("#validateCodeMsg").text("验证码不能为空!!");
             }
         }
+
+
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -144,7 +177,7 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <input type="submit" value="注册" class="regnow" id="btnRegister" /></td>
+                    <input type="button" value="注册" class="regnow" id="btnRegister" /></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">&nbsp;</td>

@@ -5,7 +5,6 @@ D:\git\book_shop\BLL\bin\Debug\book_shop.Model.dll
 D:\git\book_shop\BLL\bin\Debug\Maticsoft.Common.dll
 D:\git\book_shop\BLL\bin\Debug\book_shop.DBUtility.dll
 D:\git\book_shop\BLL\bin\Debug\System.Data.SQLite.dll
-D:\git\book_shop\BLL\bin\Debug\MySql.Data.dll
 D:\git\book_shop\BLL\bin\Debug\book_shop.DAL.pdb
 D:\git\book_shop\BLL\bin\Debug\book_shop.Model.pdb
 D:\git\book_shop\BLL\bin\Debug\book_shop.DBUtility.pdb

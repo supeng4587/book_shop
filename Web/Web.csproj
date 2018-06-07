@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>book_shop.Web</RootNamespace>
     <AssemblyName>book_shop.Web</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -24,6 +24,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Maticsoft.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -58,13 +61,19 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Controls\checkright.ascx" />
@@ -72,9 +81,20 @@
     <Content Include="Global.asax" />
     <Content Include="Member\Register.aspx" />
     <Content Include="ShowMsg.aspx" />
+    <Content Include="SWFUpload\handlers.js" />
+    <Content Include="SWFUpload\swfupload.js" />
+    <Content Include="SWFUpload\swfupload.swf" />
+    <Content Include="SWFUpload\swfupload_fp9.swf" />
+    <Content Include="Test\SWFUpload_Demo.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ashx\UserRegister.ashx.cs">
+      <DependentUpon>UserRegister.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\ValidateReg.ashx.cs">
+      <DependentUpon>ValidateReg.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CheckRight.ascx.cs">
       <DependentUpon>checkright.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -129,6 +149,13 @@
     <Compile Include="ShowMsg.aspx.designer.cs">
       <DependentUpon>ShowMsg.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Test\SWFUpload_Demo.aspx.cs">
+      <DependentUpon>SWFUpload_Demo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Test\SWFUpload_Demo.aspx.designer.cs">
+      <DependentUpon>SWFUpload_Demo.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
@@ -153,6 +180,10 @@
       <Project>{38D7AA58-C95B-449B-86C6-A8073A56E11F}</Project>
       <Name>BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{9c576b5d-56c5-4cf1-85f0-eb0dc22c72a5}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{53995DBB-9836-4647-AD22-865884FDEB9E}</Project>
       <Name>Model</Name>
@@ -163,14 +194,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin\" />
-    <Folder Include="ashx\" />
     <Folder Include="Components\" />
     <Folder Include="Css\" />
     <Folder Include="Images\" />
     <Folder Include="js\" />
+    <Folder Include="SWFUpload\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Master\MainMaster.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\ValidateReg.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\UserRegister.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

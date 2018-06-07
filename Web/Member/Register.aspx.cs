@@ -13,7 +13,7 @@ namespace book_shop.Web.Member
         {
             if (IsPostBack)
             {
-                if (CheckSession())//完成验证码校验
+                if (Common.WebCommon.CheckValidateCode(Request["txtCode"]))//完成验证码校验
                 {
                     AddUserInfo();
                 }
@@ -44,25 +44,26 @@ namespace book_shop.Web.Member
                 Response.Redirect("/ShowMsg.aspx?msg=" + msg+"&txt=首页"+ "&redirect=/Default.aspx");
             }
         }
+        //没写服务端信息校验
         #endregion
         #region 完成验证码校验
 
-        protected bool CheckSession()
-        {
-            bool isSucess = false;
-            if (Session["vCode"] != null)
-            {
-                string txtCode = Request["txtCode"];
-                string sysCode = Session["vCode"].ToString();
-                if (sysCode.Equals(txtCode, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    isSucess = true;
-                    //Session["vCode"] = null;
-                }
-                Session["vCode"] = null;//验证对不对都把session清了
-            }
-            return isSucess;
-        }
+        //protected bool CheckSession()
+        //{
+        //    bool isSucess = false;
+        //    if (Session["vCode"] != null)
+        //    {
+        //        string txtCode = Request["txtCode"];
+        //        string sysCode = Session["vCode"].ToString();
+        //        if (sysCode.Equals(txtCode, StringComparison.InvariantCultureIgnoreCase))
+        //        {
+        //            isSucess = true;
+        //            //Session["vCode"] = null;
+        //        }
+        //        Session["vCode"] = null;//验证对不对都把session清了
+        //    }
+        //    return isSucess;
+        //}
         #endregion
     }
 }

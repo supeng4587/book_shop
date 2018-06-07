@@ -25,6 +25,11 @@ namespace book_shop.Web
 			InitializeComponent();
 		}	
 		
+        /// <summary>
+        /// Web应用程序第一次启动时调用该方法，并且该方法之被调用一次。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		protected void Application_Start(Object sender, EventArgs e)
 		{		
            #region 默认蓝
@@ -65,9 +70,20 @@ namespace book_shop.Web
 
 		}
  
+        /// <summary>
+        /// 开始会话（用户通过浏览器第一次访问网站的某个页面，这时建立会话，但是当该用户通过浏览器再次访问其他的页面时，该方法不会被执行。SessionId）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		protected void Session_Start(Object sender, EventArgs e)
 		{
-			Session["Style"]=1;
+            ///Application:服务端的状态保持机制，放在该对象中的数据时共享的。Cache
+            Application.Lock();
+            int count = Convert.ToInt32(Application["count"]);
+            count++;
+            Application["count"] = count;
+            Application.UnLock();
+			//Session["Style"]=1;
 		}
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
