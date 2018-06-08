@@ -79,6 +79,7 @@
     <Content Include="Controls\checkright.ascx" />
     <Content Include="Controls\copyright.ascx" />
     <Content Include="Global.asax" />
+    <Content Include="Member\CutPhoto.aspx" />
     <Content Include="Member\Register.aspx" />
     <Content Include="ShowMsg.aspx" />
     <Content Include="SWFUpload\handlers.js" />
@@ -89,6 +90,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ashx\upload.ashx.cs">
+      <DependentUpon>upload.ashx</DependentUpon>
+    </Compile>
     <Compile Include="ashx\UserRegister.ashx.cs">
       <DependentUpon>UserRegister.ashx</DependentUpon>
     </Compile>
@@ -133,6 +137,13 @@
     </Compile>
     <Compile Include="Master\MainMaster.Master.designer.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Member\CutPhoto.aspx.cs">
+      <DependentUpon>CutPhoto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\CutPhoto.aspx.designer.cs">
+      <DependentUpon>CutPhoto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Member\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
@@ -197,6 +208,7 @@
     <Folder Include="Components\" />
     <Folder Include="Css\" />
     <Folder Include="Images\" />
+    <Folder Include="ImageUpload\" />
     <Folder Include="js\" />
     <Folder Include="SWFUpload\images\" />
   </ItemGroup>
@@ -208,6 +220,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ashx\UserRegister.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\upload.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
