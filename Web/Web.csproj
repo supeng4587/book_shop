@@ -78,8 +78,15 @@
   <ItemGroup>
     <Content Include="Controls\checkright.ascx" />
     <Content Include="Controls\copyright.ascx" />
+    <Content Include="Css\border-anim-h.gif" />
+    <Content Include="Css\border-anim-v.gif" />
+    <Content Include="Css\border-h.gif" />
+    <Content Include="Css\border-v.gif" />
+    <Content Include="Css\imgareaselect-default.css" />
     <Content Include="Global.asax" />
+    <Content Include="js\jquery.imgareaselect.min.js" />
     <Content Include="Member\CutPhoto.aspx" />
+    <Content Include="Member\Login.aspx" />
     <Content Include="Member\Register.aspx" />
     <Content Include="ShowMsg.aspx" />
     <Content Include="SWFUpload\handlers.js" />
@@ -87,6 +94,7 @@
     <Content Include="SWFUpload\swfupload.swf" />
     <Content Include="SWFUpload\swfupload_fp9.swf" />
     <Content Include="Test\SWFUpload_Demo.aspx" />
+    <Content Include="Test\Test.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +153,13 @@
     <Compile Include="Member\CutPhoto.aspx.designer.cs">
       <DependentUpon>CutPhoto.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Member\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Member\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -166,6 +181,13 @@
     </Compile>
     <Compile Include="Test\SWFUpload_Demo.aspx.designer.cs">
       <DependentUpon>SWFUpload_Demo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Test\Test.aspx.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Test\Test.aspx.designer.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -206,10 +228,8 @@
   <ItemGroup>
     <Folder Include="Admin\" />
     <Folder Include="Components\" />
-    <Folder Include="Css\" />
     <Folder Include="Images\" />
     <Folder Include="ImageUpload\" />
-    <Folder Include="js\" />
     <Folder Include="SWFUpload\images\" />
   </ItemGroup>
   <ItemGroup>

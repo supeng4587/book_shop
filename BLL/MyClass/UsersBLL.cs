@@ -51,5 +51,48 @@ namespace book_shop.BLL
             return dal.CheckUserMail(mail) > 0 ? true : false;
         }
         #endregion
+
+        /// <summary>
+        /// 校验用户信息并返回消息和user对象
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="userPwd"></param>
+        /// <param name="msg"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool CheckUserInfo(string userName, string userPwd, out string msg, out Model.UsersModel user)
+        {
+            bool isSuccess = false;
+            user = dal.GetModel(userName);
+            if (user != null)
+            {
+                if (userPwd == user.LoginPwd)
+                {
+                    msg = "登陆成功";
+                    isSuccess = true;
+                }
+                else
+                {
+                    msg = "用户密码错误。";
+                }
+            }
+            else
+            {
+                msg = "此用户不存在。";
+            }
+
+        return isSuccess;
+        }
+
+        /// <summary>
+        /// 根据用户名找用户信息
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public Model.UsersModel GetModel(string userName)
+        {
+            return dal.GetModel(userName);
+        }
+
     }
 }

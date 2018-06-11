@@ -37,7 +37,15 @@ namespace book_shop.Web.Member
             if (usersBLL.Add(usersModel, out msg) > 0)
             {
                 Session["userInfo"] = usersModel;
-                Response.Redirect("/Default.aspx");
+                string returnUrl = Request["returnUrl"];
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    Response.Redirect("/Default.aspx");
+                }else
+                {
+                    Response.Redirect(returnUrl);
+                }
+                
             }
             else
             {
