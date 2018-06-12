@@ -1,6 +1,8 @@
 ﻿using book_shop.Model;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 
 namespace book_shop.BLL
@@ -94,5 +96,23 @@ namespace book_shop.BLL
             return dal.GetModel(userName);
         }
 
+
+        public void FindUserPwd(Model.UsersModel userInfo)
+        {
+            //1.系统产生一个新的密码，然后更新数据库，再将新的密码发送到用户的邮箱中
+            string newPwd = Guid.NewGuid().ToString().Substring(0, 8);
+            userInfo.LoginPwd = newPwd;//一定要将系统产生的系密码加密后更新到数据库，但是发送到用户邮箱的密码一定是明文的
+            dal.Update(userInfo);
+            MailMessage mailMsg = new MailMessage("mailsupeng@126.com", "苏鹏");
+            mailMsg.To.Add(new MailAddress(userInfo.Mail,"新浪收件人supeng"));
+            mailMsg.Subject = "在商城网站中的用户";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("用户名是：" + userInfo.LoginId);
+            sb.Append("新密码是：" + userInfo.LoginPwd);
+            mailMsg.Body =sb.ToString();
+            SmtpClient client = new SmtpClient("smtp.126.com");
+            client.Credentials = new NetworkCredential("mailsupeng", "supeng4587");
+            client.Send(mailMsg);
+        }
     }
 }

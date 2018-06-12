@@ -86,6 +86,7 @@
     <Content Include="Global.asax" />
     <Content Include="js\jquery.imgareaselect.min.js" />
     <Content Include="Member\CutPhoto.aspx" />
+    <Content Include="Member\FindPwd.aspx" />
     <Content Include="Member\Login.aspx" />
     <Content Include="Member\Register.aspx" />
     <Content Include="ShowMsg.aspx" />
@@ -98,6 +99,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ashx\FindPwd.ashx.cs">
+      <DependentUpon>FindPwd.ashx</DependentUpon>
+    </Compile>
     <Compile Include="ashx\upload.ashx.cs">
       <DependentUpon>upload.ashx</DependentUpon>
     </Compile>
@@ -152,6 +156,13 @@
     </Compile>
     <Compile Include="Member\CutPhoto.aspx.designer.cs">
       <DependentUpon>CutPhoto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\FindPwd.aspx.cs">
+      <DependentUpon>FindPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\FindPwd.aspx.designer.cs">
+      <DependentUpon>FindPwd.aspx</DependentUpon>
     </Compile>
     <Compile Include="Member\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -243,6 +254,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ashx\upload.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\FindPwd.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
