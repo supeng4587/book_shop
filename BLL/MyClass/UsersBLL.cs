@@ -96,23 +96,28 @@ namespace book_shop.BLL
             return dal.GetModel(userName);
         }
 
-
+        /// <summary>
+        /// 找回用户密码
+        /// </summary>
+        /// <param name="userInfo"></param>
         public void FindUserPwd(Model.UsersModel userInfo)
         {
+            BLL.SettingsBLL settingBLL = new SettingsBLL();
             //1.系统产生一个新的密码，然后更新数据库，再将新的密码发送到用户的邮箱中
-            string newPwd = Guid.NewGuid().ToString().Substring(0, 8);
+            string newPwd = Guid.NewGuid().ToString().Substring(0, 4);
             userInfo.LoginPwd = newPwd;//一定要将系统产生的系密码加密后更新到数据库，但是发送到用户邮箱的密码一定是明文的
             dal.Update(userInfo);
-            MailMessage mailMsg = new MailMessage("mailsupeng@126.com", "苏鹏");
+            MailMessage mailMsg = new MailMessage();
+            mailMsg.From = new MailAddress(settingBLL.GetValue("SysMailAddress"), "苏鹏");
             mailMsg.To.Add(new MailAddress(userInfo.Mail,"新浪收件人supeng"));
             mailMsg.Subject = "在商城网站中的用户";
             StringBuilder sb = new StringBuilder();
             sb.Append("用户名是：" + userInfo.LoginId);
             sb.Append("新密码是：" + userInfo.LoginPwd);
             mailMsg.Body =sb.ToString();
-            SmtpClient client = new SmtpClient("smtp.126.com");
-            client.Credentials = new NetworkCredential("mailsupeng", "supeng4587");
-            client.Send(mailMsg);
+            SmtpClient client = new SmtpClient(settingBLL.GetValue("SysMailSMTP"), int.Parse(settingBLL.GetValue("SysMailSMTPPort")));
+            client.Credentials = new NetworkCredential(settingBLL.GetValue("SysMailUserName"), settingBLL.GetValue("SysMailUserPass"));
+            client.Send(mailMsg);//短时间内发送大量邮件时容易阻塞，所以可以将要发送的邮件先发送到队列中
         }
     }
 }

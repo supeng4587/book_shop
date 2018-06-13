@@ -83,8 +83,10 @@
     <Content Include="Css\border-h.gif" />
     <Content Include="Css\border-v.gif" />
     <Content Include="Css\imgareaselect-default.css" />
+    <Content Include="Css\pageBarStyle.css" />
     <Content Include="Global.asax" />
     <Content Include="js\jquery.imgareaselect.min.js" />
+    <Content Include="Member\BookList.aspx" />
     <Content Include="Member\CutPhoto.aspx" />
     <Content Include="Member\FindPwd.aspx" />
     <Content Include="Member\Login.aspx" />
@@ -149,6 +151,13 @@
     </Compile>
     <Compile Include="Master\MainMaster.Master.designer.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Member\BookList.aspx.cs">
+      <DependentUpon>BookList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\BookList.aspx.designer.cs">
+      <DependentUpon>BookList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Member\CutPhoto.aspx.cs">
       <DependentUpon>CutPhoto.aspx</DependentUpon>

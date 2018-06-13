@@ -117,6 +117,8 @@
     <Compile Include="CheckEmailBLL.cs" />
     <Compile Include="DepartmentBLL.cs" />
     <Compile Include="keyWordsRankBLL.cs" />
+    <Compile Include="MyClass\BooksBLL.cs" />
+    <Compile Include="MyClass\SettingsBLL.cs" />
     <Compile Include="MyClass\UsersBLL.cs" />
     <Compile Include="OrderBookBLL.cs" />
     <Compile Include="OrdersBLL.cs" />
@@ -137,6 +139,10 @@
     <Compile Include="VidoFileBLL.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{9c576b5d-56c5-4cf1-85f0-eb0dc22c72a5}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{9FE00521-3A8B-42B1-814E-585E99407B2E}</Project>
       <Name>DAL</Name>

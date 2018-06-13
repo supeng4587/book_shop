@@ -11,3 +11,5 @@ D:\git\book_shop\BLL\bin\Debug\book_shop.DBUtility.pdb
 D:\git\book_shop\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 D:\git\book_shop\BLL\obj\Debug\book_shop.BLL.dll
 D:\git\book_shop\BLL\obj\Debug\book_shop.BLL.pdb
+D:\git\book_shop\BLL\bin\Debug\Common.dll
+D:\git\book_shop\BLL\bin\Debug\Common.pdb

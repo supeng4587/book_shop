@@ -17,6 +17,8 @@
                     type: "POST",
                     data: { "name": userName, "mail": userMail },
                     success: function (data) {
+                        alert(data);
+                        window.location.href = "/Member/Login.aspx";
                     }
                 });
             } else {
