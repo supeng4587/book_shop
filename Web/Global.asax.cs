@@ -8,6 +8,8 @@ using System.Data;
 using System.IO;
 using System.Web.Security;
 using LTP.Accounts.Bus;
+using System.Text.RegularExpressions;
+
 namespace book_shop.Web 
 {
 	/// <summary>
@@ -85,8 +87,25 @@ namespace book_shop.Web
             Application.UnLock();
 			//Session["Style"]=1;
 		}
+
+        //URL重写，有利于seo
+        //将带参数的URL改写成不带参数的URL
+        //BookDetail.aspx?id=2 BookDetail_2.aspx
+        //写在了请求管道的第一个事件中
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
+            string url = Request.AppRelativeCurrentExecutionFilePath;
+            Match match = Regex.Match(url, @"~/BookDetail_(\d+).aspx");
+            if (match.Success)
+            {
+                Context.RewritePath("/BookDetail.aspx?id=" + match.Groups[1].Value);
+            }
 		}
 		protected void Application_EndRequest(Object sender, EventArgs e)
 		{

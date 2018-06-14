@@ -54,5 +54,12 @@ namespace book_shop.Web.Member
         {
             return str.Length > lenght ? str.Substring(0, lenght) + "......" : str;
         }
+
+        public string GetString(object obj)
+        {
+            DateTime time = Convert.ToDateTime(obj);
+            return "/HtmlPage/" + time.Year+"/";
+
+        }
     }
 }

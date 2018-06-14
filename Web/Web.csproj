@@ -76,6 +76,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AdminManager\CreateStaticPage.aspx" />
+    <Content Include="BookDetail.aspx" />
     <Content Include="Controls\checkright.ascx" />
     <Content Include="Controls\copyright.ascx" />
     <Content Include="Css\border-anim-h.gif" />
@@ -84,6 +86,7 @@
     <Content Include="Css\border-v.gif" />
     <Content Include="Css\imgareaselect-default.css" />
     <Content Include="Css\pageBarStyle.css" />
+    <Content Include="Css\tableStyle.css" />
     <Content Include="Global.asax" />
     <Content Include="js\jquery.imgareaselect.min.js" />
     <Content Include="Member\BookList.aspx" />
@@ -96,11 +99,19 @@
     <Content Include="SWFUpload\swfupload.js" />
     <Content Include="SWFUpload\swfupload.swf" />
     <Content Include="SWFUpload\swfupload_fp9.swf" />
+    <Content Include="Template\BookTemplate.html" />
     <Content Include="Test\SWFUpload_Demo.aspx" />
     <Content Include="Test\Test.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminManager\CreateStaticPage.aspx.cs">
+      <DependentUpon>CreateStaticPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminManager\CreateStaticPage.aspx.designer.cs">
+      <DependentUpon>CreateStaticPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ashx\FindPwd.ashx.cs">
       <DependentUpon>FindPwd.ashx</DependentUpon>
     </Compile>
@@ -112,6 +123,13 @@
     </Compile>
     <Compile Include="ashx\ValidateReg.ashx.cs">
       <DependentUpon>ValidateReg.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="BookDetail.aspx.cs">
+      <DependentUpon>BookDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BookDetail.aspx.designer.cs">
+      <DependentUpon>BookDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controls\CheckRight.ascx.cs">
       <DependentUpon>checkright.ascx</DependentUpon>
@@ -248,6 +266,7 @@
   <ItemGroup>
     <Folder Include="Admin\" />
     <Folder Include="Components\" />
+    <Folder Include="HtmlPage\" />
     <Folder Include="Images\" />
     <Folder Include="ImageUpload\" />
     <Folder Include="SWFUpload\images\" />

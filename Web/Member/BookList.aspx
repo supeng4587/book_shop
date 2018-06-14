@@ -10,7 +10,7 @@
                 <tbody>
                     <tr>
                         <td rowspan="2"><a
-                            href="<%#Eval("Id","/BookDetail.aspx?id={0}") %>">
+                            href="<%#Eval("Id","/BookDetail_{0}.aspx") %>">
                             <img
                                 id="ctl00_cphContent_dl_Books_ctl01_imgBook"
                                 style="cursor: hand" height="121"
@@ -19,7 +19,8 @@
                         </td>
                         <td style="font-size: small; color: red" width="650"><a
                             class="booktitle" id="link_prd_name"
-                            href="<%#Eval("Id","/BookDetail.aspx?id={0}") %>" target="_blank"
+                           <%-- href="<%#Eval("Id","/BookDetail.aspx_{0}") %>" --%>
+                            href="<%#GetString(Eval("PublishDate")) %><%#Eval("Id") %>.html"target="_blank"
                             name="link_prd_name"><%#Eval("Title") %></a>
                         </td>
                     </tr>
