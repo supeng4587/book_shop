@@ -5,6 +5,36 @@
     <title>使用Ant进行Java开发——Java 人的工具箱系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5763 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Ant，一个备受赞誉的Java构建工具。它从其易于使用、与平台无关、迎合如今项目自动测试和自动部署的需要，成为许多项目构建过程的重要环节。目前它已成为所有主要开源Java项目采用的独立工具，并已成了事实上的标准。<br>    本书作者是被SAM RUBY先生誉为“两个最了解ANT的人”。他们将以最佳的方式给你讲授Ant，从一个简单的构建定义开始，然后展示加入人的项目所需的那些功能。如果你是一个初学Ant的人，本书将系统带你领略大多数Java项目都要经历的核心步骤：编译、测试、执行、打包以及分发。如果你是一个富有经验的Ant用户，本书能教你如何使用Ant“增强系统的能力”。所以不管你使用Ant的经验如何，都能从本书中学到很多东西，你的软件项目也将因为使用Ant作为构建过程的基础而受益匪浅。<br>    本书分为三个部分，第1部分提供了Ant及其功能的基础知识。第2部分，每章讨论一个专题，在其中探讨多种项目，并介绍了Ant在其中扮演的关键角色。第3部分是为那些想突破既有能力限制的高级用户撰写的内容。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

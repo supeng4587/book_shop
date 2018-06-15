@@ -5,6 +5,36 @@
     <title>Java就业培训教程（含盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5703 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本融合编程思想与具体实践为一体的书，是作者长期实践、思考、感悟的总结，是作者在深入分析自己和众多学生学习现状之后探索出的学习Java的一条捷径。<br>    全书共分11章。第1章详细地讲解了Java开发环境的搭建、反编译工具的使用、JDK文档资料的查阅以及Java程序的编译和运行过程。第2章系统地讲解了Java的一些常用语法，在讲解语法的过程中，作者把常见问题进行了正反对比，分析了问题产生的根源，旨在加深印象。在第3章和第4章中，透彻系统地讲解了面向对象的思想和应用，用通俗形象的语言、典型翔实的例子、鲜明的对照比较，阐述了初学者最容易迷惑的一些思想理念。在以后的章节中，作者始终以“启发编程思想，培养编程感觉”为指导，以剖析典型实例、分析源码结构含义、解析常见问题等方式，从高屋建瓴的角度，用通俗易懂的文字，讲解了多线程、常用Java类、Java中的I/O（输入输出）编程、GUI与Applet、网络编程等方面的知识。<br>    作者长期工作在开发与教学的第一线，既考虑了在实际开发中经常遇到的难题，也分析了众多学员在学习中经常困惑的问题。<br>    本书集实用性、思想性、可读性为一体，是一本适合广大计算机编程爱好者的优秀读物。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

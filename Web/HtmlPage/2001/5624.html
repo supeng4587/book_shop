@@ -5,6 +5,36 @@
     <title>Internet基础与网页制作</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5624 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书首先比较全面地介绍Internet各方面的基本知识，包括Internet的基本概念、发展历史及现状，学习和了解Internet所需的数据通信和计算机网络方面的基础知识，Internet的原理和地址域名系统管理以及连入Internet的各种方式等。接着，以最新软件Internet Explorer5.0 (IE5.0)及Outlook Express为工具，详细介绍了Internet的基本应用。最后，介绍利用中文版FrontPage2000制作主页的一些实用技术和主发布页的基本方法。本书配有大量使用实例和操作插图，内容深入浅出，既有比较通俗的原理性说明，又提供了有关Internet应用的最新软件使用知识和技能。本书适用于一切希望了解和学习Internet及其使用操作的读者使用，特别可以作为大专院校非计算机专业的学生学习Internet的试用教材，也可以作为各种Internet培训班的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

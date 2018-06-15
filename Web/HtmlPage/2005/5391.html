@@ -5,6 +5,36 @@
     <title>ASP.NET信息管理系统开发实例导航（附CD-ROM光盘一张）——求星科技信息管理系统开发实例系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5391 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以多个实用的信息管理系统(包括教务实验课选课系统、电子购物商城、物业管理系统、图书借阅系统、个人办公系统、公司内部管理系统)为案例，详细讲述了信息管理系统的开发过程，对目标设计、系统开发背景、系统功能分析、系统功能模块设计、数据库需求分析与设计、各功能模块编码实现、系统的发布等各个过程进行详细描述。<br>本书案例程序的功能贴近实际，设计专业，内容精炼，适合大中专院校的学生和软件项目开发人员学习和参考。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

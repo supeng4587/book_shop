@@ -5,6 +5,36 @@
     <title>Java完全自学手册（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5784 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书按照科学的学习规律，由浅入深、循序渐进地向读者讲述了Java 编程语言以及JSP开发知识。全书共分为16章，分为两部分，前半部分Java知识讲解为主，后半部分以JSP开发讲述为主。全书示向对象高级属性、多线程机制、图形编辑、Java的输入/输出、Applet的基本知识、数据库的安装和使用、Java的连接数据库的JDBC方法、JSP基础知识，以及JSP进阶开发等，同时也提供了学生管理系统和家庭理财管理系统。<br>　　本书实例丰富，讲解详细，深入浅出，力求以通俗的讲解、严谨的逻辑更好地指导读者学习。本书可以作为零基础的读者学习Java的启蒙资料，也可作为有Java基础的读者学习JSP的必备良品；当然也可作为中高级读者的查阅资料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

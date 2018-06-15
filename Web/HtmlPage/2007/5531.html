@@ -5,6 +5,36 @@
     <title>XML程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5531 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>XML是指可扩展标记语言。本书全面、系统地介绍了XML的基本原理和各种实用技术。全书共7章，主要内容包括：XML简介、XML语法、XML模式、XML链接、格式化XML、访问XML、XML应用及前景等。<br>　　本书技术阐述与实训指导相结合，强调理论以够用为度，始终以介绍XML中已成熟的标准和应用技术为主。书中的应用实例来自工程实践领域，既可相对独立，又有一定的内在联系。<br>　　本书不仅适合作为高职高专院校计算机及相关专业的教材，也可以供XML技术爱好者参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

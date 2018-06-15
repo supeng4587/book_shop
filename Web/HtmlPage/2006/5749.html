@@ -5,6 +5,36 @@
     <title>精通Spring-Java轻量级架构开发实践(含盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5749 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书由浅入深、循序渐进地介绍了开源应用框架Spring的开发思想和实践。全书共分为20章，内容涵盖了Spring的基础知识体系、获取和部署方法、背后的先进核心理念、相关的部分设计模式和J2EE核心模式、核心组件Bean工厂的使用、Spring风格的面向方面编程、各种J2EE企业级应用框架和解决方案(包括持久数据访问、事务管理、EJB、邮件服务、时程安排、Web MVC框架、表现层视图技术、JMX远程方案等)、Spring和单元测试等内容。<br>　　此外本书也剖析了Spring宠物店示例，最后还讨论了宠物店和Martin Fowler企业架构模式(POEAA)的关系。<br>　　本书适用初中级读者学习，对高级用户也有很好的参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

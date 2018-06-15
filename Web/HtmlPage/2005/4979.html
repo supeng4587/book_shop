@@ -5,6 +5,36 @@
     <title>图像模式识别：VC++技术实现（附光盘一张）——高等学校计算机科学与技术教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4979 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍图像模式识别的各种算法及其编程实现步骤。全书共分为10章，内容包括：模式识别的基本概念，位图的基础知识，分类器设计，模板匹配分类器，基于概率统计的Bayes分类器，几何分类器，神经网络分类器，图像分割与特征提取，聚类分析，模糊聚类分析，遗传算法聚类分析。<br>    本书实用性强，选材新颖，包括了神经网络、模糊集理论、遗传算法等新技术，针对每一种模式识别技术，书中分为理论基础、实现步骤、编程代码三部分，所有算法都用VC++编程实现，程序结构简单，代码简洁，便于初学者很快掌握模式识别技术。<br>    本书可作为高等院校计算机工程、信息工程、生物医学工程、智能机器人学、工业自动化、模式识别等学科本科生、研究生的教材或教学参考书，亦可供有关工程技术人员参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

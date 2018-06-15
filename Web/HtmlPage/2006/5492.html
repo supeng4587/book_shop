@@ -5,6 +5,36 @@
     <title>UML用户指南（第二版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5492 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是UML方面最权威的一本著作，三位作者是面向对象方法最早的倡导者，是UML的创始人。本版涵盖了UML 2.0。书中为具体的UML特征提供了参考，描述了一个使用UML进行开发的过程，旨在让读者掌握UML的术语、规则和语言特点，以及如何有效地使用这种语言，知道如何应用UML去解决一些常见的建模问题。本书由7个部分组成，而且每章都描述了一个特定UML特征的具体用法，其中大部分按入门、术语和概念、常见建模技术、提示和技巧的方式组织。本书还为高级开发人员提供了在高级建模问题中应用UML的一条非常实用的线索。<br>　　本书适合作为高等院校计算机及相关专业本科生或研究生“统一建模语言(UML)”课程的教材，也适用于进行软件生产、部署和维护的人员，特别适合于分析员、最终客户、架构师、开发人员、质量保证人员、构件库管理人员以及项目和程序管理者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

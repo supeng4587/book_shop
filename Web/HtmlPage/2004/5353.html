@@ -5,6 +5,36 @@
     <title>ASP.NET办公自动化系统开发实例导航（1CD）——行业项目开发实例系列丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5353 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书首先介绍了ASP.NET Web应用系统的方案设计要素及框架设计方法，然后选择了系统管理、人事管理系统、项目管理系统、文档管理系统、内部邮件系统以及公司日程管理系统作为案例，深入剖析了办公自动化系统的开发思路、实现方法和技巧。<br>　　本书注重实用性和工程实践性，紧密结合办公自动化的应用需求，本书适合正在从事或希望从事办公自动化软件开发的人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

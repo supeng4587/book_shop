@@ -5,6 +5,36 @@
     <title>ASP.NET项目化教程——高职高专项目课程系列教材计算机及应用专业</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5461 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>这是一本为高职院校学生量身定做的计算机及应用专业的项目课程教材。 <br>　　任务引领：本教材以任务为载体，将知识点均匀分布到各项目的任务中去，每个项目分一个或多个模块，共同完成一个典型的项目任务。<br>　　实践性强：本教材以“理论够用、突出实践”和“精讲多练”为原则，内容的组织极富操作性、强调实践知识。<br>　　便于自学：本教材每个案例都有详细的设计步骤，学生只需按照给定的步骤进行设计，就可快速地掌握知识点和编程技能。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

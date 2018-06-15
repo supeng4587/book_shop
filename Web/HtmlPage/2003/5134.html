@@ -5,6 +5,36 @@
     <title>C# Windows Forms程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5134 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是打开Windows Forms编程之门的金钥匙，它所采用的编程语言是当前最为流行、最具潜力的C#。本书内容详实充实，共分为3个部分，初识Windows Forms、Windows Forms基础和高级Windows Forms。通过本书的学习，读者能够迅速掌握通过.NET Framework开发Windows Forms程序的所有相关技术。无论开发桌面应用程序的Windows程序员，还是正在学习Windows Forms知识的开发人员，或者是毫无Windows开发经验的初学者，想相信本书都是最佳的选择。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

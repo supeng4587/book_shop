@@ -5,6 +5,36 @@
     <title>ASP.NET程序设计案例教程（附CD-ROM光盘一张）——高等学校.NET系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5342 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本精心设计的ASP.NET案例教程（以VB.NET语言讲解），它不是简单地堆砌源代码，而是将重点放在了讲解程序设计思想上，不仅要让读者知道怎么编，更要让读者知道为什么要这样编。<br>　　本书案例选材来源于四个方面：Internet上优秀的案例、作者多年的教学经验、BBS论坛中读者提出的常见问题、其他ASP.NET教材中优秀的案例。全书基本上覆盖了ASP.NET学习中的重点、难点和疑点，包括数据库程序的各种复杂操作、使用Code-Behind、开发和使用自定义控件、多层应用程序、使用正则表达式、使用JavaScript、使用CSS样式等各种疑难技术。在本书的第8章，给出了ASP.NET程序中常用的留言本、聊天室、BBS论坛和网上书店综合示例，并且全部用文本编辑器和Visual Studio.NET两种方式来实现。<br>　　本书是由“书 + 光盘 + 支持网站”组成的三位一体的立体教材，其中配套光盘包括全部示例的源代码，支持网站（www.jjshang.com）提供了学习论坛和大量的学习资源。<br>　　本书适合有一定ASP.NET基础的人使用，适合做大中专院校网络程序设计课程的辅导教材，同时也适合网络程序设计人员自学使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

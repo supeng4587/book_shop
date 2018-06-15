@@ -5,6 +5,36 @@
     <title>Visual Basic编程技巧典型案例解析（附CD-ROM光盘一张）——编程技巧典型案例集锦系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6033 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic作为功能强大的可视化应用程序开发工具，是计算机界公认的优秀应用开发工具。本书精选了《电脑编程技术与维护》杂志近一二年发表的精彩编程文章，并根据读者要求，组织收入了更具价值的编程案例。《电脑编程技术与维护》杂志是为从事电脑编程、系统应用和人员创办的专业性和实用性都很强的技术刊物，它从1994年创刊十年来，始终遵循着“实用第一，智慧密集”的办刊宗旨，紧紧跟踪计算机软硬件技术发展和应用趋势，不断求变创新。针对软件开发过程中许多要点和技巧问题，着重提供各类解决方案。对电脑编程人员来说，程序开发能力的提高，除了对语言和算法的学习，还要集思广益，充分借鉴参考别人的长处，深入透彻地理解其中的精髓，然后溶入到自己的设计能力中去，这样无论是对于自身和整体都有莫大的提高，这正是编写这套书的初衷。本书精选63个实例，由浅入深地详细介绍了 Visual Basic的编程。本书内容全面、概念清晰、层次分明、例题典型非常实用。<br>    本书定位于有Visual Basic应用基础的编程人员和应用开发人员，对初学Visual Basic编程的新手也有一定的参考价值，是进行课程项目开发、毕业项目设计的高等院校学生的优秀读物，也是相关高等培训学校的理想案例教程。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

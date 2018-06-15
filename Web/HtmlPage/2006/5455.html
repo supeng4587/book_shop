@@ -5,6 +5,36 @@
     <title>ASP.NET网络开发技术（附光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5455 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>使用ASP.NET技术可以非常灵活地创建功能强大的动态网站。SQL Server数据库作为Web服务应用程序的辅助工具，用于各种信息管理系统，它简单且实用，是广大编程爱好者常用的后台数据库工具。<br>　　本书分为3个部分。第1部分介绍了ASP.NET基础知识；第2部分介绍了数据库驱动技术；第3部分主要针对前面的知识点介绍了一些应用案例，包括留言簿、日历、在线调查、新闻发布系统、文件上传和发送电子邮件，以及在线商店和客户服务系统两个综合案例，通过这些Web站点的开发实例，系统全面地介绍了ASP.NET动态站点开发技术。<br>　　本书语言表达清楚、内容翔实、例题丰富，是一本非常好的适合网络技术开发人员阅读的学习资料及参考手册。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Java程序员面试宝典</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5789 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是程序员面试宝典系列中的一部，也是上一本《程序员面试宝典》的姊妹丛书。本书对程序设计面试中Java常见的题型和常用解答技巧进行了介绍，它不仅能帮助求职者快速复习有相关知识点，也对现代职业人如何有效求职、面试考官如何关注求职者动态等做了详细解说。<br>　　本书通过详解各大知名公司技术类（开发、测试、系统管理）面试中的常见Java试题，深入浅出地对其解答思路进行了分析和指导。希望能把在技术面试中取得的宝贵经验毫无保留地传授给读者，以便使求职者对程序设计面试中的常见题型应付自如。通过对本书的学习，你会发现和完善有关试题的最佳解决方案，以应对不利局面。 <br>　　本书适合（但不限于）将要找工作的程序和高校计算机类应曲毕业生，以及其他计算机爱好者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

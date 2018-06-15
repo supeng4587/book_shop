@@ -5,6 +5,36 @@
     <title>网站设计与开发——计算机应用技术系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5289 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书讲述网站系统工程的具体建设方法和相关技术，突出网站建设概念，注重使用工具的技巧。内容涉及网站设计的基础知识及网站的注册、建设的初步规划、网络设计软件Dreamweaver MX，构建网站的基础语言HTML，如何在网页中应用VBScript语言以及如何利用ASP实现动态数据库交互等，让读者从容进入网站建设的世界中，随着本书介绍的实例一步步深入学习，逐步掌握静态和动态网页的制作，同时了解网站管理、发布、维护、推广的具体过程。<br>    本书实例丰富，结构清晰，通过实践促进读者对技术与技巧的深入理解，启发性强，实用性好。本书适合作为高等院校、高等职业学校、成人高校计算机及其相关专业的教材或参考书，同时也适合网站制作人员和相关爱好者自学使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

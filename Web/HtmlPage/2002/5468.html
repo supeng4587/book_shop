@@ -5,6 +5,36 @@
     <title>ASP.NET XML高级编程--C#编程篇</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5468 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>XML自20世纪90年代后期推出以来，得到了广泛的应用。目前，XML已经发展成熟，在计算世界中的应用比例正在稳步增加。Microsoft的.NET Framework主要使用XML，它是创建具有XML功能的Web应用程序的绝佳平台。本书首先介绍了如何访问各种XML数据源，提取数据后应如何进行转换并显示出来，之后论述了如何分析XML Web应用程序的性能，最后介绍了如何在电子商务案例中综合运用这些技术。<br>    本书适用于那些已经掌握了ASP.NET和C#，并了解XML及其相关技术的Web开发人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

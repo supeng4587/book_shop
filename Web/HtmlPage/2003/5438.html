@@ -5,6 +5,36 @@
     <title>Visual Basic.NET入门与提高实用教程（含盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5438 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>"Visual Basic.NET是VB的最新版本，也是Microsoft的.NET战略中的主要组成部分。与以前的VB版本相比，VB.NET有了质的飞跃，变得更为灵活、更为强大。Microsoft在VB.NET中添加了许多新功能，使它成为完全面向对象的编程语言，并成为功能有很大改进的Web设计工具。全书分为11章，几乎涵盖了VB.NET的所有新特征，由浅入深、语言通俗、实例丰富。 <br>   本书适合于有一定编程基础，希望了解VisualBasic．NET的操作和使用的读者。"<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

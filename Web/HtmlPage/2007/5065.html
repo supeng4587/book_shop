@@ -5,6 +5,36 @@
     <title>C语言教程(原书第4版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5065 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本优秀的C程序设计语言教材，完整描述了ANSI C语言及其语法特性，并对C语言的高级特性和应用作了深入阐述，介绍了从C到C++和Java过渡的相关知识。本书的一个鲜明特色就是结合大量示例描述C语言的重要特征，并对很多工作代码给出了逐步的分析，以这种独特的教学方法向读者解释新接触的编程元素及一些惯用法。<br>　　本书系统、完整，可作为C语言的参考手册，也非常适合作为学习c语言的入门和高级课程教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>C#数据库系统开发案例精选(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4984 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书精选了8个当前应用广泛的数据库系统，详细介绍了使用Visual C#开发数据库管理系统的思路、方法和技术。这些系统分别是企业客户资源管理系统、财务凭证管理系统、库存管理系统、房屋中介系统、商品进销存报表系统、固定资产管理系统、高校教师档案管理系统、网上商城购物系统等。这些系统即可以独立使用，也可作为企业综合管理系统的重要组成部分。 <br>　　本书附带光盘不但包含了书中所有数据库系统实例的源程序和相关开发素材，同时还包含数十种实用工具软件。本书所有源程序都经过精心调试，在Windows Server 2003下全部通过测试，保证能够正常运行。 <br>　　本书内容精练、重点突出、实例丰富，是各级程序开发人员必备的数据库系统开发图书，本书也非常适合大、中专院校师生学习、参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

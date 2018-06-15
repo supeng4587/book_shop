@@ -5,6 +5,36 @@
     <title>Visual Basic编程及实例分析教程（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6060 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic 是微软公司推出的一种功能强大、简单易学的可视化面向对象编程工具，一经推出便受到众多编程人员的青睐。<br>　　本书以实例讲解 Visual Basic 编程的相关开发技术，配光盘并提供课件下载。全书共13章，通过大量的实例分别介绍了 Visual Basic 编程环境、编程起步、编程语言、程序结构、应用程序用户界面、MDI界面、文件系统、图形操作、自定义类、API 编程、程序调试与错误处理、数据库编程等方面的内容。并在最后以“学生信息管理系统”为例，详细阐述了一个 Visual Basic 应用系统的分析和开发全过程，包括详细的界面和代码设计以及安装包的制作方法。<br>　　本书可作为各类高等院校、各种成人教育学校和培训班学习计算机语言类课程的教材，特别适合希望快速掌握应用系统开发方法的读者，也可作为各类编程人员和计算机爱好者的自学参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

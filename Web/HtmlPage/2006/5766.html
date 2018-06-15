@@ -5,6 +5,36 @@
     <title>征服Ajax Web 2.0快速入门与项目实践（Java）（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5766 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>书中介绍了在Web 2.0的标准下结合Ajax技术进行各种Java Web应用开发的方式和技巧。本书的特色是以案例为主，将相关知识点作为主线贯穿其中。第1部分是Ajax开发基础，内容涉及搭建运行环境和开发平台、Ajax核心技术及工作流程、Ajax应用技巧。第2部分提供了一个完整的博客在线网站的设计和开发实例，通过对该网站各个功能模块从需求分析、系统设计及部署实现等全过程的分析，使读者能够快速掌握基于Eclipse和MySQL开发平台，并结合Ajax、JSP、Servlet、MVC、Hibernate等主流设计模式及开发技术的技能。<br>　　本书结构清晰、注重实用、深入浅出，非常适合作为Eclipse中Ajax应用开发的自学或培训教材，同时，也适合作为Java Web开发人员的参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Visual Basic.NET网络程序设计--TCP/IPInternet programming</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5436 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以Visual Basic.NET为基础讨论TCP/IP与网络程序设计，主要内容包括：Microsoft.NET Framework与Visual Basic.NET，网络概论，Socket，网络基本应用，服务器端程序的建立，客房端程序的建立，Micrososft Winsock Control控件，SMTP协议，POP3协议，Microsoft MAPI Control，FTP协议，HTTP协议与Web服务器，浏览器，Micrososft Internet Control控件，Windows Networking网络资源应用，Microsoft Win32 Internet API应用等。书末附录中提供了有关的参考资料。本书取材新颖、内容全面、布局合理，全书内容编排循序渐进，讲解深入浅出；提供大量的范例和经过测试的程序代码。本书适合想运用Visual Basic.NET开发网络应用程序的设计人员使用，也适合其他相关人员参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

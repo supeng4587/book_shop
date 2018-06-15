@@ -5,6 +5,36 @@
     <title>ASP.NET应用与开发案例教程——计算机应用案例学习丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5485 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>全书内容按照由浅入深的层次分为上篇、中篇和下篇3个部分，共12章，以案例的方式诠释了ASP.NET这个功能强大的工具。<br>    本书主要内容包括：ASP.NET的概论与语言基础、Web Form的应用和各种服务器控件、ASP.NET数据库应用，以及ASP.NET应用程序的测试，最后通过实例说明了利用ASP.NET开发项目的过程。    <br>    本书适合于初、中级的读者，对于高级用户也有一定的参考价值。学习本书后，您将会对ASP.NET有比较深入的了解，并且完全可以利用ASP.NET进行相关的软件开发。本书可以作为大学计算机专业、理工科其他专业的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

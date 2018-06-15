@@ -5,6 +5,36 @@
     <title>ASP.NET AJAX程序设计（第一卷：服务器端）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5292 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书系统介绍ASP.NET Ajax程序设计知识，共3卷。本卷从最易于理解和使用的那部分入手，介绍ASP.NET AJAX框架中能够与传统ASP.NET无缝对接的服务器端部分，包括服务器端ASP.NET AJAX Extensions与ASP.NET AJAX Control Toolkit。这部分内容不需要读者有任何的客户端开发知识，只要在Visual Studio中轻松拖放即可实现强大的客户端Ajax功能，例如局部页面更新、异步回送、拖放、动画等，非常适合为现有的ASP.NET 2.0应用程序添加少量的Ajax特性，或是基于ASP.NET 2.0的一些简单Ajax功能的实现。<br>　　本卷适合对ASP.NET AJAX有兴趣，并希望对其有更进一步了解的Web开发人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

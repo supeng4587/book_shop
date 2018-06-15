@@ -5,6 +5,36 @@
     <title>Visual Basic.NET开发实例完全剖析（含CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5940 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从实用的角度，详尽介绍了使用visual Basic．NET开发数据库窗体应用程序和Web应用程序的完整过程、方法和技巧。同时为了初学者能够快速的理解和实际运用数据库编程技术，作为本书的另一个出发点，在本书的后半部分给出了五个具有实际实用价值的程序实例。<br>    本书中既有传统的基于c／s结构的窗体数据库应用程序介绍，也有目前流行的Web数据库应用程序介绍；同时，还安排了一些具有实际应用价值的案例来巩固和提高学习到的各项技术、方法和能力。通过对本书的学习，可以使读者在短时间内掌握数据库系统的开发。<br>    本书适用于使用visual Basic．NET的初中级读者和学习数据库开发的工作人员；同时，本书也可用作大中专院校教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>.NET 2.0面向对象编程揭秘(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5331 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以面向对象技术为主线，从跨语言的角度介绍C# 2.0与Visual Basic 2005的语言特性，深入剖析了CLR的内部运行机理；同时，详细介绍Visual Studio 2005的新特性，并展示出这些特性是如何应用于开发实践的，从而帮助读者用好这一开发工具；本书还深入剖析了一些较复杂的.NET技术，比如委托、异步调用、事件驱动、多线程等，可以帮助读者提升编程技能。<br>　　本书在写作上追求深入浅出，易于自学，理论联系实际，适合于拥有一定开发经验和计算机理论基础的程序员，或在校的计算机专业高年级学生及研究生阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

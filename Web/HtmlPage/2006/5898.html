@@ -5,6 +5,36 @@
     <title>Visusl Basic 函数参考大全(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5898 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书全面、系统地介绍了Visual Basic内部函数、语句、自定义函数和API函数，以及它们的应用，是一本全面、系统的函数参考大全。<br>　　本书通过大量的示例、典型应用帮助读者透彻理解Visual Basic函数及其应用。全书共分27章，主要包括函数基础、数学计算类函数、财务函数、日期时间类函数、字符串处理函数、格式化函数、文件处理类函数、程序语法类函数、对话框类函数、随机类函数、图形图像处理类函数、进制与字符转换类函数、颜色处理类函数、判断类函数、系统控制类函数、异常处理类函数、其他的一些相关的函数、自定义函数及过程基础、自定义函数及过程应用、语句、API函数基础、窗体与窗口函数、Windows系统函数、文件及磁盘操作函数、图形图像与多媒体函数、注册表相关函数、网络相关函数等。<br>　　本书配套光盘中提供了书中所有实例的源代码，所有源代码都经过精心调试，在Windows XP下全部测试通过，能够正常运行。<br>　　本书内容精练、实例丰富，是各级程序开发人员必备的参考书，同时也非常适合大中专院校师生阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

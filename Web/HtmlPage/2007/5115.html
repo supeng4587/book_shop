@@ -5,6 +5,36 @@
     <title>Visual C++实用教程（第3版）/普通高等教育“十一五”国家级规划教材·高等学校计算机教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5115 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual C++实用教程（第3版）包含教程、习题、上机操作指导、综合应用实习等部分。教程部分较系统地介绍了基本C++语言和C++面向对象程序设计，又详细介绍了Visual C++ 6.0（中文版）的主要功能，内容包括MFC应用程序的建立、对话框及常用控件、菜单、工具栏和状态栏、框架窗口、文档和视图、绘图、数据库以及多媒体应用等。“教程”一般是在讲解内容后紧跟实例。“习题”是在C++部分突出的基础内容训练。Visual C++部分主要弄清一些基本概念。“上机操作指导”与教程配套和同步，使学生通过实例先引导操作和编程，然后提出问题思考或在原有基础上自己进行操作和编程练习。“综合应用实习”分为独立的两个部分，分别对C++和Visual C++进行综合应用训练，其中C++综合应用还提供用于控制台界面设计的库文件。通过本教程的学习、实验操作和对综合应用实习实例的综合训练，培养和提高掌握C++程序设计以及应用Visual C++解决实际问题的能力。<br>    本书可作为大学本、专科高职有关课程教材，以及广大Visual C++应用开发人员参考。本套教程还通过网站www.hxedu.com.cn/sybook为读者提供服务，可免费下载教学课件、实例文件、综合应用实习源文件，并且提供读者和作者之间的交互平台。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

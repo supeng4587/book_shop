@@ -5,6 +5,36 @@
     <title>网站重构：应用Web标准进行设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5251 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是为了希望自己的网站成本变得更低，运行得更好，访问者更多的网页设计师、开发者、网站所有者及管理者写的。<br>    本书着重分析了目前网站建设中存在的一些问题，以及“Web标准”思想的产生、发展和推广，并从技术细节上讲解了网站实际制作和开发的过程中如何向Web标准过渡，如何采用和符合Web标准。本书的出版目的就是帮助读者理解Web标准，创建出用最低的费用达到最多的用户，并维持最长时间的网站，并且提供一些相关的技术和技巧。<br>    不要停滞不前，不要拒绝接受全部观点！ 	<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

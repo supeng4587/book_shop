@@ -5,6 +5,36 @@
     <title>Java编程思想（英文版·第3版）附光盘</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5834 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书经典的Java介绍，完全针对Java1.4版本更新，并增加了许多新主题。350多个可运行的Java程序，15000多行代码。讲述Java的同时着得阐释面向对象原理。支持网站包括所有源代码、带注释的解决方案指南、评论以及其他资源。随书光盘包括可用于Windows、Linux和Mac的完整的Fundations for Java多媒体研讨教材。本书的全面性，适用于初学者；本书的深入性，适用于专家。随书光盘含有15个小时的Bruce Eckel演讲课程。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

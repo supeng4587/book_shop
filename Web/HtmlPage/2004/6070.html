@@ -5,6 +5,36 @@
     <title>数据库应用程序设计:Visual Basic6.0+Access2002实现</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6070 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以Visual Basic 6.0+Access 2002为数据库应用程序设计背景，介绍了在设计与开发数据库应用系统时所涉及的知识和技术，即前端的应用程序设计技术和后端的数据库技术。 <br>　　本书共13章，分为三个部分：Visual Basic程序设计、Access数据库系统和数据库应用程序设计、第一部分由第1到第章组成，主要介绍Visual Basic程序设计语言基础、各种基本控件和程序设计的基本结构与方法，并通过丰富的实例以图文并茂的形式介绍了常用的计算机算法；第二部分由第8到第12章组成，主要介绍数据库基本原理、Access集成环境和数据库设计技术；第三部分即第13章通过一个数据库应用系统的实例综合介绍了数据库应用系统开发的全过程。 <br>　　本书的主要特点是内容丰富、由浅入深、难点分散、突出概念、强化操作、注重实用，可作为高等院校和科研院所各专业的程序设计语言语程教材、数据库系统及应用的初级教程，还可作为全国计算机等级考试等认证考试的学习参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

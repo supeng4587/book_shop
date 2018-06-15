@@ -5,6 +5,36 @@
     <title>Visual C++面向对象与可视化程序设计（第2版）——清华大学计算机基础教育课程系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5046 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从最基本的概念出发，详细地讲述了使用Visual C++ 进行面向对象与可视化程序设计的基础本原理与方法。全书共分为4篇，即Visual C++基础知识、使用API函数进行可视化编程、使用MFC进行可视化编程和Visual C++高级编程。书中涉及Visual C++编程过程中常用的API函数及MFC类，并结合实例对其中的消息处理，API函数结构、各种按纽、编辑框、菜单、滚动条等主要的控件以及光标、图标、位图等资源的应用进行了讲述，而且在实例中对程序代码都做了详细的说明，以便读者掌握。<br>    本书通俗易懂，重点突出，偏重应用，不仅可以作为大专院校理工科学生的教材，还可以供研究生及科研院所的计算机开发与应用人员作为参考，同时也可供从事计算机软件开发的专业人员参考。<br>    与本书配套的《Visual C++面向对象与可视程序设计习题解析与编程实例》由清华大学出版社出版。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

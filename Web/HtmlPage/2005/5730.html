@@ -5,6 +5,36 @@
     <title>JUnit in Action 中文版——Java人的工具箱系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5730 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍了在Java软件开发中使用JUnit进行测试的原则、技巧与实践，深入阐述如何编写自动测试，把一段代码隔离开来测试有什么好处，如何判断何时需要进行整合测试，并对如何测试完整的J2EE应用进行了极具价值的讨论。本书富含开发实践当中的真实案例，以专家手笔讨论了实践中的测试技术，主要内容包括：用mock objects进行隔离测试；用Cactus进行容器内测试；用Ant和Maven进行自动构建；在Eclipse内进行测试；对Java应用程序、Filter、Servlet、EJB、JSP、数据库应用程序、Taglib等进行单元测试。本书适合于在Java平台下进行各类软件开发的开发人员、测试人员、单元测试研习者以及编程爱好者阅读和学习，具有极高的参考价值。<br>    		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

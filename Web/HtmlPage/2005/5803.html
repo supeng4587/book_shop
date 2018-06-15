@@ -5,6 +5,36 @@
     <title>21天学通J2EE(第二版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5803 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从J2EE的基础知识开始，全面介绍了EJB、CMP、JSP、XML、Web服务等相关知识。每天的课程都提供了一些练习，有助于读者巩固所学知识。书中还提供了一个完整的求职代理示例，读者可以结合本书内容，动手操作完成这个示例。<br>    本书共分为21课，每天一课，共三周时间可以完成全部内容的学习。第一周的课程讲述了J2EE和EJB的相关知识，内容包括N层开发、J2EE平台和角色、命名和目录服务、EJB简介、会话EJB、实体EJB、CMP和EJB QL等；第二周的课程介绍了异步交互和如何开发基于Web的组件，包括事务处理与持久性、Java消息服务、消息驱动Bean、Java Mail、Servlet、JSP、JSP标记库等；第三周的课程介绍了企业应用的安全性和完整性、XML文档转换、模式、整合外部资源、Web服务等。<br>    本书适合于有一定Java编程经验的程序员阅读。通过本书的学习，能将您的Java技能提高到一个新的水平。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

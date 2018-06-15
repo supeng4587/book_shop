@@ -5,6 +5,36 @@
     <title>基于.NET的Web程序设计：ASP.NET标准教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5456 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以ASP.NET的基础知识和应用为主要讨论对象，以浅显的方式讲解ASP.NET的基础知识，并包含了相应的实例。以HTML、DHTML、XML、C#入手，在夯实基础的同时由浅入深、循序渐进地对ASP.NET的具体应用进行较为详细的讨论。通过对实例的学习，读者可以更好地领会ASP.NET语法和编程技巧，有助于将所学的知识融会贯通。<br>    本书内容丰富、语言简洁、通俗易懂，主要面向初、中级用户，对高级用户也有参考价值。本书特别适合作为高等院校计算机及相关专业的教学用书，也可作为Web程序设计的培训教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

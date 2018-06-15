@@ -5,6 +5,36 @@
     <title>专家门诊——ASP.NET开发答疑200问(1CD)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5321 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书精选了250多个实用性极强的问题和常用需求，旨在帮助读者解决在ASP.NET应用程序开发中经常遇到的实际问题，提高程序开发效率。本书内容涵盖了开发规范、运行模型、服务控件、验证控件、数据服务控件、数据绑定技术、数据库技术、文件操作、安全策略、使用XML、Web服务等内容。本书所列出的问题均是在经过充分调研的基础上，从实际开发项目中总结出来的典型问题，问题的解决方法也注重实用性。本书每节都提供有程序设计示例代码。<br>　　本书适合于已经初步掌握ASP.NET编程概念、方法的读者阅读，可帮助读者迅速掌握实际应用中的开发技巧。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

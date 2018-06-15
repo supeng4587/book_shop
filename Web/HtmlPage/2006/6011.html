@@ -5,6 +5,36 @@
     <title>Visual Basic 6.0语言教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6011 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic是微软公司推出的可视化编程工具之一，发展到现在已有十几年的历史，现在它已成为了功能最强大的面向对象程序设计语言之一。Visual Basic具有方便、简单易学、功能强大等特点，目前已迅速成为Windows环境中广泛使用的开发工具。<br>　　本书从程序设计语言和可视化界面设计两个角度对Visual Basic 6.0进行了深入的剖析，每一章的内容都围绕一个主题，详细介绍Visual Basic 6.0中与之相关的知识。根据知识的深浅程度采用渐进的方式进行介绍，语言严谨、求实；书写案例具有典型性，知识面广，实用性强，条理清晰，层次分明，涉及了许多常见问题的解决方法和编程技巧。<br>　　本书适合初、中级读者学习使用，可作为高职院校的教材使用，对于自学者及软件人员也非常实用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>从零开始——C语言程序设计基础培训教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5010 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书详细介绍了C语言的数据类型、变量、各种基本语句和函数的功能、数组、指针、结构体、位运算、文件操作以及程序设计的方法，是学习C语言的入门教程。<br>    本书通俗易懂，充分考虑了初学者的实际需要，真正“从零开始”，可以使对C语言一点都不懂的读者，通过学习本书而掌握C语言的应用方法和技巧。本书每一章的最后都有相应的练习题，可帮助读者检验学习效果。<br>    为了方便读者学习，书中用到的程序代码已经上载到老虎工作室网站（http://www.laohu.net），读者可以根据需要下载使用。<br>    本书既可以作为各类专业技术人员学习C语言程序设计的培训教材，也可作为相关专业大、中专及本科生的教学参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>HTML与CSS入门经典(第7版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5496 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书将使用HTML和CSS创建并发布网页的过程分解成简单的步骤，详细阐述其中的每一步，让读者能够迅速掌握。全书分6个部分，包括24章和4个附录。第一部分简要地介绍了HTML和XHTML，阐述了网页的创建过程和发布步骤，讨论了如何连接到其他网页；第二部分介绍了文本的对齐和格式化，讨论了文本链接、图像链接和图像映射，阐述了如何处理用于网页中的图像，还介绍了如何设置网页的背景和颜色；第三部分讨论了如何使用表格、CSS和框架设计网页布局；第四部分探讨了如何使用脚本、表单和多媒体设计动态网页，还介绍了HTML和CSS技术的两种实际应用——创建令人印象深刻的eBay拍卖网页和引人入胜的博客；第五部分阐述如何创建网站，包括网站的组织和管理以及如何让网站在搜索结果中靠前；第六部分为附录，列出了重要的HTML和CSS资源网站，提供了完整的XHTML 1.1和CSS 2快速参考，讨论了如何将HTML文档转换为XHTML。 <br>    本书通过大量的示例，以循序渐进的方式引导读者通过实践迅速、全面地掌握HTML和CSS的基础知识，适合对制作网页感兴趣的初学者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

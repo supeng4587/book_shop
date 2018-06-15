@@ -5,6 +5,36 @@
     <title>SAP应用服务器的JAVA编程（影印版·精装）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5776 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>SAP Web应用程序服务器6.30版描述了SAP JAVA引擎的实施情况。本书包含了在Web应用程序服务器上可以使用JAVA的所有领域。从体系结构到IDE的安装，你能得到有关数据库和R/3访问的细节信息，还有使用Web Dynpro最新技术设计UI的详细信息。本书还提供了关于Web服务开发和SAP系统中JAVA的详细信息。对于SAP世界的JAVA开发者和ABAP开发者而言，本书无疑具有极大的技术实用价值。<br>    本书亮点：<br>    SAP JAVA引擎的实施情况；<br>    IDE安装；<br>    使用Web Dynpro新技术设计UI；<br>    Web服务开发；<br>    SAP系统中JAVA的应用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

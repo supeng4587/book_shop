@@ -5,6 +5,36 @@
     <title>Java程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5884 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以J2SE的最新JDK版本JDK 1.5为基础，深入浅出地介绍了Java中最核心也最重要的内容。全书主要内容包括Java发展历程和基本概念，Java基本语法，类的基本概念，类的继承和接口扩展机制，异常处理机制，多线程编程，输入输出机制，Swing基础及Swing控件，JavaBean，网络编程，Java.lang包和一些Java的扩展类库等。同时，本书还包括了两个附录：介绍JDK 1.5，讲解了JDK 1.5相对于以前版本的一些新增功能；介绍当前一些主流的Java开发工具，并对本书用到的JCreator进行了详细介绍。<br>    本书可以作为四年制大学本科计算机、信息管理与信息系统专业以及其他相关专业的Java语言教材，同时亦可作为相关研究人员和工程技术人员的参考书籍。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

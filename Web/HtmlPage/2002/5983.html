@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计教程习题集</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5983 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic在传统的BASIC语言的基础上加入了面向对象程序设计的机制，在学习过程中，学生除了需要掌握命令、函数外，还需理解大量的属性、事件和方法。该习题集与教材互为补充，相辅相成，对读者理解教材、提高开发Visual Basic应用程序的能力十分有益。同时，为了方便读者自学，本书附录中提供了所有习题的参考答案。因此，本书亦非常适于作为自学Visual Basic程序设计人员的辅助学习资料，及等级考试或计算机能力考核的参考资料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

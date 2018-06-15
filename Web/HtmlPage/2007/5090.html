@@ -5,6 +5,36 @@
     <title>Visual C/C++系统开发典型实例解析</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5090 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书本着实用的原则，通地定一个个典型案例解析，深入介绍用Visual C/C++进行系统开发应用的编程方法和编辑技巧。全书共7章：第1章Windows系统深入应用编程实例，对典型实例编程中所涉及到的Visual C/C++基础知识进行深入探讨和分析，围绕Visual C/C++有关Windows系统深入应用列举了48个典型应用案例；第2章桌面窗口管理应用编程实例，该章列举桌面和窗口管理12个典型应用案例；第3章对话框与工具条制作与改进应用编程实例，该章主要围绕对话框与工具条制作与改进应用编程，列举20个典型而实用的编程实例；第4章控件与组件应用编程实例，在该章中列举控件应用编程13个典型而实用的编程实例；第5章多媒体应用编程实例，列举11个媒体程序开发典型而实用的编程实例；第6章管理信息系统开发应用编程实例，列举15个数据库应用编程实例；第7章Visual C++编程技术巧23则，在该章中每个编程技巧均给出了完整的源代码。<br>    本书内容丰富，实用性强，所有实例中的源程序代码都经过了测试和使用，并给出详细解释，浓缩Visual C/C++系统开发程序设计的精华，是系统开发编程人员的经验之作。<br>    本书适合具有一定Visual C/C++基础的应用编程人员和系统开人员，对刚开始用Viusal C/C++进行系统开编程的新手也有很好的参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

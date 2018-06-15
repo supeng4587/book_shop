@@ -5,6 +5,36 @@
     <title>VB6.0 程序设计实训教程——21世纪高高专规划教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5987 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过大量实例深入浅出地介绍了Visual Basic 6.0 中文企业版的使用方法和程序设计技巧，全书共12章，主要内容包括：Visual Basic 6.0集成环境、Visual Basic 6.0简单程序设计、Visual Basic 6.0语言基础、基本控制语句、数组、过程与程序调试、常用控件设计、程序界面设计、图形图像和多媒体控件的使用、文件、文件夹和驱动器、数据库技术、综合实训等。各章均附有相应的实训题，不仅可作为VB6.0程序设计教材的配套教材，而且还可以单独作为VB6.0程序设计的教材，供各院校教师、学生及VB自学者使用。<br>     本书将Visual Basic 6.0的可视化界面设计与程序代码设计有机地结合在一起，注重对读者实际动手能力的训练与培养。内容精练、文字简洁、结构合理、实训题目经典实用、综合性强，符合2年制和3年制高等职业教育的培养目标要求。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>JSP网络技术与应用——Active动感网络技术应用系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5237 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是介绍JSP技术的入门级图书，适合于初中级读者阅读，需要读者具备一定的编程知识并对HTML语言有一定的了解，本书也可作为程序开发人员的参考手册，书中例程丰富而且靠近当前建设网站的实际背景。本书主要介绍了JSP技术的概况；JSP运动环境的安装与启动；几个简单的JSP实例；Java语言基础语法及JSP指令标签；标准的JSP内部对象的使用；JS对用户会话的维持与对session的处理；JSP和数据库的连接；JSP技术中对JavaBeanr使用。简单介绍JSP的错误处理。最后通过一个简单的网上书店的例子，给出一个用JSP开发网站的实例。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

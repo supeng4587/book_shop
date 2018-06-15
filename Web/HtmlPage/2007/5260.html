@@ -5,6 +5,36 @@
     <title>网站建设与管理/中等职业学校计算机系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5260 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从基础入手，通过大量的实例练习，系统、全面地介绍网站建设与维护的基本方法，说明IIS的安装、Web和FTP站点的配置、域名和空间的申请方法等，并以网络书店为例，讲解电子商务网站的规划设计，静态网站与动态网站的建设，站点发布和安全管理等主要知识。通过对这些内容的学习，读者可以轻松掌握网站建设和管理的基本方法。<br>    本书内容全面，语言流畅，实例丰富，图文并茂，注重理论联系实际，适合作为中等职业学校计算机相关专业课程的教材，也可供其他IT从业人员学习参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

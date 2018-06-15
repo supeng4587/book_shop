@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计上机实验与习题解答/21世纪高等学校教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6003 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是与《Visual Basic程序设计教程》配套的上机实验指导教材。全书分4章：第1章为上机指导，第2章为实验，第3章为习题，第4章为习题解答。<br>　　本书内容丰富，综合性强，同时对各章节的知识点加以总结，有利于学生知识的掌握和实践能力的提高。上机指导部分有助于学习者掌握上机预备知识，了解系统帮助的应用、应用程序的调试和错误处理以及应用程序安装盘的制作。实验部分对各章节内容，重点归纳，综合案例实现过程分析，由浅入深、循序渐进地讲解了Visual Basic的基本应用程序的编写方法，培养学生设计、编写Visual Basic程序的能力。习题解答部分包含习题、尤其是编程题的讲解，方便学习者练习后对照检查。对于参加各种计算机考试的读者来说，该部分是具有实用性、针对性的辅导材料。<br>　　本书虽作为与《Visual Basic程序设计教程》配套的上机实验指导教材，但其内容相对独立，可以与其他类似教材配套使用。<br>　　本套教材另外配多媒体课件（PPT格式）、所有案例的源程与自动考试系统（适用于局域网，实现了理论知识和实际操作技能的全部自动化考核）。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>21天学通C＋＋：第五版</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5036 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是根据2003年的ISO/ANSI C++标准编写的，通过大量短小精悍的范例程序详细而全面地阐述了C++的基本概念和技术，包括控制输入/输出、循环和数组、面向对象编程、模板和创建C++应用程序等。这些内容被组织成结构合理、联系紧密的章节；每章都提供了范例程序清单，并辅以范例输出和代码分析，以演示该章介绍的主题。为加深读者对所学内容的理解，每章最后都提供了常见问题及其答案以及测验和练习。读者可对照附录D提供的测验和练习答案，了解自己对所学内容的掌握程度。<br>    本书是针对C++初学者编写的，不要求读者有C语言方面的背景知识，可作为高等院校教授C++课程的教材，也可供初学者自学C++时使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

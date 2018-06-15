@@ -5,6 +5,36 @@
     <title>Visual Basic数据库开发工程案例(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6014 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书精选了8个Visual Basic数据库开发综合案例——数据库管理系统、电子相片管理系统、商品进销存系统、图书馆管理系统、医务收费系统、人事/工资/考勤管理系统、机动车驾驶员模拟考试系统和学生信息管理系统，并在其中穿插介绍了基于Visual Basic的程序开发技巧和方法。<br>　　书中全部案例均提炼自作者从事过的实际工程项目，不仅涉及商业管理软件开发的专业知识，而且给出了详细的商业管理系统的设计思路和开发方法，按照“需求分析→UML系统建模→数据库设计→系统实现”具体展开介绍，便于读者真正学到实用的编程技巧和方法。<br>　　配套光盘提供了书中8个案例的全部源代码，而且都在Windows XP操作系统下经过了精心调试，以确保能够正常运行。为方便读者熟练掌握Visual Baisc的基本操作，作者还专门录制了长达5个多小时的视频演示教程。<br>　　本书案例完整，讲解步骤详尽，实用性强，适合于各层次的Visual Basic程序开发人员学习和使用，特别适合于具有初步Visaul Basic编程基础的人员进行深入学习和参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>C++编程你也行（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5106 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本优秀的C++教材，内容包括：基础类型、操作符和简单变量，循环和决策，命名空间和C++标准库，用C++编写函数，行为、序列点和求值顺序，泛型函数，用户自定义类型、指针、智能指针、迭代器和动态实例，动态对象创建和多态对象，流、文件和持久性，异常，重载操作符和转换操作符，容器、迭代器和算法等。作者重点介绍类、模板、操作符重载、异常、命名空间等从事现代C++编程不可或缺的语言特性，以及容器、算法、迭代器等重要的标准库组件。本书通过例子代码和“代码详解” ，将C++的精华展示给读者。<br>    本书可供完全不同的读者群体使用。无论你是否有编程基础，都可以从本书中受益。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

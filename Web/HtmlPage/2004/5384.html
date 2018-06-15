@@ -5,6 +5,36 @@
     <title>VB.NET业务对象专家指南</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5384 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书分析了逻辑的和物理的应用程序体系结构，探究了它们对可伸缩性、容错性和性能产生的影响，本书实现了一个用来创建分布式、面向对象应用程序的架构。此架构使用了包括remoting、串行化和自动部署等的.NET技术，封装了数据库访问、事务处理和位置透明性等功能，基于它创建的任何应用程序都自动继承这些功能。本书还使用这个架构创建了一个具有多个不同接口的示例应用程序。<br>    本书适合有一定经验的中高级.NET程序员，尤其是面向VB.NET的开发人员。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>JSP数据库开发实例精粹（附CD-ROM光盘一张）——开发专家之数据库</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5149 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书首先介绍了JSP开发Web应用程序的重点技术技巧，对初学者有很好的指导意义。然后以多个实用的系统为例，详细地讲述了用JSP创建Web应用程序的详细过程。内容包括在线书店、企业内部管理信息系统、新闻发布系统、医院门诊查询系统、招标信息管理系统、固定资产管理系统。<br>    全书逐层深入，由一个简单的系统开始，难度逐渐加深。全书各章都穿插着许多JSP开发的技巧，同时突破只讲编程技术，不讲开发思路的桎梏。书中处处渗透着软件工程的思想，希望通过每个系统的开发，提供给读者一些软件设计的理念，除了授人以鱼，同时还授人以渔。<br>    本书的附带光盘包含每个实例的源代码及典型的技术难点、相应案例的常见问题解答和亮点展示，并且还有针对初学者的视频教学短片。<br>    本书适用于使用JSP开发Web应用程序的技术人员及对相关技术感兴趣的读者，同时也非常适合于具备一定JSP基础知识的读者学习和提高。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

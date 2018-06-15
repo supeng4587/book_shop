@@ -5,6 +5,36 @@
     <title>STL高效编程（英文版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5038 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C++的标准模板库（STL）是革命性的，但是要想学会用好STL却充满了挑战性。中国台湾技术作家侯捷先生曾经把STL的学习过程比喻为三个境界：<br>    第一境界：熟用STL。 <br>    第二境界：了解泛型技术的内涵与STL的学理乃至实作。 <br>    第三境界：扩充STL。 <br>    本书无疑是你达到第二境界的最佳读本。在本书中，C++技术权威Scott Meyers揭示了专家总结的一些关键规则，包括他们总是采用的做法以及总是避免的做法。这些规则可以发挥STL的最大效用。 <br>    有些书只是描述STL中有些什么内容，而本书则讲述如何使用STL。本书共有50条指导原则，在讲述每一条指导原则时，Scott Meyers都提供了透彻的分析和深刻的实例，所以读者不仅可以学到要做什么，而且还能够知道什么时候该这样做，以及为什么要这样做。 <br>    如同Meyers的其他著作一样，本书充满了从实践中总结出来的智慧。清晰、简明、透彻的风格使本书成为每一位STL程序员的案头必备。 <br>    本书特色<br>    ●关于选择容器的建议，涉及的容器有：标准STL容器（例如vector和list）、非标准的STL容器（例如hash_set和hash_map），以及非STL容器（例如bitset）。 <br>    ●一些提高效率的技术，通过它们可以最大程度地提高STL（以及使用STL的程序）的效率。 <br>　　●深入到迭代器、函数对象和分配子（allocator）的行为，也包括程序员总是应该避免的做法。 <br>    ●对于那些同名的算法和成员函数，如find，根据它们行为方式上的微妙差异，本书给出了一些指导原则，以保证它们能被正确地使用。 <br>    ●讨论了潜在的移植性问题，包括避免这些移植性问题的各种简单途径。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

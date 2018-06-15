@@ -5,6 +5,36 @@
     <title>C#程序员参考手册</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5132 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>在微软为.NET Framework推出的各种语言中，综合了Visual Basic的高效性和C/C++的强大功能的C#已成为最受青睐的语言。其现代、简单、完全面向对象和类型安全的特性使它成为下一代的分布式应用程序的主流开发语言。<br>    本书对C#的主要功能和核心类库提供了一个快速的参考。本书讲述了各种C#概念和特性，如类型系统、运算符、局部变量、数组、类、结构、枚举、字段、方法、属性、委托、事件、属性标志、系统类、集合、反射和正则表达式等。全书章节段落结构清楚，内容简明，切中要点，反映了作者多年的编程经验。		<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

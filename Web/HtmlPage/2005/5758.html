@@ -5,6 +5,36 @@
     <title>单元测试之道Java版：使用JUnit——程序员修炼三部曲 第二部</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5758 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>《程序员修炼三部曲》是一套由四本小册子组成的丛书，旨在帮助解决程序员在日常工作中遇到一些具体问题和需要，覆盖了对于现代软件开发非常重要的基础性知识。这套丛书不仅展现了注重实效的实际技巧、工具使用，也贯穿了作者们在其名作《程序员修炼之道：从小工到专家》中所坚持的开发哲学。而所有这些，都是帮助开发人员和开发团队进行正常开发，并带来高开发效率的利器。<br>   《单元测试之道Java版——使用JUnit》是本丛书的第二本（本书还有C#版本《单元测试之道C#版——使用JUnit》），阐述使用自由公开的JUnit程序库以Java语言进行单元测试，其内容也广泛适用于其他语言和框架程序库。本书主要内容包括：如何更高效地撰写bug更少的代码：如何发现bug的藏身之处以及如何清除bug；如何测试代码片断而不用牵连整个项目；如何利用JUnit简化测试代码；如何在团队中高效地进行测试，等等。<br>   本书主要适用于具有一定编程和设计经验，但是对单元测试并不是很有经验的Java程序员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

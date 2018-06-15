@@ -5,6 +5,36 @@
     <title>2007历届上机真题详解：二级Visual Basic语言程序设计（附CD-ROM光盘一张）——全国计算机等级考试系列用书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5905 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书提供了全国计算机等级考试二级Visual Basic语言机试试题库，并对这些题提供了答案，进行详细准确的分析，指出考核的知识点、重点难点、解题思路、程序流程。<br>　　本书配套光盘中，有上机考试的全真模拟环境，本套书所有试题的题目源文件。读者可以利用配套光盘进行考前训练。<br>　　本书所有题目均进行了测试，保证能够在实际环境中正常运行。<br>　　本书针对参加全国计算机等级考试二级Visual Basic语言程序设计的考生，同时也可作为普通高校、大专院校、成人高等教育以及相关培训班的练习题和考试题使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

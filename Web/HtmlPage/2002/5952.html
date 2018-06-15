@@ -5,6 +5,36 @@
     <title>COM+和Visual Basic6.0分布式应用程序开发（第二版）（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5952 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>应该将你的智慧用于创建自定义的商务逻辑，而不要浪费在编写复杂的基础结构代码上。本书第一版是一本畅销的图书，第二版已将其充分更新，其中包含了被内置到Microsoft Windows 2000操作系统中的分布式应用程序框架——COM+ 1.0。从本书中，您可以获得有关使用Visual Basic开发工具编写软件的专业指导，以将COM+服务用于构建扩展到几千名用户的、强健的多层解决方案。作者Ted Pattison提示了“组件对象模型”（Component Object Model）的内部复杂性，将您需要了解的有关使用COM+和Visual Basic编写程序的知识凝缩到这本精简、实用的书中。<br>    本书包括的主要内容：将基于接口的编程方式的原则——COM/COM+的里程碑——应用于构建大型的、扩展的应用程序；掌握关键的COM概念、包括类的加载、对象激自觉自愿 、远程控制，以及组件版本确定等；使用经过配置的组件，并学习如何在COM+应用程序中共享，例如线程、内存、数据库连接，以及可池化的对象等资源；将您已经了解的有关使用Microsoft Transaction Server（MTS）的编程知识移植到COM+和Windows 2000中；学习事务性编程技术，随着用户数量的增加，保持较高的传输量及较快的响应速度；使用Visual Basic创建可以方便地与Internet Information Server(IIS)和Active Server Pages（ASP）集成到一起，以构建强健的基于Web的解决方案的组件；为您的应用程序添加消息传送和事件通知功能；利用Windows 2000、COM+和IIS中内置的集成的安全性服务。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

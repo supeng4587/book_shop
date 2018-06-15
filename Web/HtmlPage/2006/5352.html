@@ -5,6 +5,36 @@
     <title>.NET技术大系：编程的奥秘.NET软件技术学习与实践（含CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5352 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍在 .NET下开发运行于个人计算机上的应用程序所需的全部技术基础，汇集了从实践中总结出来的大量编程技巧与经验之谈，体现了作者对程序设计这一人类智力密集型活动的观点与看法，并力图为读者勾画出一个实用的软件开发学习全景，为读者进一步深入地自学相关的计算机专业课程（如《数据库原理》、《数据结构》、《操作系统》等）打下扎实的基础。<br>    对于初学者，可以选择此书作为软件开发领域的入门书，一步到位，直接学习主流的面向对象软件技术；对于在校的大学生，学习本书则有助于了解计算机专业课理论如何应用在软件开发中，避免学习上的盲目性；对于已有一定编程经验的程序员，此书可以帮助其迅速地进入 .NET技术领域，结合其已有技能，开发出具有专业水准的应用软件。<br>    本书所配光盘包含全书的全部示例源码；按章节组织，方便读者对每一章的深入学习；另外，还配有全书的电子教案及相关实例，方便将本书作为教材的老师授课用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

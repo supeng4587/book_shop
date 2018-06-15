@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计案例教程——新世纪职业技术培训案例教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6026 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是“新世纪职业技术培训案例教程”系列丛书之一。全书具有较大的知识信息，共讲解了近70个实例，提供了100多道思考与练习题。全书以计算机实例操作为主线，采用真正的任务驱动方式，展现全新的教学方法，本书贯穿以实例带动知识点的学习，通过学习实例掌握软件的操作方法和操作技巧。每个实验均由实例效果、技术分析、操作步骤、知识进阶和思考练习五部分组成。在按实例进行讲解时，充分注意保证知识的相对完整性和系统性。<br>    本书可作为中等计算机职业技术学校或高职非计算机专业的教材，也可作为初、中级培训班的教材，还适于作为初学者的自学用书。	<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

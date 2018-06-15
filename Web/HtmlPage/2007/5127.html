@@ -5,6 +5,36 @@
     <title>C#程序设计教程——计算机基础课程系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5127 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以微软Visual Studio NET2003/2005作为工作平台，系统介绍C#语言基础知识、面向对象编程及应用等相关内容。主要内容包括：C#的编程基础、面向对象编程、Windows应用程序开发、GDI+编程、文件操作、数据库应用开、多线程技术和Web应用程序开发。书中包含大量习题。可帮助读者进一步掌握基本编程和基本概念。书后还附有10个实验，可锻炼编程和应用的实践能力。<br>    本书可作为高等学校相关专业C#程序设计课程的教材，也可供编程人员参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

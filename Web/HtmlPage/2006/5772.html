@@ -5,6 +5,36 @@
     <title>J2ME开发精解（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5772 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍如何在支持J2ME的设备上开发MIDP应用程序，尤其针对MIDP 2.0编程。同时还深入分析了目前应用较广泛、功能强大的可选API。<br>    本书主要介绍了J2ME平台的体系结构及其内容，如何使用Netbeans IDE 4.1和Mobility Pack 4.1开发MIDlet及MIDlet的应用程序模型，深入地介绍了MIDP 2.0的5个重要组成部分（图形用户界面、记录管理系统、游戏开发、通用连接框架、安全模型和PUSH注册机制），以及移动多媒体API、PDA可选API、Java蓝牙无线技术API和移动3D图形编程。另外，本书的附录中还介绍了如何使用WTK2.2来开发MIDlet、Tomcat 5.0的安装和使用指南，以及如何使用Netbeans IDE 4.1集成第三方SDK。<br>    本书适合热衷于最新移动开发技术的程序员，也可以作为J2ME开发的教材和参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

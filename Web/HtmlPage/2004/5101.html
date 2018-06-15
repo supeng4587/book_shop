@@ -5,6 +5,36 @@
     <title>Visual C#.NET网络编程——程序员书库</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5101 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书结合大量实例，全面介绍了基于Visual C#.NET的网络编程，内容包括Web Forms、ASP.NET、TCP、UDP端口通信、远程访问、MSMQ消息队列、电子邮作客户端系统、网络编程应用技巧与Web Services等。<br>    本书所有的源代码可以通过http://www.tupwk.com.cn下载到，用户无需输入任何内容，即可使用本书中展示的所有技巧。<br>    本书结构清晰，内容全面，由浅及深、注重实用，适合于初级和中级网络程序员、网络软件开发人员、网络管理员及广大计算机编程爱好者阅读。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

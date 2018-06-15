@@ -5,6 +5,36 @@
     <title>ASP.NET网站开发四“酷”全书：新闻、论坛、电子商城、博客——网站开发专家</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5329 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以ASP.NET为开发语言，选取当前最流行、最具代表性的4类网站：新闻站点、论坛、电子商城和博客（Blog）系统为例，详细介绍了使用ASP.NET开发网站的核心技术。掌握了本书所举4类网站的开发技术，将帮助你成为网站开发的“全能冠军”。<br>    本书结合作者多年在网站系统开发方面的经验，从系统的需求分析开始，确定系统的流程与设计，到模块的划分，再到数据加结构的设计，最后开始每个模块编程开发，贯穿了网站开发的全过程。书中所选网站实例都是具有很强商业特征和价值的完整系统，读者可以在学习的过程中不仅学到了ASP.NET的网站开发技术，还可以掌握实际大型网站的完整研发过程，对读者能够在学习本书快速投入工作有很大的帮助。 <br>    本书适合ASP.NET编程爱好者和网站开发者学习，本书在附录部分有比较系统的基础知识讲解，同时，书中在每个关键技术点上都有比较详细的剖析。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

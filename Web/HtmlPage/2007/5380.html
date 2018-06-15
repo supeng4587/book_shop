@@ -5,6 +5,36 @@
     <title>ASP.NET（C#）大学实用教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5380 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书系统地介绍了ASP.NET程序的设计开发，示例程序使用C#语言编写。全书共12章，内容包括：.NET概述、C#语法基础、ASP.NET基础、服务器控件、ASP.NET内置对象、关系数据库SQL语言简介、数据库基本操作、ADO.NET数据库高级操作、XML语言和使用、Web服务、ASP.NET应用程序、综合示例。　　　<br>　　本书注重实用性和可操作性，内容循序渐进，示例面向应用，各章配有精心设计的习题，并为任课教师提供免费的电子课件和源代码。 <br>　　本书适合作为高等院校相关专业及各类动态网站编程培训机构的教材，也可作为.NET开发人员的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

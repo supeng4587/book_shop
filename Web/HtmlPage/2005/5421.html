@@ -5,6 +5,36 @@
     <title>ASP.NET数据库应用程序开发教程——21世纪高等学校计算机基础教育系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5421 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以Visual Studio.NET为开发工具，以C#为开发语言，用通俗、简明的语言由浅入深地讲解ASP.NET数据库访问技术、编程方法和Web应用程序的开发方法，同时辅以大量的实例。书中所有程序代码均采用CodeBehind技术，通过实例步步引导读者快速掌握用C#和ASP.NET进行数据库编程的思路和技巧，书中所有例题及相关代码都已在Visual Studio.NET 2003中文版开发环境中调试通过。同时，每一章后面都附有相应的练习题，帮助读者对本章所学知识的进一步理解和掌握。<br>　　本书可以作为高等学校计算机及相关专业的ASP.NET Web应用程序设计和数据库开发教材，也适合广大计算机爱好者自学使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

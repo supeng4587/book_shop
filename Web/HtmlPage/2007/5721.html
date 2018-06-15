@@ -5,6 +5,36 @@
     <title>JAVA并发编程实践</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5721 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>随着多核处理器的普及，使用并发成为构建高性能应用程序的关键。Java 5以及6在开发并发程序取得了显著的进步，提高了Java虚拟机的性能，提高了并发类的可伸缩性，并加入了丰富的新并发构建块。在本书中，这些便利工具的创造者不仅解释了它们究竟如何工作、如何使用，同时，还阐释了创造它们的原因，及其背后的设计模式。 本书既能够成为读者的理论支持，又可以作为构建可靠的，可伸缩的，可维护的并发程序的技术支持。本书并不仅仅提供并发API的清单及其机制，本书还提供了设计原则，模式和思想模型，使我们能够更好地构建正确的，性能良好的并发程序。<br>    本书的读者是那些具有一定Java编程经验的程序员、希望了解Java SE 5，6在线程技术上的改进和新特性的程序员，以及Java和并发编程的爱好者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

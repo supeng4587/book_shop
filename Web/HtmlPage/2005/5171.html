@@ -5,6 +5,36 @@
     <title>JSP组建动态网站基础与实例操作</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5171 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>JavaServer Pages(JSP)是基于Java的技术，用于创建跨平台及跨Web服务器的动态网页。本书详细讲述了JSP的语言规范、运行环境、基本语法、指令以及建立动态网站的各种知识，并结合实例，覆盖了许多高级主题，如Enterprise JavaBeans、JDBC数据库连接池和自定义标签库。读者通过学习可以逐步掌握采用JSP技术制作动态网站的技能。<br>    本书可作为从事网站编程的广大科技人员的参考书，也可作为高等院校计算机专业师生教学参考书以及相关专业培训班教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

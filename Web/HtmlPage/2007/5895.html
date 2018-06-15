@@ -5,6 +5,36 @@
     <title>Visual Basic 6.0完全自学手册(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5895 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书由浅入深、循序渐进地介绍了Visual Basic 6.0从入门到精通的知识体系和编程方法。概念清晰，层次分明，通俗易懂，并将笔者原创软件贯穿主要章节实例的始终。<br>    本书主要包括Visual Basic起步篇、典型应用篇、实例篇三部分。起步篇主要介绍Visual Basic概述及语言基础，算法和程序控制语句，数组、集合和枚举，过程与函数，变量和过程的作用域，常用内部控件，常用ActiveX控件，常用系统对象，窗体、菜单，对话框，文件处理，程序调试与错误处理，发布程序和创建帮助，Visual SourceSefe的使用等16章；典型应用篇介绍Visual Basic在各个技术领域的应用，主要包括网络编程，多媒体编程，数据库编程基础，数据控件和网络控件，数据对象编程技术，OLE自动化，使用资源文件，类模块的开发和创建ActiveX控件等共9章；实例篇则结合本书所介绍的基础知识和笔者的实际项目经验编写了一套“药品进销存管理系统”，供读者学习参考之用。最后本书提供了几个附录，实用性很强，很有参考意义。<br>    本书主要适用于初、中级Visual Basic用户，其中起步篇“Visual SouceSafe的使用”也可适用于版本配置人员使用，“典型应用篇”部分章节可适用于高级用户使用，同时本书也可用作高校相关专业和社会电脑培训班的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

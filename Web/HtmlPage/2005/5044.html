@@ -5,6 +5,36 @@
     <title>C++Builder精彩编程实例集锦（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5044 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过250个编程实例比较全面地介绍了使用C++Builder 6.0开发应用程序的编程技巧、方法和经验，包括程序界面、图形图像、COM/OLL应用、网络通信、系统设置、注册表操作和数据库使用等方面的内容。这些实例针对开发过程中的实际问题编写，范例较广、功能突出，具有较强的针对性和典型意义。使用本书最好方法就是将书中提出的问题自己先做一遍，看看是否能够解决；如果不能解决，再查看配套光盘中的源代码；最后再看看书中所提示的关键内容。相信您做完这250个编程实例中提到的问题，您使用C++Builder解决实际问题的能力会大有长进。<br>   本书特别适用于具有C++Builder编程基础知识，正在使用C++Builder开发管理项目的编程人员，也可作为C++学习者提高编程水平的自学教材。<br>   本书配套光盘中包括书中所有实例的源代码及可执行程序，可以参照学习及调用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

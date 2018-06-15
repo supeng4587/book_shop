@@ -5,6 +5,36 @@
     <title>Visual Basic 程序设计（第二版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5997 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以Visual Basic 6.0中文版为语言背景，以程序结构作为主线，把控件分散到各章中介绍，通过大量实例，深入浅出地介绍了可视化编程的概念与步骤、Visual Basic语言基础、数据的输入输出、选择结构设计、循环结构设计、数组、过程、用户定义与枚举类型、对话框设计、文件管理、菜单与工具栏、图形图像和数据库访问技术等。本书概念清晰，逻辑性强，层次分明，例题丰富，适合教师课堂教学和学生自学。 <br>    书中每章均附有典型习题。本书的配套教材《〈Visual Basic程序设计（第二版）〉习题解答》对书中习题做了详细解答，配套使用将使学习效果更佳。 <br>    本书适合作为高职高专及各类中等专业学校的教材，也可供初学编程的人员参考使用。 <br>    本书配有电子教案，需要的老师可与出版社联系，免费提供。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

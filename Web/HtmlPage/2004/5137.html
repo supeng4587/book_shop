@@ -5,6 +5,36 @@
     <title>C语言程序设计教程习题与上机指导</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5137 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是配合李风霞、刘佳山、陈朔鹰、薛庆等编著的《C语言程序设计教程》的教学而编写的，包括TC集成开发环境、上机指导、习题三大部分。本书的编著强调实用性，作为学生课后复习、上机实验的辅助教材。本书不但适合初学者，而且书中的部分习题具有一定的难度，有助于读者提高自己的编程能力。<br>    本书既可以作为高等院校非计算机专业本科、专科低年级学生学习计算机语言的实践教材，也可作为科技人员自学C语言的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

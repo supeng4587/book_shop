@@ -5,6 +5,36 @@
     <title>精通SOA：基于服务总线的Struts+EJB+Web Service整合应用开发（含光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5739 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Java的出现，实现了跨操作系统平台的程序开发，以Java为基础的J2EE技术已经成为因特网服务技术的主流。然而，以J2EE为基础的SOA架构技术必将成为因特网服务技术的热点。笔者希望通过本书帮助广大Java开发人员快速从以技术为导向的编程转到以服务为导向的编程，以适应这个新到来的SOA时代。<br>    本书通过实例，由浅入深、全方位地介绍了基于Eclipse和Lomboz插件实现Struts的Web应用开发，基于Eclipse和Lomboz插件实现EJB的Session Bean的开发及实现Struts + Session Bean的整合应用编程，基于Eclipse和Lomboz插件实现EJB的CMP的开发（包括创建复合主键和新的finder方法，以及实现Struts + Session Bean + CMP的整合应用编程），基于Eclipse和Axis实现Web Service的开发及实现Struts + Session Bean + CMP +Web Service的整合应用编程，基于IBM Webshpere RAD的EJB Session Bean、CMP和Web Service的应用开发，并且详细介绍了基于BEA AquaLogic服务总线实现SOA架构的整合应用开发。<br>    最后通过一个网上书店的实例详细介绍了如何基于IBM SIBus 服务总线实现SOA架构的Struts、EJB和Web Service的J2EE整合应用开发。<br>    本书适合于广大的Java开发人员，特别是那些希望尽快掌握实际项目所需要的开发经验的人员，也适合于相关专业的广大学生和教师。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

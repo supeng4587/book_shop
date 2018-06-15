@@ -5,6 +5,36 @@
     <title>ASP.NET 2.0 高级编程（特别版）（含盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5344 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本版对上一版进行了大量的扩充，新增了数百页的内容。在全面介绍ASP.NET各种编程技能的同时重点介绍了ASP.NET 2.0版本中的巨大变化，详细阐述了ASP.NET 2.0中所包含的每个新特性。书中提供了大量的实例，可帮助读者快速掌握如何在.NET Framework下构建功能强大的ASP.NET应用程序。本书适用于有一些ASP.NET基础知识的编程人员以及准备迁移到ASP.NET 2.0的编程老手。内容较上一版更加全面、完善，而且添加了.NET平台上的一些最新技术（例如WCF、WPF等等），是该领域最权威的一本图书！</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

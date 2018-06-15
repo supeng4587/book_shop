@@ -5,6 +5,36 @@
     <title>Visual C++网络游戏建模与实现（第2版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5060 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书讲述如何使用UML进行棋牌类网络游戏建模、并用VisualC++编程实现该游戏。<br>    全书共分14章，第1～6章介绍网络通信编程，是网络游戏设计的基础；第7～12章介绍如何用UML对网络游戏进行可视化建模；第13章介绍如何用VisualC++编写有一定难度的客户端程序；第14章介绍如何使用数据库管理游戏数据。由于本书重点在于介绍网络游戏整体框架的建模和编程，所以在讲解时只给出了编程思想和实现的过程，并没有提供全部实现过程的源程序，但提供了关键的实代骊和设计框图，可使读者对网络游戏编程有较深入的理解。<br>    本书适用于软件工程师、网络程序员、大学计算机软件专业和网络专业的学生，以及从事网络游戏开发的程序设计人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

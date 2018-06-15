@@ -5,6 +5,36 @@
     <title>C 语言高级实例解析（含CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5136 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C语言把高级语言的基本结构和语句与低级语言的实用性结合起来。C语言可以像汇编语言一样对位、字节和地址进行操作，而这三者是计算机最基本的工作单元。在系统开发，特别是操作系统、底层开发中，C语言的效率是其他编程语言难以企及的。C语言较之汇编语言的普及和易用性决定了在强调效率的开发过程中将采用C语言。<br>    本书以实例讲解为主线，对C编程做了深入和具体的探讨。涉及的知识面广，从内存分配，到串行、并行口编程，再到界面开发、动画和高级应用，几乎涵盖了C语言编程的方方面面。通过对本书的学习，对C语言的高级编程将有一个深刻的理解和掌握，而不仅局限于简单的数据结构和算法。<br>    本书既可以供一般读者作为深入学习C语言的教材，也可以作为工程人员的参考手册。本书适合中、高级读者，学习让C语言语法的初级读者也可以通过学习本书快速成长为C语言的编程高手。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Web 应用开发技术：JSP（含光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5182 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过丰富的实例,系统地讲解了Java Server Pages(JSP)动态Web应用开发技术。主要内容包括：Internet基础知识，B/S开发模式和主流技术介绍，HTML语言，JSP开发运行环境搭建，JSP脚本语言——Java,JSP内置对象，JSP标签，Web数据库技术，JavaBean组件技术，服务器应用程序Servlet和文件应用程序开发技术。最后，还介绍了近几年逐步兴起的XML和JSTL技术。<br>    本书的显著特点之一是以Eclipse+MyEclipse为开发平台，该平台具有易安装、易学习和易使用等特点，降低了Java体系中开发平台搭建的难度。本书结构清晰，内容充实、深入浅出、易学易懂，可作为大专院校计算机和电子商务等相关专业学生的教材，也可作为对Web应用开发技术感兴趣的读者的自学用书。<br>    为方便教学和学习者实践，本书配有光盘一张。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

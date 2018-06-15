@@ -5,6 +5,36 @@
     <title>Visral Basic电子商务项目方案精解（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6053 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visral Basic是数据开发的有用工具，在企业信息管理系统开发中具有广泛的使用。本书以几个典型实例为导向，循序渐进地介绍了如何使用Visral Basic进行企业电子商务系统的开发工作。<br>    本书注重实用性，所有程序代码编写全部手工完成，并可正常执行。本书内容繁多、结构紧凑，要求读者最好具有一定的VB编程和数据库操作基础和经验。本书对于正在从事或将要从事企业电子商务系统开发、使用或维护的相关人员具有更大的借鉴作用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

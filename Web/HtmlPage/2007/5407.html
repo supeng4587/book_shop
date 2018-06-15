@@ -5,6 +5,36 @@
     <title>ASP.NET（C#）实践教程（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5407 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书使用C#语言作为开发语言进行ASP.NET应用程序的开发，以Visual Studio.NET 2005为基础，使用大量实例来介绍C#语言的知识以及ASP.NET的开发技巧，并配有完整的开发实例讲解。全书主要介绍了ASP.NET应用程序基础、C#语言、Web页面设计基础、Web控件、ASP.NET内置对象等，在ASP.NET中使用XML，以SQL Server 2005为基础进行ADO.NET数据库编程，使用用户控件、自定义控件，创建Web服务。本书最后介绍了一个完整的ASP.NET应用开发综合实例。<br>　　本书可以作为读者学习ASP.NET动态网站开发的教程，适合于普通高校计算机专业和非计算机专业的动态网站开发教程，也适合于读者自学。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

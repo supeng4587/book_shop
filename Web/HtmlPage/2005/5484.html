@@ -5,6 +5,36 @@
     <title>Microsoft Visual C#.NET2003开发技巧大全——万水计算机技术实用大全系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5484 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过350多条C#编码方案来解释各种编程任务和技巧，涉及到.NET程序设计的各个方面。根据Visual C# .NET技术的特点，全书分为六个部分，共26章。第一部分介绍C#语言方面的技巧与方案，第二部分介绍用户界面和图形方面的技巧与方案。第三部分介绍了数据访问的技巧和方案。第四部分介绍Internet和网络编程方面的技巧和方案。第五部分介绍部署和安全方面的技巧和方案。第六部分是一些高级主题。<br>　　本书堪称是一本Visual C# .NET技术的技巧和方案大全，适合于C#程序员阅读，是C#程序员的良师益友，也是一本案头必备的手册。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

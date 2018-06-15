@@ -5,6 +5,36 @@
     <title>Visual C#2005技术内幕</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4976 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书著述清楚，由浅入深地介绍了C#编程要素，对C#增强特性进行了重点描述。全书分5部分。第Ⅰ部分“核心语言”着重介绍C#语言的基本概念。第Ⅱ部分“核心技能”覆盖创建C#应用所需要的核心技能。第Ⅲ部分“C#语言详述”重点描述额外的语言特性，比如托管函数指针和结构化异常处理。第Ⅳ部分“调试”全面描述如何调试托管代码。第Ⅴ部分“高级概念”透彻介绍托管内存和垃圾加收，同时还讨论了不安全代码。<br>    本书内容丰富，详略得当，在讲述基本概念的同时，给出了大量范例代码和提示，适合所有专业开发人员和编程爱好者阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

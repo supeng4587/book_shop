@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计（第３版）——高校非计算机专业计算机基础教育改革型教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6036 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是根据教育部“非计算机专业基础课程教学指导分委员会”提出的《非计算机专业计算机基础课程教学基本要求》中有关“计算机程序设计基础”课程的教学要求编写的，它在前版的基础上，针对非计算机专业学业计算机应用能力薄弱、课外学习时间少等特点，从介绍知识框架，用基本算法定式理解基本概念和原理，以具体应用实例引入解决实际问题的方法和思路和，进而让学生模仿、研究获取知识这条有效的学习路径组织和编写教材。<br>    全书共分三篇：入门、核心篇和拓展篇。入门篇包括Visual Basic的集成开发环境、面向对象程序设计思想、窗体和标准控件（一）；核心篇包括编程基础、基本控制结构、数组、函数、与过程、程序调试、标准控件（二）、界面设计、文件操作、图形操作；拓展篇包括数据库应用和多媒体应用。每章配有与知识点紧密结合的应用实例，反握知识点掌握程度的本章小结和可以充当章节复习自测的习题。<br>    本书可作为为高等学校非计算机专业“计算机程序设计基础”课程的教材，也可供有其他学Visual Basic程序设计语言的读者使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

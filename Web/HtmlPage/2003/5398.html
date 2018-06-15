@@ -5,6 +5,36 @@
     <title>Visual Studio.NET程序设计教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5398 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过一系列的实例，深入系统地介绍了使用Visual Studio.NET开发.NET应用程序的各项关键技术。Visual Studio.NET是新一代的可视化开发工具，在高性能的招待效率与底层控制和快速可视化开发两方面均表现出色。对那些Visual Studio.NET编程有所了解的读者来说，本书是一本在开发实践中不可缺少的手册，遇到困难时可以随时查阅模拟书中提供的示例，可以起到避重就轻之效。如果您是Visual Studio.NET的初学者，本书也同样适合您，通过学习本书中具体翔实的示例，您不但可以学习到Widnwos控编程的基本思想和基础知识，还能够学习到如何应用结构化程序设计方法和面向对象的程序设计方法开发一个大的工程实例。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

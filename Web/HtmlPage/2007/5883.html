@@ -5,6 +5,36 @@
     <title>即用即查JSP函数与对象参考手册(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5883 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本JSP函数与对象参考手册，涵盖了绝大多数标签、对象，全书采用实例进行讲解，旨在能够指导开发实践。 <br>　　本书以JSP 2.0规范为依据，全面介绍了使用JSP语言进行动态Web应用开发所涉及的函数与对象。全书首先介绍了JSP运行与开发环境，JSP的基本语法；然后介绍JSP标准标记库、定制标记库、表达式语言等内容；接着介绍了Servlet技术，涵盖了Servlet、过滤器、监听者、JavaBean以及JSP开发模型等；最后介绍了数据库访问技术，包括SQL语言、JDBC驱动程序、JDBC访问MySQL、数据访问对象等内容。本书包含大量示例代码，力求精练、实用。 <br>　　本书适用于使用JSP技术进行Web应用设计的开发人员阅读，可以作为JSP开发人员参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

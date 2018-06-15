@@ -5,6 +5,36 @@
     <title>JavaServer Faces交互式网站界面设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5817 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>“为什么Web UI做不到像一般GUI那样的效果？”、“为什么不能像写GUI程序那样来写网站应用系统？”、“为何依照MVC原则设计出来的系统，前台网页里仍然含有条件判断与循环等不应该出现的东西？”。如果这些是你曾遇到的问题，现在这些问题有一个共同的解决方案：JavaServer Faces（JSF）。<br>    JSF是Sun宣称Java将朝向“容易开发”（Easy Development）发展的第一个成果。JSF使得MVC设计模式得以被更彻底贯彻，让不同专长的人才可以更容易合作，让应用系统开发团队的日子更好过些。正如其名称的暗示，JSF是打造网站门面的技术。使用JSF的优点是显而易见的，对于网页美工人员而言，将程序组件嵌入网页就像增加普通HTML标记一样容易；对于后台系统的程序员而言，用不着再顾虑HTTP的交互细节，而可以使用传统GUI程序的设计模式（事件驱动模型）来设计网站应用系统。更棒的是，JSF开创了一大片可供开发工具厂商挥洒的空间，在不久的将来，或许设计Web UI就像设计Swing GUI一样，用鼠标拖拉几个组件并设定组件的一些属性就可以弄出一个动人的网站系统门面。<br>    本书作者Hans Bergsten是参与JSF规范制定工作的专家之一，他以一个具体的范例，逐步引导读者学习如何使用JSF开发网站应用系统，并解释JSF如何解决最常见的开发难题。使用JSF组件制作网页的美工人员并不需要这本书，因为在网页里使用JSF组件的语法简单到不行；但是对于设计JSF组件给美工人员使用的Java程序员，本书不可不读。<br>    本书涵盖的主题如下：<br>    ●JSF的软件环境与开发环境<br>    ●国际化<br>    ●Structs与JSF的集成，以及如何从Structs转换到JSF<br>    ●控制网页导览<br>    ●表格数据的操作<br>    ●组件的创建与绘制<br>    ●验证输入数据的正确性<br>    ●处理用户触发的事件<br>    ●开发自己的绘制器、组件以及view handler<br>    ●完整的JSF规范参考资料</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

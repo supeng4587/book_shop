@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计例题解析与上机指导——21世纪高校计算机应用技术系列规划教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6027 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是为谭浩强老师主编的“21世纪高校计算机应用技术系列教材”《Visual Basic程序设计》编写的配套辅导教材，以帮助学生进一步消化吸收Visual Basic语言的基本知识和基本技能，提高运用Visual Basic语方解决实际问题的能力，给学生提供了一个复习及检测的工具。<br>    本书的第一部分共17章，各章包括：本章的知识重点、典型例题及解析和习题与解答，第二部分包括上机指导和课程设计，第三部分综合实例：考勤管理系统。本书的特点是：例题黄型、解析详细清楚、易学易懂、针对性强；实验指导目的明确、步骤合理、可操作性强；综合实例深入浅出、通俗易懂、便于掌握。<br>    本书既可作为各类大中专院校、各类成人教育学校Visual Basic程序设计课程的辅导书，又可以作为全国计算机等级考试应试者的参考资料，同时也为广大计算机爱好者自修该课程提供了切实有力的工具。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

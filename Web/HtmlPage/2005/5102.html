@@ -5,6 +5,36 @@
     <title>Visual C++编程技巧典型案例解析：网络与通信及计算机安全与维护篇（附CD—ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5102 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以实例的形式讲解了利用VC++语言实现网络与通信编程及计算机安全与维护编程的典型技巧和方法。共56个实例，分别对32位串口通信程序的编程方法、Winsock编程实现局域网网上所有IP包的捕获和分析、网络监控、MFC多线程技术、WinDriver在基于机器指纹的软件加密中的应用、MIRACL大数运算库实现对共享软件的加密、基于IDEA算法的加密工具的使用、贝塞尔曲线的信息掩藏算法、软件加密的反拷贝技术等进行了详细讲解，并附带了相关源代码。 <br>    本书是编程人员的经验之谈，适合于软件开发、网络管理、数据加密解密人员及其他编程爱好者、高等学校的学生等相关人员使用。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

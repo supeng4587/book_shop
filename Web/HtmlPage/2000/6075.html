@@ -5,6 +5,36 @@
     <title>Visual Basic 6.0中文版编程方法详解 含盘</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6075 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>微软公司经过十多年的努力，已经使Viusal Basic成为深受广大软件开发人员青睐、全球最畅销的计算机编程语言。对软件开发的非专业人士而言，Viusal Basic素以简单易学而著称，其博大精深又为软件开发的专业人士提供了广阔的驰骋空间。<br>    本书通过大量的示例，系统地介绍了Viusal Basic的集成开发环境、程序设计语法、窗体和菜单及有关栏目、控件、绘图和打印、文件及有关控件、错误处理和程序调试等内容。在介绍编程方法的过程中，对Viusal Basic 6.0的大多数新增控件和函数进行了详细解释。在结构和内容编排上注重深入浅出、循序渐进。<br>    对Viusal Basic的入门学者，本书是自学通；对有经验的Viusal Basic编程人员，本书是备忘录。<br>    本书可以作为大专院校、培训班的教材和参考书。对承担项目的科研人员、教学人员以及研究生，在科技成果软件化时本书是很有使用价值的参考资料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

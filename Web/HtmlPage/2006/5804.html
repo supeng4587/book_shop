@@ -5,6 +5,36 @@
     <title>Java语言习题与解析</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5804 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是作者在多年讲授Java语言与面向对象程序设计的基础上编写的,与俐者编写的《Java语言程序设计》一书配套使用。<br>    全书共9章，结合俄罗斯方块这款经典游戏，讲解了Java语言基础、类和对象、继承与多态、图形用户界面、流和文件、多线程理发师异常处理、Applet程序设计、网络编程等内容。每章先从涉及的主要概念、使用语法、编程技巧和实例分析入手，然后给出与本章内容密切相关的题目，并对题目进行了解答和分析。题型丰富、包括选择题、填空题、简答题和编程题，题目实用有代表性，其中不少题目来自于Java认证考试和某些公司的招聘考题。<br>    本书既可以作为大专院校有关专业Java语言程序设计课程的教学辅导书，也可以作为该课程的自学指导书，还可以作为计算机水平考试、Java认证考试、择业考试和考研的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

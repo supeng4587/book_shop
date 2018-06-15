@@ -5,6 +5,36 @@
     <title>VB.NET高级编程（第三版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5350 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Microsoft认为VB.NET是开发人员提高其生产率的首选编程语言。VB.NET 2003基于之前版本的强大功能，又添加了诸多重要特性，还支持今日趋势流行的移动应用程序开发。<br>    本书全面系统地论述了VB.NET 2003的各项重要功能，帮助读者在设计和开发过程中应用面向对象的概念创建高效的业务应用程序，并学会使用ADO.NET访问数据、集成XML、创建Windows应用程序和Web服务等。本书还探讨了.NET应用程序的部署让读者充分体会VB.NET 2003在开发面向Internet和桌面应用程序时所提供的强大功能。 <br>    本书主要内容：创建新的命名空间，在项目中导入已有的命名空间，并为命名空间指定别名；<br>    使用Try…Catch…Finally结构进行错误处理；<br>    在Windows应用程序中处理数据绑字，并更新底层的数据源；<br>    开发多线程应用程序的方法；<br>    .NET远程技术，用于在客户端和服务器之间交换串行化的对象；<br>    移动Web应用程序和.NET Compact Framework应用程序之间的区别。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

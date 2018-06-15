@@ -5,6 +5,36 @@
     <title>JSP应用开发详解：第二版（含盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5232 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书结合JSP和Servlet的最新规范，从基本的语法和规范入手，以经验为后盾，以实用为目标，以实例为导向，以实践为指导，深入浅出地讲解了JSP开发中的种种问题。以精简的内容介绍了JSP的语法、Servlet技术、JDBC技术、标签库技术、表达式语言、Struts、JavaServer Face等技术；对于JSP开发中常遇到的典型的难点，专门设置了专题进行集中讨论。本书的最后一篇围绕一个电子商务网站，使用最新的表达式语言，创造性地以零Java代码介绍了各个模块的开发实现，并且提供了完整的、可运行的实例。随书附赠光盘为书中范例源文件。<br>    本书不仅适合于专业和准专业的Java程序员阅读，也可作为正在进行Java开发的各类程序员的必备参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

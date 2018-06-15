@@ -5,6 +5,36 @@
     <title>21天学通Java2：第3版：专业参考版（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5835 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书包括4周的课程，通过阅读这些课程，读者将具备使用Java开发应用程序、小程序和servlet三种程序的知识和技能。第一周介绍Java语言的基本知识，包括数据类型、变量、表达式、对象、数组、条件语句、循环、类、接口、包异常和线程等；第二周介绍Java类库，包括向量、堆栈、映射、散列表和位组等数据结构以及Swing组件、布局管理器、事件处理类和小程序等；第三周介绍流、对象串行化、通过Internet进行通信、JavaBean、JavaSound、JDBC和JDBC-ODBC、XML、等内容；附加课程是本版新增的课程，介绍了一些高级主题，包括servlet、JavaServer、Page、Java 1.0小程序、Java Web Start、XML-RPC、正则表达式等内容。<br>   本书可作为初学者学习Java编程技术的教程，也可供已掌握其他语言的程序员学习Java时参考。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

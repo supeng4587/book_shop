@@ -5,6 +5,36 @@
     <title>MATLAB及其在理工课程中的应用指南（第二版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5534 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书由语言和应用篇两部分组成，语言篇介绍MATLAB语言的基本语法，既便于自学，又有计算机光盘配合教学，适合于作为集体教学的教材；应用篇给出用MATLAB语言解题的80 多个实例，涉及的课程范围主要有高等数学、大学物理、力学机械、电工电子和信号系统等。这些例题使用了MATLAB中多方面的语句，有助于提高编程的技巧，通过这些程序可以大大地提高各课业的效率，书中全部程序配有软盘。本书是21世纪理工科大学生提高学习效率的必备工具书。<br>    本书的适用范围：一是作为大学生学习MATLAB语言入门的教材：二是作为学生在大学期间做习题的参考书；三是提供各课的教师作为讲课、演示和解题的工具；四是作为工程控术人员自学MATLAB的手册。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

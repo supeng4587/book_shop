@@ -5,6 +5,36 @@
     <title>Visual C#程序设计实用教程——21世纪电脑学校</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5062 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C#是Microsoft在推出.NET Framework1.0时提供的一种全新的计算机语言，其最新版本C#2.0是.NET2.0的一部分，它在原有基础上增加了一些更吸引人的功能。全书系统介绍了C#编程的相关内容，从基本语法讲起，由浅入深、循序渐进地介绍了C#语言的编程技巧和面向对象编程的精髓。主要内容包括C#的基本语法、面向对象编程、Windows应用程序设计、数据库编程、网络编程、Wed应用程序及Wed服务、异常处理机制以及程序的部署和打包等。本书内容丰富、结构清晰、图文并茂，实例具有极高的实用性和代表性，方便读者上机实践。<br>    本书适合C#的初中、级读者，可作为高等院校师生的培训教材，也可供有一定C/C++编程基础的中、高级程序员阅读参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

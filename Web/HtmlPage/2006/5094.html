@@ -5,6 +5,36 @@
     <title>计算机程序设计艺术（第四卷·第三册）（双语版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5094 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>关于算法分析的这多卷论著已经长期被公认为经典计算机科学的定义性描述。这一册以及刚刚出版的第4卷第2册揭开了人们急切等待的《计算机程序设计艺术　第4卷　组合算法》的序幕。作为关于组合查找的冗长一章的一部分，这一册开始关于生成所有组合和分划的讨论。在Knuth讨论这两个主题的过程中，读者不仅会看到很多新内容，并且会发现本册与卷1至卷3及计算机科学和数学的其他方面的丰富联系。一如既往，书中包括了大量的习题和富有挑战性的难题。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

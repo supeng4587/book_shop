@@ -5,6 +5,36 @@
     <title>Visual Basic数据库应用系统开发从基础到实践——从基础到实践丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5964 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书首先介绍了Visual Basic开发数据库系统的技巧和关键技术，尤其针对初学者如何快速入门，掌握Visual Basic对数据库的访问技术做了深入浅出的介绍。然后详细地讲述了Access及 SQL Sever数据库的基本知识，同时还介绍了开发Visual Basic数据库经常会遇到的控件。最后，本书通过三个具有工程应用背景的项目实例，详细介绍了管理信息系统开发的全部过程，包括项目的需求分析、系统建模、系统配置、数据库分析、界面设计和代码分析与实现等步骤。<br>    本书不仅适合广大Visual Basic软件开发人员进行项目开发时参考使用，而且对于高校计算机专业的学生进行毕业设计也具有很高的参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

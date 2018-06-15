@@ -5,6 +5,36 @@
     <title>JSP 2.0动态网站开发实例指南</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5172 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>JSP是一种服务器端脚本语言，是由Sun公司在其强大的Java语言的基础上开发出来的。与其他脚本语言（如CGI、ASP）相比，JSP依托于Java语言，继承并发展了Java语言的很多优点，例如优秀的跨平台性、易于掌握、运行稳定、安全性好等。<br>　　本书面向广大计算机爱好者，特别是对网页制作、编程开发感兴趣的中、高级读者，由浅入深，遵照JSP2.0的规范，介绍如何利用JSP语言进行交互式动态网站的开发。<br>　　本书分为13章，主要内容有：JSP简介、HTML表单、Java基础、JSP基本语法、JSP内置对象、表达式语言、JSP的文件操作、访问数据库、JavaBeans组件、Java Servlet、网上商店、博客网站和酒店住宿预定系统。<br>　　本书文字浅湿易懂，内容充实。书中所列举的大量例子既可以帮助读者学习掌握知识，又是制作动态网页和网站的优秀模板——读者只要修改少量的代码，就可以制作出具有专业水准的动态网页和网站。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

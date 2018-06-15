@@ -5,6 +5,36 @@
     <title>C++程序设计/中国高等院校计算机基础教育课程体系规划教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4968 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C++是近年来国内外广泛使用的现代计算机语言，它既支持面向过程的程序设计，也支持基于对象和面向对象程序设计。国内许多高校已陆续开设了C++程序设计课程。但是，由于C++涉及概念很多，语法比较复杂，内容十分广泛，使不少人感到学习难度较大，难以入门。<br>    本书作者深入调查了我国大学的程序设计课程的现状和发展趋势，参阅了国内外数十种有关C++的教材，认真分析了学习者在学习过程中遇到的困难，研究了初学者的认识规律。在本书中做到准确定位，合理取舍内容，设计了读者易于学习的教材体系，并且以通俗易懂的语言化解了许多复杂的概念，大大减少了初学者学习C++的困难。<br>    考虑到许多读者在学习C++前未学过其他语言，本书把入门起点降低到，读者不需要具备C语言的基础。本书内容全面，例题丰富，概念清晰，循序渐进，易于学习。<br>    本书是依据ANSIC++标准进行介绍的，引导读者从一开始就按标准C++的规定编程。本书配有两本辅导教材，即《C++程序设计题解上机指导》和《C++编程实践指导》。<br>    本书是大学各专业学生学习C++的基础教材，也是适于初学者学习的教材。即使没有教师讲授，读者也能看懂本书的大部分内容。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

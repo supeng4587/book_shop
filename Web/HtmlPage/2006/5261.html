@@ -5,6 +5,36 @@
     <title>电子商务系统规划与设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5261 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书重点介绍了电子商务系统的规划方法，特别是从经济和技术多方面进行规划的方法，主要内容包括规划设计电子商务系统的结构化方法和面向对象的方法，企业门户网站的设计、电子商务支付系统的设计、电子商务系统安全设计，电子商务系统的实施和维护等，并结合一个案例来分析电子商务规划设计的过程，最后给出一些大公司的电子商务系统解决方案以供读者参考。<br>    本书既有基本概念、基本理论和基本技术的介绍，又参考了国内外最新资料，注重电子商务规划与设计的技术实现和经济效益分析。因此，本书可作为高等院校电子商务、信息管理和计算机应用等专业本科生的教材，也可作为电子商务系统规划、设计和开发人员的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

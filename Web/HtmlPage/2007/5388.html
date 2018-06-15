@@ -5,6 +5,36 @@
     <title>ASP.NET 2.0 SQL Server2005网络应用编程二合一百例</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5388 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以ASPNET 2.0和SQL Server 2005为蓝本，结合作者多年从事网络编程工作的经验，讲解了ASRNET 2。0和SQL serVer 2005在网络编程中的应用。<br>    全书共分为13章：主要内容包括：ASENET 2。0开发环境的配置、ASRNET2.O网站的创建、常用的Web服务器控件、SQL数据库的管理与应用、连接与访问SQL数据库、使用数据控件绑定数据、数据有效性的验证、网站用户的管理、网站中成员及角色的管理、母版页、样式与皮肤、站点快速导航、数据缓存功能等。<br>    本书适用于网络编程工作者和爱好者，也可作为大专院校相关专业的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

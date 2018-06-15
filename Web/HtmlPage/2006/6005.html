@@ -5,6 +5,36 @@
     <title>全国计算机等级考试试题精编四合一：二级C（附光盘）（2007年考试专用）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6005 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书依据教育部考试中心最新发布的《全国计算机等级考试大纲》编写而成。详尽分析在年试题，深入研究考试大纲，精心安排了“上机模拟”+“笔试模拟”+“上机真题”+“笔试真题”的超值图书。旨在让考生通过大量笔试和上机的模拟练习，掌握考试重点、难点；同时通过大量笔试和上机真题的再现，熟悉考试题型及试题难度。<br>    本书配有“全国计算机等级考试模拟软件”。其中模拟试卷和上机题的内容与形式，完全模拟真实考试，从考试步骤、考试界面、考试方式到题目形式与真实考试完全一致，并可以自动评分。“书+光盘，物超所值”。<br>    本书适合作为全国计算机等级考试考前培训班的辅导用书，也可作为应试人员的自学用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

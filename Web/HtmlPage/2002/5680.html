@@ -5,6 +5,36 @@
     <title>Inside XML OML编程 从入门到精通（含CD）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5680 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>这是一本通过12个典型范例介绍XML编程从入门到精通的专著。<br>    全书由3篇，12章组成，主要内容包括：第一篇XML提高，介绍数据建模、DTD模式、XML模式和XML DR、名域机制。本篇附有3个实例；第二篇XML与数据，介绍DOM进阶、DOM应用实例（包括投票系统、留言本、网址及短消息管理器），SAX进阶、XML与数据。并提供了7个实例；第三篇XML工业应用，主要内容是WML（无线应用协议）、SML（同步多媒体集成语言）、XML与电子商务、XML扩展（共2个实例）。<br>    本书的特点是具体应用范例和软件功能相结合，边讲边练，由浅入深，学习轻松，上手容易。<br>    本书面向初、中级读者，对高级读者也有重要参考价值。<br>    本版CD为配套书。		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>HTML & DHTML实用教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5533 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书正是在这种背景下诞生的。它以初学者的需要为前提，从最基本的HTML语言讲起，逐步过渡到实用的CSS技术和具有更强功能的JavaScript语言、DHTML（动态HTML）技术，引导读者循序渐进地掌握这些实用网页设计技术。本书适合初学者以进阶的方式学习，同时由于其包含丰富、翔实的内容和实例，所以也可作为中级用户的案头参考书。<br>    全书共10章，逻辑上可分为4大部分。前5章为第1部分，主要介绍了网页制作的基本理论——HTML；第6章为第2部分，主要介绍了实用的CSS网页制作技术；第7章到第9章为第3部分，主要介绍了JavaScript脚本语言；最后一章为第4部分，主要介绍了DH了ML技术。本书在介绍基本理论的同时，结合了大量的实例来帮助读者理解，使读者能够迅速消化吸收，做到学以致用。另外，每章后面都附有练习题，使读者能够方便地检测学习效果。<br>    除了正文以外，在本书的末尾还提供了两个实用的附录，HTML 4。0快速参考和CSS速参考，可以使读者快速、全面地掌握H了ML语言和CSS技术中涉及的各种属性。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

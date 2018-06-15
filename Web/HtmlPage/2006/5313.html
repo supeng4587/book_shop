@@ -5,6 +5,36 @@
     <title>.NET企业服务框架:应用.NET企业服务开发分布式业务解决方案</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5313 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>随着Web技术的发展，大部分桌面软件依然是孤立的，这意味着分布式应用程序具有广阔的发展前景。分布式应用程序主要应用于企业内部和企业与企业之间，当然，它对于普通用户来说也是意义非凡的。企业服务是一种难学易用的框架，因为它面对的是极其复杂的企业环境。<br>　　这是一本关于如何利用.NET企业服务框架开发分布式业务解决方案的书，本书涵盖了.NET企业服务的方方面面，如并发、COM互操作、事务服务、状态管理等。书中详细讲解了应用.NET企业服务框架开发分布式业务解决方案的具体方法和实用技巧，使读者在知道Know how的同时还知道Know why。<br>　　本书的另外一个特点是提供了大量的示例代码，以或大或小的实例展示了各种方法的应用场景和技巧。无论你是刚入门的初学者还是经验丰富的高手，本书都是一本权威的指南和参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

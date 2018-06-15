@@ -5,6 +5,36 @@
     <title>二级Visual Basic语言程序设计考试考点分析与全真训练-全国计算机等级考试考前冲刺</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6073 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是根据教育部考试中心最新制定的《全国计算机等级考试大纲（2004年版）》及《全国计算机等级考试——二级Visual Basic语言程序设计》的考试范围要求，组织有多年实际教学经验的等级考试培训老师编写的。<br>    全书分为两个部分：第一部分为考前指导和全真试题分析，该部分将近年来的典型考题按全国计算机等级考试二级Visual Basic语言程序设计的考试要点分类编排，并进行详细的解析，同时配有实战练习；第二部分为等级考试全真模拟试题，该部分分为笔试全真模拟试题和机试全真模拟试题两部分，供考生考前实战、熟悉考试环境之用。<br>    本书重点突出、内容丰富、讲解精辟，适合参加全国计算机等级考试——二级、Visual Basic语言程序设计的考生考前冲刺复习使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

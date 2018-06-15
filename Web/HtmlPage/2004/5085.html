@@ -5,6 +5,36 @@
     <title>C++程序设计教程（第四版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5085 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是Deitel父子编写的全球最畅销的C++程序设计教材，全书详细介绍了过程式编程和面向对象编程的基本原理和方法，包括：控制结构、函数、数组、指针和字符串、类和抽象、运算符重载、继承、虚拟函数、多态性、I/O、模板、异常处理、文件处理、数据结构和标准模板库（STL）。本书注重理论与实践的结合，每章都以若干完整的示例程序讲述编程时应考虑的一些注意事项，包括：良好编程习惯、常见编程错误、性能提示、可移植性提示、软件工程知识以及测试和调试提示。通过一个贯穿全文的电梯模拟系统案例分析，重点突出了用UML进行面向对象系统分析与设计方法。此外，本版还增加了选学的“模式探索”部分。本书是高等院校进行程序设计和C++教学的教材，是软件设计人员进行C++程序开发的宝贵参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

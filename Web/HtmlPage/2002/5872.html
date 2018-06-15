@@ -5,6 +5,36 @@
     <title>Java Servlet编程(第二版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5872 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>在过去的几年里，Java servlet已经在服务器端开发领域引起了轰动。现在，随着Servlet APl 2．3版的引入，服务器端的servlet将把Java Web软件开发带向更高的层次。 为更好地生成动态网页，servlet提供了快捷、强大、灵活的开发环境。开发出来的servlet可以在服务器的进程空间里运行，并能同时处理多个请求，因此，采用servlet方案系统的性能将会比其他解决方案优秀得多。servlet可以使用各种Java API和第三方厂商提供的组件类，而这些都是Java 2企业版(J2EE)的有机组成部分。当然，最值得称道的便是servlet的平台无关性——真正做到了“一次编写，到处运行”(Write once，Serve anywhere)。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

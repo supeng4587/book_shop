@@ -5,6 +5,36 @@
     <title>J2EE开发全程实录(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5756 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>J2EE是目前企业级软件开发的首选平台。本书从架构的角度讲解了一个完整的J2EE系统的搭建。内容包括：正则表达式、JSP、Swing、XML等技术在实际中的应用；Spring、Hibernate、Struts等开源框架的实战性应用；MDA、敏捷开发等理念在实际开发中的应用；如何搭建一个高度可扩展的系统。本书观点新颖，实例丰富，对企业级系统开发中涉及到的问题进行了深入分析，并以作者在开发实践中使用J2EE的实际经验为基础，生动地展示了企业级系统搭建的全过程。本书可以作为有一定Java基础的开发人员的参考书，也可以作为大专院校学生学习实际项目开发和毕业设计的指导书，还可以作为软件开发培训班的项目实战课程教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

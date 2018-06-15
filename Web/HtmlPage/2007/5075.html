@@ -5,6 +5,36 @@
     <title>C++STL开发技术导引（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5075 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C++ STL标准模板库在数据结构和算法的实践领域发挥着重要的作用。本书共分5篇26章，以“C++编程技术→C++ STL泛化技术基础→C++ STL容器技术→C++ STL算法技术→C++ STL迭代器技术”为线索具体展开，通过大量的源码分析和应用实例，详细介绍了C++ STL的技术原理和使用方法。<br>    通过本书的学习，读者不仅可以轻松掌握C++ STL，还可以从它的一流源代码中受益匪浅。本书可用作高等院校计算机及相关专业的教学参考书。也适合各层次的C++开发人员和爱好者为锤炼自身的C++基本功阅读使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

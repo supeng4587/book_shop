@@ -5,6 +5,36 @@
     <title>详解HTML&CSS&JavaScript 语法辞典（专业版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5748 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>这是一本详细讲解HTMT+CSS+JavaScript语法词典，是读者学习网页编程技术的必备参考书。书中详细讲解了超文本标记语言（HyperText Markup Language 4.01）中各种标记的使用方法、层叠样式表（Cascading Style Sheets，Level 2）的各种属性特征，以及JavaScrip脚本语言（JavaScript1.5）中的对象和函数。<br>　　书中的所有代码均适用于当今各种平台上最流行的浏览器，包括：Internet Explorer，Firefox，Mozilla，Opera和Safari，同样适用于Macintosh环境下的普及版本。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

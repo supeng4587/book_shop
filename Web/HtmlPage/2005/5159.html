@@ -5,6 +5,36 @@
     <title>JSP网络编程技术与实例（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5159 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书全面、详细地介绍了JSP(Java Server Pages)网络开发技术的原理和基础编程知识，不仅包括JSP开发环境的配置、JSP的基本语法、JSP的隐藏对象等内容，还包括JSP的高级开发技术、数据库编程、Struts开发等内容。<br>　　全书共分为5篇24章，以“基础知识→深入编程→数据库编程→Struts开发→案例实战”为线索具体展开，涵盖了JSP编程的方方面面。而且，对于书中每个知识点的讲解，都配有大量可实际运行的实例，供读者边学习边实践，以方便读者快速、全面地掌握JSP的开发方法和技巧。<br>　　本书内容由浅入深，从最基本的JSP语法到综合的案例开发(比如，网上书店系统)，都有详细的讲解。配套光盘中还提供了书中涉及实例的全部源代码，以方便读者举一反三，编写出适合自己的程序。<br>　　本书不仅适合初学者学习JSP网络开发技术，还能够帮助有一定编程经验的JSP开发人员解决开发过程中遇到的问题。本书可作为高等院校相关专业的教材和辅导用书，也可作为JSP的培训用书，或广大用户的自学用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

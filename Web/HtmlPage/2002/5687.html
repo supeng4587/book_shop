@@ -5,6 +5,36 @@
     <title>XML网页开发实例教程(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5687 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书结合大量的实例与详尽的理论分析，用通俗易懂的语言全面系统地介绍了“网络上的ASCII码”——XML。全书参照W3C 的最新标准讲述了XML语言的主要基本技术，主要包括XML的起源、发展与应用，XML语法，文档类型定义DTD，XML  Schema，XML和名域，XSLT，XPath，XLS  FO，CSS。全书在内容上循序渐进，讲述上深入浅出，并配有大量的实例，是指引对XML技术感兴趣的读者朋友步入XML殿堂的入门书籍，同时对具有基础的读者朋友们也有一定的参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Java ME实用详解：用Eclipse进行移动开发（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5810 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书有两个技术特点：一是介绍如何开发Java ME手机应用程序；二是介绍如何使用Eclipse开发Java ME应用程序。书中以开发Java ME开发技术为主线，同时穿插讲解如何通过Eclipse集成开发环境实现程序的开发。<br>    从内容安排上看，由浅入深，首先介绍基础知识，然后给出具体实现代码，基本上涵盖了Java ME开发的各个领域，从个人数据访问到多媒体、网络，以及Eclipse在Java ME方法领域的一些特殊应用等。从实际应用上看，书中选取的实例均具有完整性和代表性，通过具体的实例演示来提高学习效果。对于一些不容易理解和容易出错的地方都进行了细致、透彻的讲解。另外，书中还介绍了如何使用WTK、摩托罗交接班、诺基亚、索尼爱立信的Jave ME模拟器进行开发。<br>    本书适合对Java ME手机编程感兴趣的读者，既可以作为手机程序开发人员的参考用书，也可以作为高校Java ME手机编程的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

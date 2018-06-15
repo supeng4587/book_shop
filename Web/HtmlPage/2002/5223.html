@@ -5,6 +5,36 @@
     <title>网络编程语言JSP实例教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5223 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书结合作者长期从事JSP开发大型Web应用型网站的实际经验，综合作者在实际工作中的心得与体会，运用大量实例来讲解网络编程语言JSP及其实际使用。本书重点介绍Java的基本语法、Web应用程序的概念与设计方法、JSP操作Oracle数据库、Java Bean的设计与使用、JavaMail的应用等。本书的最后给出网上虚拟社区的综合实例，向读者详细地介绍如何按照需求分析、模块设计、页面设计、JSP编程及页面合成的步骤完成整个网站的设计。本书针对JSP实际运用中遇到的问题以实例的形式加以阐述，每章后还附有小结和习题，力求使读者能够在短期内掌握进行实际开发需要了解的知识。<br>本书面向即将或正在从事网站开发、设计、管理工作的大专院校学生和IT界人士。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

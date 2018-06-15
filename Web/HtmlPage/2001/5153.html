@@ -5,6 +5,36 @@
     <title>JSP实用案例教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5153 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书较为全面地介绍了JavaServerPages(JSP)程序设计技术。主要内容包括：B/S开发模式和主流技术介绍，JSP编程基础，在Windows2000/XP和Linux环境下JSP运行环境的配置过程，HTML与JSP的交互过程，JSP中的页面元素，编译指令和操作指令，JSP中常用的对象，JDBC，JaveBean,JSP的综合应用举例，Servlet的概念和使用，如何在JSP中应用XML,JSP的高级应用以及最后的项目实战。 <br>   本书结构清晰、内容翔实、注重实用、深入浅出、易学易懂，非常适合作为JSP的自学教材或培训教材，同时，也适合作为JSP开发人员的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

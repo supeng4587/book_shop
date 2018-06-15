@@ -5,6 +5,36 @@
     <title>.NET框架程序设计（修订版）——微软.NET程序员系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5294 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是《微软.NET程序员系列》丛书之一，主要介绍如何开发面向Microsoft.NET框架的各种应用程序。Microsoft.NET框架是微软公司推出的新平台，包含通用语言运行时（CLR）和.NET框架类库（FCL）。本书将深入解释CLR的工作机制及其提供的各种构造，同时还将讨论FCL中一些重要的类型。全书共分为五个部分，包括：.NET框架基本原理、类型和通用语言运行时、类型设计、基本类型，以及类型管理。本书适用于要了解、掌握NET平台的读者，尤其适合广大编程爱好者、软件工程师、系统架构师阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

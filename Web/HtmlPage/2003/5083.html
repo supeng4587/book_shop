@@ -5,6 +5,36 @@
     <title>Essential C++(影印版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5083 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书提供了一条学习和应用C++的捷径。本书是特别为那些想在短时间内赶上C++技术发展的人设计的，书中强调了C++编程过程中一定会遇到的要素，以及可协助解决实际问题的技术。总之，这本言简意赅的指南为你提供了实用的C++知识，以及进一步深入研究的基础。本书将C++的本质概括为：procedural、generic、object-based、object-orientde。本书的组织围绕这一系列逐渐复杂的程序问题，同时介绍了解决这些问题的语言特性。通过这种方式，你不仅可以学到C++的函数和结构，还可以理解它们的设计目标和基本原理。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

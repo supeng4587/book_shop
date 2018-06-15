@@ -5,6 +5,36 @@
     <title>ASP.NET 1.0 高级编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5467 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书理论联系实际、全面深入地介绍了ASP．NET及其相关知识，是进行ASP．NET开发的高级编程指南。通过本书的学习，可以全面掌握利用NET Framework进计Web应用程序开发的技巧。<br>　　本书主要内容<br>　　·ASP．NET和．NET Framework的基本概念<br>　　·使用服务器控件以及数据管理技术创建ASP．NET页面<br>　　·开发、保护和配置Web应用程序<br>　　·基类库、组件及其可扩展性<br>　　·Web服务和ASP．NET在移动领域中的应用<br>　　·调试技术、性能、迁移性和互操作性等问题<br>　　·ASP．NET相关知识在实际开发环境中的整合<br>　　本书读者对象<br>　　·必须具有扎实的ASP编程基础知识<br>　　·熟悉VB或基于C的语法（C＋＋、Java或C＃）<br>　　·希望利用．NET Framework开发复杂的ASP．NET应用程序<br>　　·希望对ASP．NET这些新技术有个全面深入的了解</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

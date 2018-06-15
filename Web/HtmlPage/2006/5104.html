@@ -5,6 +5,36 @@
     <title>C#和.NET核心技术——开发人员专业技术丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5104 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是有关C#2.0和.NET 2.0的一本实用的参考书，是构建高品质C#应用的一本权威指南。书中提供了丰富的示例，充分展示了C#2.0和.NET2.0的特性。本书面向有经验的程序员，列举了当今常用的最佳实践，以便充分利用C#2.0语言的特性和Microsoft.NET2.0基础架构。<br>    本书重点讲解如何用实用的代码来解决具体的实际问题。本书的内容覆盖面很广，从新的C#范型到Web服务，从反射到安全等都有涉及。系统地介绍了Windows窗体应用的开发，并讨论了如何有效地使用GDI+图形类。还对如何用XML和ADO.NET完成数据管理提供了详细的说明，另外深入地讨论了一些高级主题，包括线程，远程通信和代码安全等。最后，用很大篇幅介绍了 Web开发，包括ASP.NET、状态管理和HTTP请求等等。本书还从实用的角度讨论了可扩展性到本地化等一系列问题。<br>    主要内容：<br>    ·提供了构建C#/.NET Windows应用、Web应用和Web服务的最佳实践。<br>    ·从专家的角度详细分析安全性、可扩展性和其他重要问题。<br>    ·大量专家级、高质量的代码示例。<br>    ·深入地介绍包括范型等最新的C#2.0特性。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

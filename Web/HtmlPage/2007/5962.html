@@ -5,6 +5,36 @@
     <title>VBA应用基础与实例教程/21世纪高等院校精品课教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5962 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍了Word 2003和Excel 2003的VBA基础知识以及程序设计技术。通过大量应用实例,探讨了VBA软件的开发与应用方法,给出了有关技术要点和全部源代码。读者可以分析、改进、移植这些软件,拓展应用领域,开发自己的作品。<br>    本书理论联系实际,内容丰富、实用,涵盖了VBA从基础到高级应用的内容,对计算机软件开发和应用人员有很大的帮助。本书既可作为高等院校(或高职高专)计算机专业教材,或作为办公自动化培训教程,也可供其他计算机开发人员或应用人员参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

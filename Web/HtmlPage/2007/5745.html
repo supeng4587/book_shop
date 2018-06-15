@@ -5,6 +5,36 @@
     <title>精通Hibernate3.0-Java数据库持久层开发实践（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5745 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书分为两部分，共15章。第一部分通过具体的实例，由浅入深地讲解了Hibernate的基本配置、主键、HQL检索方式、映射、关联关系、缓存、事务和常见的工具等知识点。第二部分通过Hibernate在具体的项目中的应用，介绍了流行框架技术与Hibernate的整合应用。在最后一章还特别讲解了非常有发展潜力的轻量级的Portal技术。 <br>　　在本书的附录中还给出了学习Hibernate的常见问题，可以帮助初学者少走弯路。 <br>　　本书适合初、中级Java程序员阅读，同时也可作为高校和社会培训机构的实训教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

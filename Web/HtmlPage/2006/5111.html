@@ -5,6 +5,36 @@
     <title>C#网络应用编程基础</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5111 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍C#网络应用编程的基础知识及相关的庆用。内容包括C#语言基本知识和面向对象编程基础、C#Windows窗体客户端应用编程、C#Web窗体应用编程以及在文件管理、Internet 应用、SQL Server数据库、图形图像和水晶报表等方面的应用。全书语言简洁，重点突出，思路清晰，实用性强。同时有与本书配套的实验指导、电子教案、例题与习题的源程序和全部习题参考解答。<br>    与本书配套的教材是《C#网络应用高级编程》和《C#网络应用编程开发实例与实验指导》。配套教材在本书的基础上进一步介绍了C#语言更高级的编程技术以及用实际开发项目讲解数据库应用、智能客户端和网站开发的详细设计、实现与发布技术，同时还包含了与本书配套的上机实验指导。<br>    本书可作为高等院校计算机及相关专业的教材，也可作为初、中级程序员的参考资料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>高等学校计算机教材:ASP.NET实用教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5481 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>ASP.NET被业者广为推崇B/S开发平台，本书分为实用教程、实验和附录三部分。分别介绍Web基础知识、ASP.NET简介、VB、NET基本语法、服务器控件、基本对象编程、数据库基础、数据库编程和高级应用等，在ASP.NET的教材中具有明显特色。本教程各部分内容依据教学特点作精心编排，方便用户根据自己需要进行选择。<br>    本书可作为大学本、专科有关课程的教材。由于内容实用，也可作为各类ASP。NET培训和广大用户自学与参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

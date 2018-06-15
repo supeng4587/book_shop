@@ -5,6 +5,36 @@
     <title>Visual Basic6.0基础与实践教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5976 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书由浅入深，针对Visual Basic，系统地讲解从基本的语言元素知识点到构建一个具体完整的实用系统程序，由初级入门阶段到深入进阶，一步一步地提高层次。全书共分15章，内容包括Visual Basic的语法规范、过程与函数、常用内部控件、窗体与菜单设计、Visual Basic内部控件的使用、ActiveX控件编程、数据库处理技巧、文件操作与管理、OLE容器控件的扩展、GDI图形图像处理、Windows．API与DLL动态链接库、Intemet网络应用、Visual Basic的调试与制作安装文件，以及一个综合性案例的介绍。<br>    全书重点、难点突出，知识点详尽细致，在体系结构和编写内容上循序渐进、深入浅出、简明精炼、详略得体，文、图、表并茂；各章内容完整且前后呼应；针对性强，可读性好；运用了大量实例说明问题，将概念实例化、具体化，贴近实战。每个案例的编排都是严格按照读者的阅读习惯进行组织的，都是由具有丰富经验的项目开发人员亲手编写的，大部分案例都已经在项目开发中经过了实践的检验。它是指导你进入程序设计师领域的灯塔。    <br>    本书适用于大中专院校学生、程序设计人员和Visual Basic编程爱好者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

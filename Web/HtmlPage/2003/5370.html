@@ -5,6 +5,36 @@
     <title>用实例学ASP.NET--使用VB.NET与ADO.NET</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5370 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>·使用近200个小而美的实例，引领您攻占ASP.NET的核心领域。<br>·真正善用Visual Studio.NET的全新集成开发环境，绝非旧瓶装新酒。<br>·巨细靡遗地介绍各个Web服务器控件，为您奠下扎实根基。<br>·用户控件是提升开发效率与资源再利用的利器，本书有详尽的讨论。<br>·功力高深的开发人员有福了，本书介绍如何开发自定义控件，以便扩充ASP.NET既有能功能。<br>·验证控件真是好，本书带您细推敲。<br>·状态管理功能不可少，我们帮您搞定它。<br>·数据绑定是关键，本书为您从头细说。<br>·效能提升靠缓存，本书内容少不了。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

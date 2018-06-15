@@ -5,6 +5,36 @@
     <title>XML网页开发实例教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5679 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是计算机金典工程系列丛书之一，XML是由W3C（Word Wide Web Consortium，万维网联盟）制订的一种通用语言，是于对Web上有格式的数据进行描述、传输和操作。本书是一本学习XML的入门书籍，通过书中大量实例的制作，集中介绍了如何编写XML文档以及如何在网页中表现XML文档的各方面的基本知识。<br>   作为一个数据表示的开放标准，XML所涉及的范围异常庞大，但由于本书主要侧重于讲解在网页中表现XML数据的各种方法，所以具有较强的针对性，而且在内容安排上采用了由浅入深、由易到难的方式，第一章的内容都建立在实例的基础上，从而把枯燥乏味的语法知识讲解融入到了生动、实用的例程制作中。<br>   本书对于XML的初学者以及网页开发与设计人员来说是一本很好的自学参考书，同时对于各类相关的培训班，本书也可作为推荐教材使用。<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

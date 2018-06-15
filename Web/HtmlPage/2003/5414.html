@@ -5,6 +5,36 @@
     <title>Visual Basic.NET Win32 API大全</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5414 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>这是一本快速查找Visual Basic.NET Windows API的函数库字典，内容主要包括：控件、硬件与系统、系统设备、绘图、图标、运算、工具栏、文本和字体、打印、文件处理、线程、Windows 消息、网络等Windows API函数。<br>    编写结构依次为函数说明、适用版本、适用系统、引用函数库、引用namespace、函数原型、参数解析、返回值、范例程序等清楚的条例解说。<br>    全书事先将应用所需的函数分类，结构鲜明，让读者可以迅速查询API函数的使用，并参考范例加以运用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

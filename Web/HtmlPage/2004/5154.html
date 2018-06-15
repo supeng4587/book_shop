@@ -5,6 +5,36 @@
     <title>JSP应用教程——高等学校计算机语言应用教程（含CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5154 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书对B/S架构的JSP编程做了系统介绍，最大特色是：所有的程序均来自课堂和工程实践，注重知识的系统性、连贯性和规范性。本书的另一大特色是：程序全面遵照高质量Java编程的编码规定。<br>    全书从体系上分为4部分共10章，第1部分，web编程基础与环境配置，介绍架构编程体系、jsp运行环境的配置、web编程技术及java程序设计基础。第2部分：JSP程序设计基础，详细介绍了JSP的页面元素、内容对象、Servies编程技术、JavaBean组件开发技术及JSP设计模式。第3部分：JSP数据库程序设计。详细介绍JDBC的结构，常用操作数据库的基本各市、分页显示、JDBC访问Oracle数据库及使用DOM 、SAX和JDOM操作XML文件。第4部分：软件工程实践，介绍OOAD的概念、UML进行系统分析和设计的方法，并从软件工程的角度介绍了一个在线考试系统的开发。<br>    本书配套光盘提供了本书设计的所有工具软件及全部原代码。本书提供的课件及学习大纲可以到HTTP://PRESS.BJTU.EDU.CN或者HTTP://WWW.GETTOP.NET下载。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

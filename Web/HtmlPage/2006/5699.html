@@ -5,6 +5,36 @@
     <title>Java Web开发详解：XML+XSLT+Servlet+JSP深入剖析与实例应用(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5699 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书共分4部分，从XML、Servlet、JSP和应用的角度向读者展示了Java Web开发中各种技术的应用，循序渐进地引导读者快速掌握Java Web开发。<br>    本书内容全面，涵盖了从事Java Web开发所应掌握的所有知识。在知识的讲解上，本书采用理论与实践相结合的方式，从程序运行的内部机制进行分析讲解，并通过大量的实例和实验来验证并运用本书的知识。<br>    本书语言生动、通俗易懂、讲解细致，大部分章节都提供了多个例子，而且很多例子都是目前Web开发中经常使用的功能，具有相当的实用价值。<br>    本书不仅可以作为Java Web开发的学习用书，还可以作为从事Java Web开发的程序员的参考用书和必备手册。<br>    此外，本书的配套光盘还免费提供了价值人民币330元的Java教学视频，对Java语言进行了全面讲解，帮助一些不会Java语言的读者快速地从Java基础知识的学习中过渡到Java Web的学习与开发上。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

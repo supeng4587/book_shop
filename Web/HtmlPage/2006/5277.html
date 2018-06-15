@@ -5,6 +5,36 @@
     <title>小型网站建设实训教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5277 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍了小型网站建设的过程，包括小型网站的用户需求分析，开发的软硬件环境，接入Internet的方法，如何管理和维护Web站点，网页设计工具的使用实例以及．ASP对象的使用方法，并且给出了一个具有代表性的网站设计实例——学生成绩管理系统。本书的重点是，站点的管理和IIS的使用，以及如何规划和详细设计网站的页面。<br>    本书依据建设小型网站的实际工作过程，安排了13个实训项目，可作为高职高专院校计算机类专业和相关专业的实训教程，也可以作为网站规划与建设的培训教材，通过对本书学习，可以自己动手设计并建设出具有特色的小型网站。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

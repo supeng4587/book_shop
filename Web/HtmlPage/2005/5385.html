@@ -5,6 +5,36 @@
     <title>VB.NET应用教程——Web与桌面应用程序开发</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5385 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>VB.NET是一个强大的完全面向对象的编程工具，利用它可以创建功能丰富的Windows桌面应用程序和Web应用程序。本书以通俗易懂的方式全面讲述了VB.NET的基础知识和编程技巧，并深入介绍了ADO.NET和ASP.NET的高级主题。<br>    本书主要内容：VB.NET编程的基础知识；多线程；ADO.NET；XML Web服务；在VB.NET中结合存取方法的目录和文件处理；图形；使用后台编码编程模型开发ASP.NET。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

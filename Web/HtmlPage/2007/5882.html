@@ -5,6 +5,36 @@
     <title>Java面向事件编程——国外经典教材·计算机科学与技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5882 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书旨在帮助学生首先掌握对象和事件——这样他们很快就可以开始使用Java来完成一些重要的编程任务。<br>    本书由计算机科学教育领域的三位顶级专家编写，其中包括2005年SIGCSE奖得主Kim Bruce，这几位专家从根本上重新思考了究竟该如何讲授Java以及其他面向对象语言这一问题，本书正是他们共同努力的结晶。为了给学生提供“训练车轮”，他们需要尽早开始使用复杂的Java特性，本书作者引入了一个完整的面向对象图形库。使用该库时，学生可以立即着手编写简单的图形和动画程序，而且能够看到他们所编写代码的实际结果。与传统教学方式相比，学生能够更快地了解核心的Java特性，而且在具有必要的知识储备后，可以快速掌握一些诸如并发之类的强大Java特性。<br>    本书的对象优先方法、内容和特点已经在世界上许多顶级大学、四年制学院和两年制学院的教学实践中系统地得以证实。这些特点包括：<br>    ◆ 牢牢着眼于使用GUI组件的事件驱动的编程：学生通过体验单击环境来认识编程的方式；<br>    ◆ 逐步、完整地涵盖所有典型的基础知识，包括数组、字符串、递归、文件、排名、搜索、继承性等；<br>    ◆ 一种讲授异常的有效方式；<br>    ◆  一个有关面向对象设计基础知识的初级读本；<br>    ◆  每章中间都包含有习题，用于评估学习进度；<br>    ◆  每章末尾具有复习题和编程题，强化在该章学习的关键概念和技术；<br>    ◆  附录解释了如何浏览并阅读Java API。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

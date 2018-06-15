@@ -5,6 +5,36 @@
     <title>计算机应用教程——网络程序设计语言XML</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5554 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书为“上海紧缺人才培训工程”教学系列丛书之一，是“上海市信息技术认证证书”中“网页站开发认证工程师证书”考试的指定教材之一。由上海市计算机应用能力考核办公室编。<br>    本书介绍了如何创建正确格式的XML文档、如何创建有效的XML文档、使用级联样式显示XML文档、JavaScaript语言简介、文档对象模式DOM、使用XSL的XML文档以及XML和数据绑定。通过本书学习，使读者掌握建立、使用XML文档，如果再学习了ASP和数据库，把XML文档和数据库相结合，就可以建设一个基于XML进行信息传输的网站和在因特网上实现计算机之间的通信。<br>    本书可作为各类网站开发人员的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

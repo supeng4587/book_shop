@@ -5,6 +5,36 @@
     <title>Visual Basic与RS-232串行通信控制（最新版，含盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5919 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书应用Visual Basic 中的串行通信控件MSClmm,通过实例循序渐进地介绍了自动化的基础——RS-232串行通信，从简单的串行通信概念、实验到复杂的仪器控制，本书都提供了完整的Visual Basic范例。本书将Visual Basic6。0的应用扩展到硬件控制，同时还介绍了自身具有的串行通信控件，串行通信控件的细节控制调制解调器并进行文件传输，有串行通信端口来控制仪器，将串行通信扩展到分布式监控等内容。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

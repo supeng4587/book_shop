@@ -5,6 +5,36 @@
     <title>2007年9月考试专用全国计算机等级考试笔试超级模拟+全真题解：二级（C语言程序设计）（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5091 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本产品由考卷和酉己套多媒体学习光盘组成。<br>　　考卷包括试卷和试卷答案与评析两大部分。试卷中有模拟试题和考试真题，模拟试题根据最新版考试大纲的要求，由多年研究等级考试考纲、试题及相关政策的等级考试研究中心组织编写，覆盖所有考点；真题部分包含2005年4月、9月，2006年4月、9月和2007年4月五套考卷，让考生考前热身。答案与评析部分则对每套试卷的每一道题都提供参考答案，并对相应考点进行点评，提高考生的学习效率。<br>　　配套多媒体学习光盘中提供有等考超级模拟软件、电子试卷和考生需要了解的与等级考试相关的一切信息。超级模拟软件提供与上机考试完全相同的考试环境和操作界面，具有自动阅卷、自动评分功能，并能对每—道考题的考试要点进行评析，对每一道操作题提供动画类操作演示，特别适合自学。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

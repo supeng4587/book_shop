@@ -5,6 +5,36 @@
     <title>ASP及ASP.NET编程基础与实例（第2版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5474 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从建立ASP和ASP.NET的环境开始，由浅入深地介绍了建立一个基于ASP及ASP.NET的动态网站所需要的各种技术。全书共分15章：第1-3章主要介绍了ASP环境的建立和ASP内部控件和对象的使用技巧；第4-10章为利用ASP技术建立交互页面的实例部分，包括的实例系统有：网站计数器、留言板、同学录、在线投票系统、网上考试系统、搜索引擎、网上社区服务、网络超市和校园信息管理系统等；第11-14章主要介绍了ASP.NET环境的建立和ASP.NET的内部控件和对象的使用技巧；第15章为利用ASP.NET技术建立一个留言板的实例系统。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

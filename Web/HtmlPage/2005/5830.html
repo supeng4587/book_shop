@@ -5,6 +5,36 @@
     <title>透视JAVA——反编译、修补和逆向工程技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5830 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>您是否是到过所有常规方法都失效的窘境？您是否知道有一种产品能够准确地解决您所面对的问题，但并没有文献来记载其实现方法？您是否正在使用某一第三方库文件，需要改动其中一些逻辑，却苦于没有源代码？<br>   本书给出了一些如何攻克上述难题的实用方法：<br>   反编译和混淆类；<br>   破译私有变量和方法；<br>   替代和修补应用类；<br>   运用窃听技术简化故障排除和性能调整；<br>   截取控制流并控制类加载；<br>   理解和调整字节码；<br>   更改第三方应用逻辑；<br>   破译JVM的行为；<br>   保护商用软件免于破译；<br>   本书中提及的一些窍门能够帮您节省时间，提高效率。每一章都集中讲解一种技术，解决一类问题概述问题所在、给出问题的解决方案，然后给出测试该方案的其他构思。  <br> <br>   <br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

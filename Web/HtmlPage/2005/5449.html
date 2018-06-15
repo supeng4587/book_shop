@@ -5,6 +5,36 @@
     <title>ASP.NET程序设计专家门诊（含CD-ROM光盘一张）——黑魔方丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5449 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书重点介绍如何解决ASP.NET程序设计过程中碰到的各种问题，包括了ASP.NET编程基础、HTML服务器控件应用、Web服务器控件应用、客户端与服务器的交互、数据绑定控件、ADO.NET技术、XML应用、图形图像处理、ASP.NET高级技巧的应用、客户端编程技术等。本书强调理论与实践相结合，注重内容的实用性，采用面向问题的讲述方式，详细讲解了大量开发实例。<br>    本书的最大特点是对每上问题从解题思路、具体步骤、专家指点几个方面进行介绍，让读者在解决一个问题的同时获得举一反三的程序设计能力，本书所给出的问题在论坛中也经常出现，都是程序开发人员比较关心的问题，具有很好的参考作用。本书配套光盘提供了所有例子的源程序。<br>    本书内容丰富、语言通俗易懂，实用性非常强，适合程序设计的初学者，对于网站应用和开发人员也有一定的参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

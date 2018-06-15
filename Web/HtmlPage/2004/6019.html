@@ -5,6 +5,36 @@
     <title>Visual Basic 6.0 中文版范例入门与提高</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6019 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过大量范例的制作，配合知识点的介绍，全面介绍了微软公司推出的常用的软件开发工具——Visual Biasic 6.0中文版。<br>    本书共分7章，内容包括界面编辑、文件操作、图形图像与多媒体编程、网络与数据、系统以及游戏编程等。本书从最基本的操作入手，详细讲解了代码的编写过程，由浅入深地对Visual Basic 6.0中文版应用程序进行分析、调试。<br>    本书适合Visual Basic 6.0中文版的初学者用做入门教材，也可以供广大程序开发人员参考使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

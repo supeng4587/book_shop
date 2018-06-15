@@ -5,6 +5,36 @@
     <title>XML＆SGML参考手册（含盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5630 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书提供了向十个立即可用的的文档类型定义（DTD），它们可以用于几乎每一种文档类型。通过对本的学习，读者可以从实用性的角度理解文档结构、表单和格式。本书的主面内容有：所有最常见的编辑结构；数据库、表格、表单、列表、格式化器、元数据、格式等；有关XML、SGML、HTML、TEL、CALS和国际化应用的实用性技巧、警言信息以及解决方案。本书配套光盘中提供了DTD以及大量优秀的工具库。<br>    本书适用于利用XML进行各种应用（如网上银行、“推”技术、Web自动化操作、数据库发布、软件销售等）的人员。 <br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

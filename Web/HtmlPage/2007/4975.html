@@ -5,6 +5,36 @@
     <title>Visual C#2005编程技巧大全</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4975 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书及配套光盘使用完整的源代码列举了一千余条实用性极强的Visual C# 2005 编程技巧，旨在帮助广大读者快速解决实际开发过程中面临的诸多问题，从而提高程序开发效率、拓展软件应用领域。全书内容涵盖了大量的Visual C# 2005 编程新技术和新理念，包括ToolStrip控件应用、泛型应用、注册表管理、WMI管理规范使用、XML文件处理、多线程处理、程序异常处理、文件压缩及解压缩、文件加密解密、文件访问权限、API函数调用、指针调用、GDI+图像文字特效处理、数理更新并发冲突处理、数据批量导入导出、网络通信、Web服务、水晶报表设计、WebView和DataGridView个性化定制、Office自动化和智能文档设计以及大量的异步调用编程技巧等。为了突出编程技巧的实用性和简洁性，本书在演示或描述编程技巧时，力求针对性地解决问题，尽量减少和避免问题的复杂化。由于篇幅限制，本书文字部分中只给出与此技巧密切相关的关键代码，完整的源代码请参考配套光盘。<br>    本书适于作为Microsoft Visual Studio 2005（Visual C# 2005）用户的案头参考书，具有参考和收藏价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

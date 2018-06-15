@@ -5,6 +5,36 @@
     <title>Ajax基础教程（亚马逊计算机榜首图书，国内第1本Ajax图书）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5696 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Ajax技术可以提供高度交互的Web应用，给予用户更丰富的页面浏览体验。本书重点介绍Ajax及相关的工具和技术，主要内容包括XMLHttpRequest对象及其属性和方法、发送请求和处理响应、构建完备的Ajax开发工具、使用JsUnit测试JavaScript、分析JavaScript调试工具和技术，以及Ajax开发模式和框架等。本书中所有例子的代码都可以从Apress网站本书主页的源代码（Source Code）免费得到。 <br>    本书适合各层次Web应用开发人员和网页设计人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

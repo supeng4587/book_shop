@@ -5,6 +5,36 @@
     <title>JSP网络开发技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5244 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书详细讲述了使用JSP进行网络开发的方法和应用技巧。全书共包括13章，分为5部分。第一部分主要讲述了JSP的基本概念和简单的使用，使读者对JSP的应用及特点有一个初步的认识；第二部分讲述了JSP的一些基本功能，包括基本的语法、语句和内置对象；第三部分讲述了如何在JSP中使用Java的对象，这是灵活使用JSP的关键所在；第四部分讲述了使用JSP进行数据库开发的方法，数据库开发是网络开发的主要任务之一；最后一部分通过几个网络开发中典型的实例综合讲述了JSP的知识要点和应用方法。<br>    本书内容丰富、条理性比较强，适合从事网络开发工作的技术人员参考阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

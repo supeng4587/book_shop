@@ -5,6 +5,36 @@
     <title>QBASIC 语言程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6020 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书共10章，前8章主要介绍了QBASIC语言最基本的编程语句、编程思路和编程方法，这一部分是按知识点的顺序进行一般性能力训练并帮助学生学会举一反三、触类旁通，通过这部分学习，培养学生的综合分析、系统编程和上机操作的应用能力；第9章为选择学习部分，介绍了QBASIC语言的屏幕控制语句和作图语句，以增加教材使用的弹性；第10章介绍了QBASIC语言的程序文件和数据文件的建立及读写语句。<br>    本书可作为高等职业教育计算机技术类专业教材，也可作为计算机爱好者的自学用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

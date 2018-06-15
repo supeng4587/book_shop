@@ -5,6 +5,36 @@
     <title>J2ME无线设备程序设计：第二版</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5874 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书由J2ME平台创始者Sun公司和Nokia等主要消费设备制造厂商的专家撰写，内容权威，全面介绍了Java 2 Platform, Micro Edition（J2ME）的整体架构，特别重点讨论了两个关键的J2ME标准：Connected, Limited Device Configuration（CLDC）1.1版和Mobile Information Device Profile（MIDP）2.0版，主要包括CLDC类库、MIDP应用程序模型、MIDP用户界面库、MIDP高层用户接口、MIDP低层用户接口、MIDP Sound API、MIDP持久库、MIDP网络和串行通信、网络安全、事件驱动的应用程序启动、MIDlet套件安全性、MIDlet的部署、附加MIDP API等内容，完整覆盖J2ME平台开发的各个方面的技术，并附有CLDC应用程序编程接口和MIDP应用程序编程接口的API参考大全，是J2ME平台开发领域最权威参考书籍之一。对从事无线移动设备开发的软件开发人员来说，本书是一本必备的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>精通Java Web动态图表编程——Java技术大系</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5862 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是国内第一部系统阐述如何开发基于Java的Web动态图表的专著。<br>    本书不仅详述了如何利用Java对图形的处理能力，通过Java Applet、Jave Servelet、JSP、Java Bean以及借助开源软件JFreeChart及Cewolf动态图表生成引擎等多种方式开发Web动力图表，还详解了如何设计Web动态图表生成引擎，并将其封装成Java Bean，以达到高效、重复使用的目的。本书不但剖析理论，更强调实际运用；针对编程人员开发过程中遇到的技术难点，提供了典型的实例，逐一剖析，帮助读者快速掌握和精通Java Web动态图表编程思想和技巧，提高编程能力和水平。全书共分9章。<br>    本书面向各级Java应用程序中实现Web动态图表功能的Java及Web程序人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

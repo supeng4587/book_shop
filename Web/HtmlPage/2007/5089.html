@@ -5,6 +5,36 @@
     <title>Visual C++通信编程工程实例精解(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5089 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍利用Visual C++进行通信程序开发。书中精选了大量来自工程实践的应用实例，涵盖了串口通信、Socket网络通信、远程数据库访问、应用于工业上的OPC通信、Modem通信以及SMS和GPRS移动通信编程。<br>    书中的每个应用实例都是在简单介绍必备的背景知识后，重点剖析了应用实例的源代码，并对源代码进行总结、延伸和扩展，以便让读者能举一反三，进行快速的二次开发和工程应用。本书第1章是进行书中的每个应用实例都是在简单介绍必备的背景知识后，重点剖析了应用实例的源代码，并对源代码进行总结、延伸和扩展，以便让读者能举一反三，进行快速的二次高级编程的基础，其余章节的内容均具有一定的独立性，读者可以选择感兴趣的部分来阅读。书中11个实例及2个扩展实例，均为作者多年的工程实践，所有实例的源代码均在本书的配套光盘中提供。配套光盘还附有作者多年来收集的大量实用源代码和技术资料。<br>    本书可作为具有一定Visual C++基础的读者进行通信程序开发的参考书，也可以作为科研单位、高校相关专业人员的参考书籍。无论是对Visual C++的初学者，还是Visual C++的高级设计人员，本书均具有很高的参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

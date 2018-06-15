@@ -5,6 +5,36 @@
     <title>Visual Basic信息系统开发实例精选（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5963 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以稿费发放管理系统、医药进销存管理系统、洗浴中心管理系统、图书馆管理系统、车辆管理系统、房地产销售管理系统、客户管理系统、财政局触模屏管理系统、企业生产管理系统、人口信息管理系统等10个综合、经典的信息系统工程作为案例，深入剖析了实际的信息系统的开发思路、方法和技巧。帮助读者透彻掌握Visual Basic开发领先卢系统的方法和步骤，从而设计出具有实用价值和商用价值的信息系统。<br>    本书实例具有很强的实用性和工程实践性，在讲解中穿插了大量编程心得和经验，是Visual Basic爱好者不可多得的系统开发参考书。<br>    本书所附的光盘中除了包括书中10个综合实例的全部源代码外，还包括Visual Basic编程字典和建模工具的视频教学软件，以供读者学习和参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

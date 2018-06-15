@@ -5,6 +5,36 @@
     <title>Visual Basic系统开发实例精粹（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5928 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书精选了近40个综合性实例，详细介绍了基于Visual Basic的程序开发技巧和方法，内容涵盖了Visual Basic的系统编程、多媒体/图形图像编程、网络通信编程、数据库/MIS开发、游戏编程等许多热门领域。<br>　　每个实例都按照设计思路、编程原理以及实例详解3个步骤来解说。尤其是对每个实例的原理都进行了详细地说明，对实例的源代码进行了注释。同时在本书的光盘中赠送了大量非常有价值的实例源代码。通过本书的学习，读者可以非常容易地理解并掌握Visual Basic开发的核心技术，并根据自身需要进行二次开发。<br>　　本书可以作为高等院校相关专业的课程设计、毕业设计的指导用书，同时也可以作为科研单位、企业相关软件开发的技术指导用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

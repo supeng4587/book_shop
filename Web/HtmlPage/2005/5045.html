@@ -5,6 +5,36 @@
     <title>C语言程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5045 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C语言程序设计昌高等院校普遍开设的一门课程，该课程也是软件工作者必须掌握的一个工具。但由于C语言功能多，使用灵活，初学者普遍感到难以掌握。根据这一概况，作者在充分分析本课程特点和学生认知规律的基础上，经过几年多种教学方式的尝度后整理出本书。<br>    本书为五年制高职高专教材，也可作做自学者的指导书。主要对象是C语言零起点读者，如果读者已掌握了计算机的初步知识，将会更容易地学习使用本书。<br>    本书特点：<br>    1 讲授内容少而精；2 例题知识点明确；3 强调实践中学习；4 逐步并适时地介绍调试方法；5 增设了环环相扣、贯穿整体内容的综合实例；6 提供独特的索引；7 提供电子教案。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>ASP.NET数据库开发入门与提高</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5475 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Studio.NET中文版是Microsoft公司最新推出的可视化开发工具，ASP.NET作为Visual Studio.NET的组成部分之一，成为Internet和intranet开发Web应用程序的新一代开发工具，逐渐被广大程序员普遍采用。本书以通俗、简明的语言由浅入深地讲解了ASP.NET数据库访问技术及其编程方法与技巧，同时辅以大量的实例。书中所有程序代码均采用CodeBehind技术，通过实例步步引导读者快速掌握用C#和ASP.NET进行数据库编程的思路和技巧。<br>    本书首先介绍了ASP.NET的特性、C#语言和SQL语言的基础知识；接下来介绍了ASP.NET的新一代数据存取机制——ADO.NET；此外，还介绍了用基本的服务吕端组件、数据验证组件、数据列表控件实现数据访问以及利用ADO.NET操作XML数据等内容；最后综合前几章的知识，提供了一个完整的经典实例供读者学习和借鉴。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

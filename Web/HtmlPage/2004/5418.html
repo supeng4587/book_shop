@@ -5,6 +5,36 @@
     <title>Visual C++.NET高级编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5418 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要为使用过C、C++和其他高级语言而现在需要学习Visual C++.NET的程序员编写。本书应用DEITEL特有的LIVE-CODE方法来介绍编程方法和深入研究Microsoft Visual C++.NET语言。对于一些关键的Visual C++.NET概念，通过经严格测试的程序、逐行的代码描述和程序输出来进行介绍。书中引用了228个实例，并且包含了34 131行经过测试的Visual C++.NET程序代码。此外，本书还包括了387个编程技巧，读者可使用这些技巧来编写移植方便的、可重用的且经过性能优化的应用程序。<br>    本书首先简单介绍了Visual C++.NET的基础知识。接着介绍了一些高级内容，包括多线程、ADO.NET数据库集成、ASP.NET Web服务、网络编程和XML处理。本书也详细介绍了有关非托管代码的一些内容，包括特性化编程、使用ATL Server开发基础于Web的应用程序以及托管和非托管代码的互操作。通过使用Visual C++.NET，开发人员可以灵活地编写和非托管理代码以及ATL Server应用程序。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

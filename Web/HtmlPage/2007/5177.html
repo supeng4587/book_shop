@@ -5,6 +5,36 @@
     <title>JSP从入门到精通（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5177 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书详细介绍了JSP技术知识及其在Web应用程序开发方面的相关技术（Struts、MySQL等），并通过大量典型的应用实例进行实战讲解，使读者可以更加深刻地理解所学知识，并迅速应用到实际开发中。<br>　　本书共分为17章，从JSP基础知识与搭建JSP应用程序开发环境开始，首先介绍了JSP编程基础知识和MySQL数据库基础知识，然后介绍了Struts开发技术，JSP开发中常见问题的解决方法、网站安全与用户管理、JavaMail等网站开发中的进阶技术，并在最后利用典型的应用项目具体介绍了，JSP实际开发的设计方式与思路。<br>　　本书内容紧凑、结构严谨、实例丰富、深入浅出，不论是对JSP网络应用程序的初级开发人员，还是具有一定经验的开发人员而言，都是一部很好的学习参考教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

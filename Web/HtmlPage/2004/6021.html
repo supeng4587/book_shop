@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6021 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书为高职高专计算机与信息技术系列规划教材之一，丛书由李大友教授主编。VB是当前用途广泛、实用性特别强的可视化快速开发工具。本书从实用角度触发循序渐进的讲解Visual Basic 6.0程序设计的方方面面。<br>    本书内容丰富、通俗易懂、实用性强。本书示例的设计结合了高职教学要求和实际编程经验，以一个较为实用的应用程序——“ 个人助理”为主线，将大部分VB内容串连起来。全书共分两部分，十三章，并且配备附录。总课时为64学时，各院校可格局实际情况决定内容的取舍，部分内容可以让学生自学。<br>    本书是高等职业技术教育理工科类VB程序设计教学用书，也可供相关人员自学和开发人员参考使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

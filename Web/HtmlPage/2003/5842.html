@@ -5,6 +5,36 @@
     <title>最新Java 2核心技术，卷Ⅱ:高级特性(V1.3)5E（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5842 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本供Java编程人员使用的关于Java 2平台（包括JDK 1.3的完整更新版、JDK 1.4版的标准版）的高级参考书，是《最新Java 2核心技术 卷Ⅰ：原理》的姊妹篇。卷Ⅰ介绍Java技术的基本特性，而卷Ⅱ则主要介绍Java技术的高级特性。全书共分12章，各章内容互相独立，读者可以根据自己的需要，参阅你最感兴趣的技术信息。<br>    本书内容丰富、覆盖面广，极具实用价值。书中大量的实例代码及新增和修改后的特性为Java程序设计员提供了极好的指导。<br>    所附光盘包含全套源代码示例程序、Forte for Java 2.0,Community Edition及Java 2 SDK标准版。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

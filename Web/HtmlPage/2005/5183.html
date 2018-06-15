@@ -5,6 +5,36 @@
     <title>JSP工程应用与项目实践（附光盘一张）——工程应用与项目实践丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5183 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从项目开发必备的知识的原则入手，全面系统地介绍了JSP在工程开发中的编程知识、方法和技巧。全书共分12章，内容包括：JSP环境的搭配、JSP的基本语法及其在项目中的应用、Java编程基、JSP的内建对象及其在项目中的应用、JavaBean组件技术、Servlet技术、JSP数据库技术、创建Web的过滤与监听、Web框架、构建网上社区、网上书店、网上办公系统等内容。全书注重所讲知识的工程应用，使读者在学习JSP的同时，能够快速掌握工程项目开发的思路、方法和经验，并轻松解决项目开发中出现的问题。<br>    为方便读者学习，本书附有配套光盘。光盘提供了书中所有实例的源代码。所有程度全部在JSDK1.4+Tomcat5.0中通过测试。<br>    本书注重工程实践，实用性强，是各级程度开发人员不可多得的参考书，也非常适合大中专院校师生学习参考。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

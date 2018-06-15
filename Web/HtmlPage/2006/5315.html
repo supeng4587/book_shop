@@ -5,6 +5,36 @@
     <title>ASP.NET2.0应用开发技术（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5315 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书结合实例，全面系统地介绍了ASP.NET 2.0应用开发技术，包括ASP.NET 2.0服务器控件，ASP.NET 2.0数据源控件和新的数据绑定方法，验证控件，样式、外观和主题，母版页，站点导航和导航控件，ASP.NET 2.0的身份验证、授权和模拟，成员、角色管理和登录控件，用户配置和个性化，Web部件，状态管理，在ASP.NET 2.0中使用XML，提高网站性能的方法，跟踪和调试ASP.NET 2.0应用程序等内容。<br>    本书注重实用性，不但融合了作者在ASP.NET 2.0开发过程中遇到的各种常见问题和应用案例，还总结了作者在CSDN 社区Web开发版、.NET技术版和其他论坛中.NET板块的大量问题，面向实际项目需求，涉及不同类型的应用，能够多角度地引导读者学习相关知识。而且针对各类问题，提供了详细的操作步骤和解决思路。<br>    本书适用于ASP.NET 2.0的初学者和了解ASP.NET 1.0/1.1的读者进行提高，而且本书中的大量实例也适于正在进行ASP.NET 2.0项目开发的人员进行参考。同时本书也可以作为各大中专院校相关专业的教学辅导和参考用书，或作为相关培训机构的培训教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

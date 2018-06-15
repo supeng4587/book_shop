@@ -5,6 +5,36 @@
     <title>Visual C++编程技巧典型案例解析：图形图像处理与数据库篇（附CD—ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5109 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual C++是微软公司开发的基于Windows操作系统的编程工具，它采用一种巧妙的方法将Windows的编程复杂性封装起来，有着强大的类库支持和类改造能力以及高效率的运行速度，并为用户提供了更为友好的可视化开发环境。本书属于编程技巧典型案例集锦系列，以图形图像处理编程和数据库编程为主，贯穿了Visual C++的相关高级实现技术和理论，并且通过大量经典的实例，将知识点与开发实战紧密结合，使读者不仅可以全面掌握Visual C++的高级开发知识，而且可以了解更多Visual C++的应用技巧。<br>　　本书注重工程实践，实用性强，是软件开发人员不可多得的参考书，也是进行课程项目开发、毕业项目设计的高等院校学生的优秀读物，同时也可作为社会相关培训学校的理想案例教程。 <br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

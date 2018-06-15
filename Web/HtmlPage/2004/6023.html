@@ -5,6 +5,36 @@
     <title>Visual Basic语言程序设计上机指导与练习</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6023 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是全国中等职业学校电子信息类教材（计算机技术专业）《Visual Basic语言程序设计基础》的配套实验指导书，出版后得到了广大读者的充分肯定和认可。本书的第2版做了必要的修订，全书共16章，给出了《Visual Basic语言程序设计基础（第2版）》各章节的练习题答案，并针对各章节中的重点和难点知识设计了相应的上机实验。<br>    全书内容简明易懂、注重实用性，除可供中等职业学校计算机专业选作上机配套教材外，还可以作为培训班的Visual Basic上机实验指导书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

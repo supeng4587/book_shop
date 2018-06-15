@@ -5,6 +5,36 @@
     <title>J2EE编程技术——高等学校计算机科学与技术教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5714 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书对J2EE编程技术进行了系统的介绍。本书首先对J2EE体系结构进行概述，介绍J2EE的定义、设计思想、技术框架等，然后详细指导读者如何基于Eclipse+Lomboz+JBoss+MySQL配置来搭建J2EE开发环境，随后以J2EE三大组件技术(Servlet，JSP，EJB)为主线，中间穿插J2EE服务技术和通信技术对J2EE编程技术进行了系统介绍。本书最后以一个完整信息系统的开发为示例，从系统的需求分析开始，到规划、框架设计、编码，再到部署发布，一步步引导读者完成一个完整系统的开发，向读者展示灵活运用J2EE技术构建完整信息系统的基本技巧。<br>    本书适合作为高等学校计算机专业教材，也可作为相关人员的参考书。本书每一章都是一个完整独立的部分，因此教师在授课时可根据授课重点、课时数量进行灵活调整。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

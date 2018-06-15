@@ -5,6 +5,36 @@
     <title>ASP.NET 深入解析</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5473 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本比较深入探讨ASP．NET技术的中高级读物。书中通过详尽的实际范例，深入讲解了ASP．NET技术的重点内容，结合ASP．NET技术探讨了有关面向对象、设计模式、架构设计和多层开发方面的技术知识，以便读者学完本书后能更好地利用ASP．NET技术设计、开发出更具竞争力的企业级软件产品。<br>    本书通过3个部分循序渐进地讲解ASP．NET的重点核心技术，由浅入深的讲解方式会使读者更顺畅地学习ASP．NET高级技术。本书适合于对ASP．NET技术感兴趣的中高级读者，以及希望采用ASP．NET技术构建企业级应用软件的开发人员。<br>    本书适合于对ASP.NET技术感兴趣的中高级读者，以及希望采用ASP.NET技术构建企业级应用软件的开发人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

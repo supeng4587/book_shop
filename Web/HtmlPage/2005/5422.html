@@ -5,6 +5,36 @@
     <title>.NET企业级应用程序开发教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5422 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Studio.NET作为微软.NET战略的核心开发工具，与Visual Studio 6相比，其开发效率具有显著性地提高，其开发框架和思路发生了根本性地改变。同时，Visual Studio.NET又提供对COM组件的访问兼容性。.NET全面引入对XML的支持是开发基于.NET分布式应用的基石，XML.NET支持在数据访问层面和对象传递层面上跨越Internet传递数据和对象。<br>    本书基于C#语言深入阐述.NET核心开发思路和.NET应用程序运行的基本原理，详尽讲解Windows编程方法、网络访问和Sockets编程。还深入讨论了多线程应用程序开发、线程同步技术和线程池技术等.NET深入编程技术。Web服务和远程通信技术是.NET下企业级三层结构应用开发的关键技术，本书讨论了Web服务和远程通信的基本原理和实现机制，与COM+交互，.NET企业服务技术和序列化技术，详细阐述基于.NET的三层结构应用程序开发,这些技术都是实现.NET企业级软件开发所必备的。企业应用部署向来是企业级应用开发的关键,本书详细阐述了.NET应用部署的基本方法和原则。<br>    本书结构清晰，讲解深入浅出，并通过丰富的实例加深读者对相关技术的把握。本书是从事微软Visual C#.NET开发和应用人员不可多得的参考书。同时适合广大计算机爱好者自学也可作为大专院校相关专业的教学参考书。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

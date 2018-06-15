@@ -5,6 +5,36 @@
     <title>VISUAL STUDIO HACKS:100个业界最尖端的技巧和工具</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5845 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>无论从哪个平台上说，Visual Studio都是最好的集成开发环境，有了它，NET开发工作将变得极其容易。Visual Studio之所以如此诱人是因为用户只需花短短几个小时就可以熟悉它的用法，并获得惊人的工作效能。尽管如此，还是有许多鲜为人知的特性潜伏在它的表面之下，用户自己不太容易发现它们。<br>　　本书中包含了100个来自Visual Studio专家的技巧与工具，向你展示如何把这个已经强大无比的IDE带向全新的高度。每花一分钟时间阅读这些hack，就能节省数小时的研究时间。在本书中，将学到如下内容：<br>　　·如何控制项目与解决方案，包括程序集引用、项目引用。学习如何对项目与解决方案文件进行剖析。<br>　　·掌握Visual Studio编辑器——从关剪贴板到代码重构，用户将学会如何让编辑器为自己做更多的工作。<br>　　·如何通过宏、插件与Tweak自定义从键盘快捷键到工具栏的各个项目，扩展并增强Visual Studio。<br>　　·掌握Visual Studio的调试器，学习调试脚本代码与SQL的方法，使用用户观察器扩展调试器功能，并深入了解断点。<br>　　·探索能集成到Visual Studio中的新信息源，包括Google搜索结果与其他联机信息资源。<br>　　·通过应用单元测试编写更健壮的代码，从而更容易地创建文档，并能过博客与代码段知识库与他人共享代码。<br>　　本书是为从初学者到经验丰富的NET开发人员编写的。书中有大量实用的、独创的点子与技巧可供用户立即使用。不论用户是想掌握诸如调试器与代码编辑器这样的核心功能，还是希望以其他开发人员想都不敢想的方法扩展Visual Studio，本书都将助你心想事成。<br>　　适用于所有版本的Visual Studio。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

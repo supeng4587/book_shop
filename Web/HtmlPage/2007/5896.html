@@ -5,6 +5,36 @@
     <title>Visual Basic串口通信与测控应用技术实战详解（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5896 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从工程应用的角度出发，对用Visual Basic(简称VB)开发测控程序的各种方法进行了全面阐述。内容包括在VB工程中利用MSComm控件、调用API函数、直接端口访问等方法开发串口通信程序，在VB工程中调用ActiveX控件和DLL动态链接库等方法开发板卡数据采集与控制程序。每种程序设计方法都提供了多个实训操作，每个实训都提供了线路图、详细的实训步骤和完整的程序代码，所有代码均编译通过，并经过实际的测试检验达到实战要求。<br>　　本书配有一张光盘，其中收录了书中所有的程序源代码，实训中用到的智能仪表、板卡等硬件设备的驱动程序等。<br>　　本书内容丰富，论述深入浅出，有较强的实用性和可操作性，可作为计算机、电子信息、机电一体化、自动化等相关专业的教材，也可供从事测控系统研发的工程技术人员参考使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

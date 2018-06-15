@@ -5,6 +5,36 @@
     <title>C++Primer:英文版第3版</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5088 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书全面讲解了C++程序设计语言的特性和用法。全书分五个部分对C++进行阐述。第一部分是C++概述，第二部分在此基础上介绍C++语言，主要涉及数据类型、表达式、语句及抽象容器类型，第三部分是基于过程的程序设计，主要介绍函数、域和生命期、重载函数、函数模板、异常处理及泛型算法，第四部分是基于对象的程序设计，主要介绍类、重载操作符及类模板，第五部分是面向对象的程序设计，主要讲解类继承和子类型、多继承和虚拟继承及iostream库等。<br>　　本书结合了C++大师Stanley B　Lippman的实践经验和C++标准委员会原负责人Josée Lajoie对于ANSI/ISO标准的深入理解，各个层次的程序设计人员都会从本书中获益匪浅。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

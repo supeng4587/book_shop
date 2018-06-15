@@ -5,6 +5,36 @@
     <title>HTML和XHTML权威指南（第五版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5502 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>HTML！XHTML！级联样式表！编写网页的标准很难整理，因为各种版本的Netscape和Internet Explorer在其实现方式上千差万别。《HTML与XHTML权威指南》将这些标准全部介绍给了读者。本书作者找出了各种标准和浏览器特性，并在创建网页方面为读者提出了很多建议，以便能够被更广泛的浏览者和平台所接受。<br>    学习HTML或XHTML和学习其他任何语言一样。大部分学生都是从示例开始学习的。学习其他人在做什么，这可以使学习过程变得简单而有趣，然而模仿只能达到这种程度。在模仿中容易养成坏习惯，并将它当做好习惯接受。掌握HTML的较好方式是，找一本内容全面的参考书，其中最好涉及到语言的语法、语义和各种变化，以帮助读者区分好的和不好的用法。<br>    本书可从两方面对读者有所帮助：作者详细讲述了两种标准的所有元素，解释了每个元素的工作方式，以及如何与其他元素相互作用。很多有关样式的技巧可帮助读者编写文档，涉及的范围从简单的在线手册到复杂的市场演示，无所不包。书中的几百个示例提供了编写有效的网页并掌握先进特性的模型。<br>    《HTML与XHTML权威指南》一书的新版本包含了最新的HTML、XHTML和CSS2标准，并向读者显示了如何：<br>    ·使用样式表控制文档的外观<br>    ·处理用编程手段生成的HTML<br>    ·创建从简单到复杂的表格<br>    ·使用框架调整文档的布局<br>    ·设计和构建交互式表单及动态文档<br>    ·插入图像、声音文件、视频、applet和JavaScript<br>    ·创建在各种浏览器上都可以正常显示的文档<br>    ·过渡到XHTML<br>    其中还包括一张列出HTML与XHTML标签的快速参考卡片。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

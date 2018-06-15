@@ -5,6 +5,36 @@
     <title>.NET组件程序设计(第2版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5298 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍了设计和开发基于组件的.NET应用程序所需要的技术及相关主题，说明了.NET组件程序设计的起源和它对以往技术缺陷所作的改进。本书还利用大量的代码示例、使用技巧、开发警示、设计准则和富有创意的实用工具，向读者介绍如何运用.NET框架编写可复用、可维护和健壮的组件。通过此书，读者还能了解到组件技术在.NET平台上的实现和应用，以及如何在几种设计和编程模型中选择最佳方案。全书内容翔实，示例丰富，是近年来组件程序设计方面不可多得的佳作。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>JSP程序开发范例宝典（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5796 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以程序开发人员在编程中遇到的实际问题和开发中应该掌握的技术为线索，全面介绍了运用JSP进行程序开发各方面的应用和技巧。全书分为19章，内容包括JSP的环境搭建与开发工具、表单及表单元素的应用、窗口与导航条设计、实用的JavaScript函数、数据库技术、SQL查询相关技术、Java Bean技术、在线统计、视图、存储过程和触发器的应用、报表与打印、文件管理、图形与多媒体、信息提取与图表分析、E-mail短信、安全技术、应用与控制、Servlet技术、标签及设计模式专题、行业应用，共414个实例。每个实例都突出实用性，其中大部分是程序开发人员梦寐以求的解决方案。<br>　　本书附有配套光盘。光盘中提供了书中所有实例的全部源代码，这些源代码都经过精心调试，在Windows XP/indows 2000下全部通过，保证能够正常运行。<br>　　本书适用于广大计算机爱好者和编程人员，也可供大中专院校师生阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

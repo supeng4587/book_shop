@@ -5,6 +5,36 @@
     <title>C++多范型设计——深入C++系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5135 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C++是一种支持多种范型的编程语言：类、重载函数、模板、模块以及过程编程，等等。除了该语言的灵活性和丰富性以外，此前创建一种设计模式以支持在单个应用中使用多种范型的努力还很欠缺。<br>    本书介绍了使用多范型设计的一连串框架，提供了形成正式多范型设计方法的基础的一系列超前的设计实践。<br>    本书提供了利用C++的多范型能力的分析过程和设计过程的知识。书中使用易于理解的记法和易读的解释来帮助所有的C++程序员（不仅是系统构建工程师或设计者）在他们的应用开发中组合多种范型，以获得更加高效、健装、更具可移植性和更容易复用的软件。<br>    读者将获得对支持多范型设计的领域工程方法的理解。本书提示了如何使用共同性和差异性的原则来分析应用领域，从而根据最适合每个领域的范型来定义子领域。多范型设计比任何一种技术或方法挖掘得更深，以处理软件抽象和设计的基本问题。<br>    本书介绍了所有形成领域工程基础的概念和技术。这些概念包括：深入了解共同性和差异性分析，领域工程如何与常用设计模式相互影响，如何找到应用领域中的抽象，以及领域工程的原则如何用作对象范型的抽象技术的基础。最重要的是，本书讨论了在设计阶段如何将最适当的范型应用于实现的分析技术。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

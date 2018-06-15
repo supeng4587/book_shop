@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计教程——高等学校计算机基础教育教材精选</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6038 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以Visual Basic 6.0为蓝本，由浅入深地介绍了Visual Basic程序设计的主要知识，主要内容包括Visual Basic的安装、Visual Basic语言基础、Visual Basic的基本控件及部分常用的ActiveX控件、数组、文件、图形、界面设计及数据库的应用，并较详细地介绍了用Visual Basic开发程序的调试过程及方法。<br>    本书注重理论与实践相结合，对于各部分内容均通过详细、通俗易懂的实例，使读者加深对内容的理解。书中的最后部分按教材内容的顺序，详细介绍了各章节上机的操作过程，可以作为学生上机的实验指导书。<br>　　本书既可作为计算机专业的专业课教材，也可作为非计算机专业的计算机基础课教材。书中介绍的内容既可以作为国家程序员考试Visual Basic语言部分的参考书，也可作为非计算机专业国家二级考试Visual Basic部分的参考书。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

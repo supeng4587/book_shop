@@ -5,6 +5,36 @@
     <title>J2EE应用开发（WebLogic+JBuilder）（第二版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5819 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍如何将最流行的J2EE应用服务器WebLogic Server和最好的Java集成开发工具JBuilder结合起来开发J2EE应用，主要内容包括：WebLogic Server的安装与配置、Web应用开发、数据库访问、JMS开发、EJB开发、Web Services开发、J2EE安全框架等内容。本书还通过一个J2EE应用实例——JNEstore系统，介绍了当前流行的轻量级J2EE应用开发的全貌。<br>　　流行的服务器+流行的开发环境是本书的特色。从环境搭配到高级应用开发，本书为那些想用J2EE开发应用程序的初学者和中级读者提供了学习的捷径。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

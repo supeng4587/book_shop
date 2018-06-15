@@ -5,6 +5,36 @@
     <title>JAVA面向对象编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5701 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书内容由浅入深，紧密结合实际，利用大量典型实例，详细讲解Java面向对象的编程思想、编程语法和设计模式，介绍常见Java类库的用法，总结优化Java编程的各种宝贵经验，深入阐述Java虚拟机执行Java程序的原理。书中实例均基于最新的JDK 1.5版本。全书内容包括面向对象的编程思想、Java语言的基础知识、异常处理、类与对象的生命周期、多线程、Java集合、输入/输出和GUI编程等。其最大特色是以六条主线贯穿全书：面向对象编程思想、Java语言的语法、Java虚拟机执行Java程序的原理、在实际项目中的运用、设计模式和性能优化技巧。同时，本书还贯穿了Sun公司的SCJP（Sun Certified Java Programmer）认证的考试要点。<br>    书中实例源文件请到http://www.fecit.com.cn的“下载专区”下载。<br>    本书适用于所有Java编程人员，包括Java初学者及资深Java开发人员；亦可作为高校的Java教材，企业Java的培训教材，以及Sun公司的SCJP认证的辅导材料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

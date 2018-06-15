@@ -5,6 +5,36 @@
     <title>新编Visual Basic程序设计学习指导</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6028 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是根据国家教育部考试中心最新发布的《全国计算机等级考试大纲》和教育部制定的面向21世纪高校教材计算机基础课程的基本要求，并结合了历年考试试题以及在校任课教师的实际经验编著而成的，适用于普通高校非计算机专业学习Visual Basic程序设计的配套习题集。全书为考生提供了一个从学习、复习到模拟考试的完整应试方案，使考生了解学习要求、学习重点和难点，从而掌握该课程并能顺利通过考试。本书主要内容：13个章节的学习要求、示例分析和同步强化练习；5套二级考试模拟试卷；二级考试大纲。<br>    本书在编排上注意完整性和独立性，紧扣考试大纲，叙述通俗易懂，既可以作为高等职业学校、高等本专科学校、成人高考、本科院校的二级职业技术学院及民办高校各专业学生和培训班学生学习Visual Basic程序设计的配套习题集，亦可作为准备参加二级考试考生的参考书。		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

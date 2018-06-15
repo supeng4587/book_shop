@@ -5,6 +5,36 @@
     <title>数据结构（Java版）——国外经典教材·计算机科学与技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5856 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>数据结构在计算机科学的各个领域中都扮演着非常重要的角色。本书主要从面向对象的角度进述了数据结构的基本理论。为帮助读者更加深入全面地理解数据结构，全书贯穿了对算法的综合研究。<br>    本书重要特色：<br>    使用大量的示例与图表阐明各种概念。<br>    大量的书面练习与编程练习覆盖了各种概念并探讨了一些理论（包含可扩充的项目）。<br>    使用UML图与简洁的API描述介绍各种集合类及其联系。<br>    本书的附录与前三个章节讲述了所有Java语言技巧。<br>    详细地解释和论证了每个集合类的实现设计。<br>    本书后半部分出色地诠释了对算法的应用。这一部分所介绍的主题包括图、数据压缩、平衡树、密码术以及混合算法设计方法。<br>    简要描述了GUI编程，并且选择某些图形应用程序示例说明了如何使用数据结构。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

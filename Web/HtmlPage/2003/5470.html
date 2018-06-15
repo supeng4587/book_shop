@@ -5,6 +5,36 @@
     <title>VISUAL BASIC设计模式 VB6.0和VB.NET</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5470 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书首先概述了VB面向对象编程的概念和方法，然后讨论了23种设计模式，每种模式都通过至少一个完整的VB程序来说明，以帮助读者建立设计模式的思想。这种方式使得设计模式的概念容易掌握，也更容易理解设计模式的本质及目的。读过本书，VB程序员可以迅速提高编程水平，并从设计模式中受益。<br>    本书可以为设计比较复杂的VB程序提供指导，既可以作为深入学习VB编程的教科书，也可作为探讨软件设计模式研究领域人员的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

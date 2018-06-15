@@ -5,6 +5,36 @@
     <title>最新XML入门与应用(含盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5674 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>◎本书特色 <br> <br>◆本书从标记语言的历史的XML与其相关技术进行一系列的介绍，以使读者先有一个基础的要领接着以如何建立第一个XML文件，XML语法介绍，文件格式定义，到设置XML样式，让读者在浏览器中便可看到以XML设计出的精美网页。<br>◆除了介绍XML本身的语法外，在第7章中还介绍了XSL，它是另一种样式表语言，不但可以对XML文件进行格式的美化，而且还提供了转换的功能，可以将XML文件转换成目前WEB中最常见的HTML格式，让XML的应用更加广泛。<br>◆如何在XML文件之间做链接，以及如何在XML文件内部进行数据的链接，或是如何链接到其他的资源，是本书第9章和第10章的重点。XLink和XPointer则是对应的标准，这些与XML相关的标准，也都有是由W3C所制定。<br>◆本书最后的三章，重点在于介绍XML与HTML和ASP的相关整合，以及XML如何应用在电子商务中，最后以简单的范例说明如何整合这些技术，让XML更能发挥它超强的功能！  <br>  <br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

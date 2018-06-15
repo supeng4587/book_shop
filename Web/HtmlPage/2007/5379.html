@@ -5,6 +5,36 @@
     <title>ASP.NET中型在线系统开发实践（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5379 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书提供的7个实例功能实用、代码编写规范，包含了几乎所有的ASP.NET核心技术，是学习和进行.NET开发可借鉴的理想范例。这些实例都比较复杂，在没有指导的情况下，初学者很难将其读懂并且应用到实际当中。本书从应用的角度出发，按照功能模块对它们做了详尽的解析，并讲述出了其中的设计思想和开发技巧。本书的范例采用的编程语言包括VB.NET和C#。<br>　　本书适合中高级读者、正在从事和希望学习.NET开发的人员阅读，可以帮助他们掌握利用ASP.NET技术开发信息管理系统的方法和步骤，当然也可以作为初级读者的参考书籍。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

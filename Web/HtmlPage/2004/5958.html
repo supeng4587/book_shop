@@ -5,6 +5,36 @@
     <title>Visual Basic.NET GDI+技术教程（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5958 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>GDI+是在Windows窗体应用程序中以编程方式显示图形图像的一种方法。<br>    本书讨论GDI+技术，“图形编辑器”、“图像”菜单。由三部分组成，第一部分，概述了GDI+及GDI+的新功能，讨论了Graphics对象及该对象的方法、状态和创建；讨论了五种画笔的使用；讨论了Font对象、构造函数、属性、方法和颜色；讨论了Color对象的成员及它们的应用，RGB函数，Alpha混合线条和填充；讨论了GraphicsPath对象，该对象的方法及应用，创建轨迹梯度。第二部分，讨论使用GDI+显示图形图像；GDI+支持的图形文件的格式、加载和显示图形图像文件；在控件中显示图形图像。第三部分，讨论了“图形编辑器”、“图像”菜单；使用“图形编辑器”、“图像”菜单制作和编辑图形图像；图形图像的颜色处理。<br>    本书适合于对Visual Basic编程有一定了解，希望进一步学习Visual Basic.NET的GDI+技术的读者。<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

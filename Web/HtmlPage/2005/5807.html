@@ -5,6 +5,36 @@
     <title>JFC Swing标准教材（第二版）——SUN可核心技术丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5807 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书包括了JFC Swing API和Java 2平台的最新修改。在本书中，作者与Sun Microsystems公司的Swing部门紧密合作，详尽介绍了如何使用Swing组件创建GUI。本书是面向任务而编写的，并且提供了大量的示例。它将使读者创建不需要经过修改就可以在多个平台下运行，并且外观和性能甚至优于本机环境的用户界面程序。通过对Java 2平台最新版本的全面介绍，作者在本书中为创建GUI程序提供了新鲜内容。对于希望创建功能强大、稳定的GUI的初学者或经验丰富的Java开发人员来说，本书是一个不可或缺的教材和参考。 		<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

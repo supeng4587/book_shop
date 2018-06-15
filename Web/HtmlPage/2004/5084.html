@@ -5,6 +5,36 @@
     <title>C++网络编程，卷2，基于ACE和框架的系统化复用</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5084 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>ACE（ADAPTIVE Communication Environment）是用于构建高性能网络化应用和下一代中间件的开放源码工具包，已在世界各地的许多软件项目中得到了广泛应用。本书是《C++网络编程》（卷1）的续篇，由ACE的创始人Douglas C. Schmidt及主要开发者之一Stephen D. Houston撰写而成，其内容涵盖了ACE中的各主要框架的基础概念、模式及使用规则。本书将向你描述这些框架的设计，以及它们可怎样帮助你克服较低级的本地操作系统API与较高级的分布式计算中间件的各种局限，高效地开发出高质量、可移植的C++网络化应用。本书是继受到了高度赞誉的POSA2（Pattern-OrientedSoftware Architecture: Patterns for Concurrent and Networked Objects）之后，Douglas C. Schmidt撰写的又一著作，通过学习本书，你将能更深入地了解和掌握适用于网络化应用开发的各种设计模式。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

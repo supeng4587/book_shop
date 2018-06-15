@@ -5,6 +5,36 @@
     <title>C# 经典实例（第2版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4998 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是《C#经典实例》的最新版，针对C#2.0和.NET 2.0做了全面修订。对于C#程序员经常遇到的300多个最常见和不那么常见的任务，本书涵盖了解决这些问题所需的全部技巧。从使用正则表达式到处理泛型类型，再到如何让代码在其自己的应用域中运行，通过本书的介绍，你会更深入地了解 C#语言，在基于.NET 2.0的Windows应用和ASP.NET Web应用新领域中更加游刃有余。<br>    本书共20章，主要包括以下内容：泛型类型、集合和迭代器、异常处理和诊断、事件、委托以及匿名方法、数值、枚举、类、结构和部分类、串、正则表达式和XML。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

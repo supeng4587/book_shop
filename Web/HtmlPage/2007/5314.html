@@ -5,6 +5,36 @@
     <title>Windows CE.Net程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5314 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书系统而全面地介绍了Windows CE.Net的基础理论和特点，以及相关的程序设计方法。本书给出了一定数量的程序源代码及代码讲解，力求在讲授基础理论的同时，最大限度地提高读者的实际动手能力。本书主要分为三个部分。第一部分主要介绍Windows CE.Net程序设计的基础知识，包括Windows CE.Net的启动、开发工具、内存管理、文件管理、系统输入等。第二部分主要介绍高级Windows CE.Net程序设计，包括中断处理、驱动程序模型、流驱动程序开发等。第三部分为开放实例。<br>    本书语言通俗易懂，叙述讲解由浅入深，即可作为Windows CE.Net程序设计的参考用书，也可作为各高校及培训机构的授课用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

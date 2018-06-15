@@ -5,6 +5,36 @@
     <title>使用VRML与JAVA创建网络虚拟环境</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5829 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从最基本的VRML常识讲起，系统地介绍了VRML中各节点的用法，通过许多生动的例子展示了VRML虚拟现实的特殊魅力。但是VRML毕竟有它的不足之处，比如在数据处理方面，而网络编程语言JAVA正好可以弥补这一点。这样，VRML和JAVA很自然地走到了一起。本书的大部分内容讲的是怎样实现用JAVA对VRML的控制，以及怎样将这种结合用到现实领域。<br>    本书内容翔实，概念清楚，通俗易懂，具有很强的可操作性。本书主要面向对VRML和JAVA有一定了解，想在VRML有所提高的读者。<br>    本书读者对象为多媒体技术开发人员、应用程序设计人员以及高等院校相关专业的师生。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

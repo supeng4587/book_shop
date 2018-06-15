@@ -5,6 +5,36 @@
     <title>Head First Servlets&JSP（中文版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5717 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>你是不是要学最新版本（J2EE1.4）的Servlet和 SP？这本书能让你如虎添翼。你将能很好地掌握Servlet和JSP，顺利通过Sun认证Web组件开发人 员（SCWCD）考试。也许你并不在乎考试，而是要在下一个项目里实际使用Servlet和JSP。你要对付最后期限，而且时间不多了。此时要选精心研读一本书而成为一个专家那肯定来不及了，而且这样一本面面俱到的书很可能让你昏昏欲睡。<br>    没问题。《Head First Servlets&JSP》应了最新的学习理论，能将知识直接送到你的大脑里。你会通过不寻常的方式同Servlet和JSP打交道，可以学得更深入、更快，而且更重要的是，你能真正地学以致用。你可以看看为什么那么多评论者说这本书让他们“手不释卷”。我们不会让你只是为了应付考试而打着瞌睡读这本书，也不希望你看过之后到明天一切全都忘了。<br>    你会了解到怎么写Servlet和JSP，容器的哪些方面很受推崇，如何使用JSP表达式语言，JSP里哪不该写，怎么编写部署描述文件，如何编写安全的应用，以及如何使用一些服务器端设计模式。你不会只是能通过考试而已，你将确确实实掌握这些内容，真正将其加以应用。<br>    这个新考试很难。比上一个版的SCWCD难多了。这一点我们很清楚，因为它就是我们编写的。我们只想用一种更有趣的方式让你更愉快地通过考试。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

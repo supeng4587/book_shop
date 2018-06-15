@@ -5,6 +5,36 @@
     <title>Java Web应用开发：J2EE和Tomcat（第2版）（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5808 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>SUN公司的Java 2 Enterprise Edition （J2EE）网络技术是目前使用最广泛的Web应用开发技术。本书首先介绍了Tomcat 和J2EE的基本概念，然后由浅入深讲解各种编程技术，包括客户层技术、网络层技术（Servlet/JSP）、Struts架构、服务器层技术（EJB）、数据事务与安全、打包与部署等，使读者能更快更清晰地了解和掌握编程的方法，最后运用完整实例进行综合指导。本书由SUN J2EE技术专家直接用中文撰写，几乎所有程序均由作者亲自编程调试。书中涵盖了J2EE1.4、Servlet2.4、JSP2.0等多种技术，内容相当于几本同类书，但更加完整连贯，讲解更着重概念-技能-方法的相辅相成，使读者更容易地掌握技术，更快的融会贯通。<br>    本书读者对象为高等院校计算机及软件专业的教师、学生，从事软件开发的编程人员等。<br><br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

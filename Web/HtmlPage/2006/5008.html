@@ -5,6 +5,36 @@
     <title>精通Visual C++图像处理编程（第3版.升级版）（附光盘）——计算机专业人员书库</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5008 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书深入介绍了Wisndows 95／98／Me／ME／2000／XP环境下图像处理的理论和编程技术，并基于面向对象程序设计方法，详细地讨了图像处理算法的Visual C++编程技巧。全书共分9章，主要包括图像基本操作、调色板技术、图像的特技显示与擦除、图像空间变换、图像频或变换、图像处理、图像编码与格式等编程技术。<br>    本书是图像处理和多媒体编程的实用参考书，适合图像处理和多媒体编程人员阅读，也可作为大专院校计算机及相关师生的教学参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

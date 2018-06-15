@@ -5,6 +5,36 @@
     <title>C++数值算法（第二版）——国外计算机科学教材系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5001 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书选材内容丰富，除了通常数值方法课程的内容外，还包含当代科学计算大量用到的专题，如求特殊函数值、随机数、排序、最优化、快速傅里叶变换、谱分析、小波变换、统计描述和数据建模、常微分方程和偏微分方程数值解、若干编码算法和任意精度的计算等。<br>    本书科学性和实用性统一。每个专题中，不仅对每种算法给出了数学分析和比较，而且根据作者的经验对算法做出了评论和建议，并在此基础上给出了用C++语言编写的实用程序。读者可以很方便地直接套用这些程序，还可以结合特定的需要进行修改。本书中包含的345个程序构成了C++语言的数值计算程序库。<br>    本书可以作为大学本科生和研究生的教材或参考书，也可以作为从事科学计算的科技工作者的工具书、计算机软件开发者的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

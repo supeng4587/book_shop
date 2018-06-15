@@ -5,6 +5,36 @@
     <title>数据结构、算法与应用：C++语言描术——计算机科学丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4990 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是关于计算机科学与工程领域的基础性研究科目之一——数据结构与算法的专著。<br>    本书在简要回顾了基本的C++ 程序设计概念的基础上，全面系统地介绍了队列、堆栈、树、图等基本数据结构，以及贪婪算法、分而治之算法、分枝定界算法等多种算法设计方法，为数据结构与算法的继续学习和研究奠定了一个坚实的基础。更为可贵的是，本书不仅仅介绍了理论知识，还提供了50多个应用实例及600多道练习题。<br>    本书内容广博权威，结构清晰合理，是一本全新的有关数据结构与算法的教材，对于计算机科学与工程领域的从业人员也是一本很好的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

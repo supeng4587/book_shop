@@ -5,6 +5,36 @@
     <title>ASP  NET安全应用程序开发</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5435 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要围绕身份验证、授权和安全通信3个方面，系统地介绍了如何设计和生成安全的ASP.NET应用程序。本书从内容上可分为四大部分。第Ⅰ部分包括1-4章，主要介绍安全模型，是其他部分的基础。第Ⅱ部分包括5-7章，讲解了各种应用程序的安全方案，例如intranet、extranet和Internet等应用程序。第Ⅲ部分包括8-12章，介绍了与.NET Web安全应用程序相关的层和技术。最后一部分包括第13章和附录，说明如何解决安全问题，并提供了与本书内容相关的补充内容。本书主要适用于使用ASP.NET、Web服务、Enterprise Services、远程处理技术和ADO.NET开发安全的分布式应用程序的中高级开发人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

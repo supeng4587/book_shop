@@ -5,6 +5,36 @@
     <title>Java开发利器：Eclipse从入门到精通（含CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5754 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书共分为四篇。“起步篇”介绍了Eclipse及相关插件的安装，还介绍了一些Eclipse开发环境的基本使用技巧；“SWT/JFace篇”详细介绍了SWT、JFace的使用；“插件开发篇”介绍了Eclipse插件开发的各个步骤，并给出了一个基于数据库开发和面向对象分析设计的完整插件实例；“Web开发篇”以Tomcat+Lomboz+Hibernate为开发环境，详述了其下载、安装、配置和开发的全过程。<br>   本书以SWT/JFace和Eclipse插件开发为核心内容，并兼顾了Web开发，而Eclipse开发环境的使用只占极少部分。<br>   本书内容循序渐进，实例丰富，操作及开发步骤讲解详细，配书光盘含有各主要章节的操作视频演示，是Eclipse开发者不可多得的教程。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

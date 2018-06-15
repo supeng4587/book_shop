@@ -5,6 +5,36 @@
     <title>GDL参数化程序语言设计——虚拟建筑设计丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5265 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书分两大部分向读者展示了智能参数驱动构件的实现途径——GDL参数化程序设计语言。第一部分介绍GDL语言的概念，GDL对象即智能参数驱动构件的特点、类型，重点讲述了GDL语言的编写，逐条介绍产生几何图形的指令，不产生几何图形的指令，表达式与函数以及控制指令，并有针对性强的例子以加深读者对各指令的理解；第二部分从应用的角度讨沦如何充分利用GDL语言创造参数化构件，在讲解例子的同时，提供一些实用的设计概念和注意事项以及编辑GDL的技巧来帮助读者更轻松的学习GDL语言。<br>    本书深入浅出，循序渐进，强调基本概念及其应用。即可作为一般ArchiCAD使用者创建特殊构件的入门向导，也可以作为专业人员开发本地化GDL构件的参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

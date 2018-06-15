@@ -5,6 +5,36 @@
     <title>Java 2入门经典：JDK5</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5744 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书综合介绍了使用J2SE(Java 2 Standard Edition)5．0或更高版本开发动态程序的过程，阐述了Java语言的各个方面，包括Java语言结构和工作原理的基本知识，用大量的实例讲述如何开发功能齐全的Java应用程序，以期帮助读者掌握Java语言的最新特性和Java类库中主要的功能包，积累Java应用环境的使用经验，并在核心技术领域打下坚实的基础。.<br>    本书系统全面、浅显易懂，非常适合没有任何编程经验的初学者阅读，也可作为软件开发人员和高校师生的必备参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

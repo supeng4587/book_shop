@@ -5,6 +5,36 @@
     <title>C#网络与通信程序设计案例精讲</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5024 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过经典案例详细讲解了用C#语言开发网络与通信程序的方法和技巧。<br>    全书分为两个部分。第1部分是C#网络编程基础，介绍了C#集成开发环境、网络编程基础知识、网络应用开发流程。第2部分是C#案例应用部分，共开发了10个完整的网络与通信技术系统；包括FTP服务器和客户端、电子邮箱客户端、聊天室、多线程下载、电子书店、网络游戏、浏览器、通信系统、Telnet客户端等。案例讲解详细，涵盖面广，并都有一定的工程背景，具有很强的实用性。读者通过本书的学习，即可洞悉C#网络与通信编程的特色和优点，又可把这些技术应用到实际开发中。<br>    本书主要面向C#开发人员、IT各领域从业人员，也可以作为各高等院校师生的教学、自学丛书和社会相关领域培训班的首选教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

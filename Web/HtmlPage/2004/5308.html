@@ -5,6 +5,36 @@
     <title>ASP.NET揭秘（第二版）（附CD-ROM光盘一张）——.NET开发系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5308 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是美国亚马逊网站同类书长期销售冠军，并受到微软ASP.NET小组项目经理Rob  Howard的大力推荐，中文版由中科院专家汤涛老师翻译，经典、权威是本书最好的诠释。<br>    本书共分10部分，31章，囊括了在.NET框架下架建ASP.NET应用程序的各个层面。每一章也都不是泛泛而谈理论，而是围绕实际样例代码来组织，让读者马上可以上手，并且加深理解。书中还包含了两个完整的、立即就可以用得上的ASP.NET应用程序，一个就业站点和一个网上商店，用于演示实际应用中ASP.NET的大部分通用特性。随书光盘包含了本书所有的源代码，以及一些控件和技术文章。本书的语言有些失于平淡，但所述全是程序员最关心的问题，“实用”是技术类书籍的惟一衡量标准，而本书更是将这个词演绎到了极致。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

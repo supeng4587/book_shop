@@ -5,6 +5,36 @@
     <title>C#.NET程序设计——国外计算机科学经典教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5392 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书全面地介绍了面向对象的概念以及C#语言的语法和术语。本书是入门性的C#课程，不需要学生事先具备计算机编程的基础知识。本书将编程的基本概念、解决问题、编程逻辑以及面向对象的事件驱动语言的设计技术等综合在一起。每一章都以一个具体目标和简介开始，然后介绍了许多编程例子以及实用练习，指导读者进行设计和编码。各章的主题是按照顺序介绍了，便于读者在获得重要的编程技巧（如创建包含对象、决策、循环和数据管理的项目）的同时学习如何处理可视界面。<br>    本书侧重于编写用户易于理解和使用的应用程序，在整本书中向学生展示了界面设计的准则，适合程序设计的初学者以及希望学习这门将新语言的广大程序员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

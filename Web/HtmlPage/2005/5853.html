@@ -5,6 +5,36 @@
     <title>Java编程基础、应用与实例</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5853 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过丰富的实例讲授Java语言的基础和程序设计方法。<br>    全书共22章。第1到19章分别介绍了Java语言基础知识、对象和类的概念、Java语言的基本语法、流程控制、数组、对象和方法、继承、抽象类和接口、内隐类、异常处理、API、输入输出、线程、AWT程序设计和事件处理、Java 2D图形、Applet等内容。第20章通过3个完整的实例介绍了Applet游戏的设计。第21章通过一个游戏实例介绍网络程序设计基础。第22章用五子棋的实例介绍了网络游戏的制作。书中每章后面的"巩固练习"部分，给出了精心挑选的练习题，帮助读者巩固本章所学知识，进一步提高Java编程水平。附录部分给出了书中“独立完成”练习的提示，说明了JCreator的安装和使用方法，并且对Swing和JDBC程序设计方法进行了简要说明。<br>    本书的示例能够把Java程序设计原理以浅显易懂的方式呈现给读者。后3章注重对Java热门应用领域的介绍和讨论，通过完整的例子教给读者Applet游戏和网络游戏的制作方法。 <br>    本书适合Java编程语言初学者阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

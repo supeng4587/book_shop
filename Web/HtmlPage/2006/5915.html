@@ -5,6 +5,36 @@
     <title>Visual Basic.NET程序设计(实践教程)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5915 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic.NET是Windows环境下简单、易学、高效的编程语言，其快速开发的特性深受程序员的喜爱。本书介绍了使用Microsoft Visual Basic.NET和Visual Studio.NET集成开发环境开发面向对象应用程序的知识，包括.NET Framework的工作原理（公共语言运行时和类库）、程序集与中间语言、面向对象的编程基础、使用VB.NET类进行编程的知识、VB.NET的GUI设计、VB.NET的图形和文件处理、使用VB.NET访问数据库等，本书开发部署了一个VB.NET范例应用程序，包括对项目进行案例分析、部署Windows和Web三层应用程序等内容。<br>    本书可以作为读者学习VB.NET语言和面向对象开发的教程，适合作为普通高校计算机专业和非计算机专业的程序设计教程，也可供自学读者使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

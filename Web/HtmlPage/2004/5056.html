@@ -5,6 +5,36 @@
     <title>C语言程序设计教程(第二版)/计算机基础系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5056 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是为高等院校第一门程序设计课程而编写的教材。全书分为十一章，主要内容包括：程序设计基础知识、C语言概述、数据类型与运算规则、顺序结构的程序设计、循环结构的程序设计、数组和字符数据处理、函数与程序结构、指针、结构类型及其他构造类型和文件。本教材在结构上突出了以程序设计为中心，以语言知识为工具的思想，对C语言的语法规则进行了整理和提炼，深入浅出地介绍了它们在程序设计中的应用；在内容上注重知识的完整性，适合初学者的需要；在写法上追求循序渐进，通俗易懂。本教材配有教学参考书《C语言程序设计教程习题与上机指导》，以方便读者复习和上机操作。<br>    　　本书既可以作为高等院校非计算机专业学生的计算机语言教材，也可以作为高等院校计算机专业本科、专科低年级学生学习计算机语言的入门教材。<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

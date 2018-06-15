@@ -5,6 +5,36 @@
     <title>51单片机C语言常用模块与综合系统设计实例精讲（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5073 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>全书针对目前最通用流行的51单片机系列，通过典型实例的形式，详细介绍了51单片机常用模块与综合应用系统设计的方法与技巧。全书共分24章3篇，第一篇为基础篇，简要介绍了51单片机开发的硬件结构、指令系统、C语言各语句用法与意义、Keil 8051 C 编译器；第二篇为51单片机常用模块设计篇，通过19个模块设计实例，详细介绍了51单片机的各种开发技术和使用技巧，这些模块实例基础、实用，易学易懂，全部调试通过，几乎涵盖了所有的51单片机开发技术；第三篇最后通过2个综合系统实例，对前面的51单片机常用模块进行了综合应用设计，经过此篇学习，读者51单片机综合系统设计的能力将迅速提升并产生质的飞跃。 <br>    本书配有光盘一张，包含了全书所有实例的硬件原理图和程序源代码，方便读者学习和使用。本书适合计算机、自动化、电子及硬件等相关专业的大学生，以及从事51单片机的科研人员使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

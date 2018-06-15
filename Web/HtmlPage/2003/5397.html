@@ -5,6 +5,36 @@
     <title>VB.NET数据库编程学习捷径</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5397 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书共分12章，首先介绍VB.NET中的几种访问数据库的方法，包括DAO技术、ADO.NET技术以及自定义访问数据库的类，其中穿插了应用程序的界面技术、数据库基本管理、数据库查询等；然后通过实例介绍了C/S和B/S两种数据库体系；最后介绍了应用程序的打包和帮助。书中所附的大量数据库编程实例不仅适合于自学，稍加改动后更可投入实际应用中。光盘中包含全部实例源代码和可执行文件，便于读者学习。本书内容新颖、实用，叙述浅显易懂，可以作为大专院校学生的学习用书和培训班的培训教程，亦可供数据库管理员、系统管理员参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

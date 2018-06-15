@@ -5,6 +5,36 @@
     <title>XML基础与应用教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5568 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍XML的功能及实际应用。第一章首先概述XML的历史、现状和未来发展前景：第二章到第六章详细介绍了XML的语法及相关编程知识，包括DTD、CSS、XSL、XPath、XPointer、XLink等；最后，从第八章开始，结合实例讨论如何利用XML开发实际的Internet应用，包括XML语言与Java语言的结合使用，XML技术与Java Servlet技术的结合使用，XML在ASP中的应用等。本书的最后一章还介绍了一种专用的XML语言——VoiceXML语言，一方面作为读者定义自己的XML的范例，同时也向广大读者介绍了Internet上的语音用户界面这一令人兴奋的新生代技术。<br>    本书可作为高校本科、高职高专学校的教材或教学参考书，也适合于所有对新一代Internet编程技术感兴趣的读者学习、使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

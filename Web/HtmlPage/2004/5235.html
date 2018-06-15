@@ -5,6 +5,36 @@
     <title>JSP编程技术与应用/网络编程系列丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5235 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从JSP的基础开始，介绍了JSP技术的形成和未来发展趋势，利用浅显易懂的文字、丰富简单的实例，完整、详细地讲解了Java编程技术的要点，突出了JSP中各种指令、动作、对象的核心地位。本书还讨论了JSP服务器端文件操作的各种语法、JSP与关系型数据库之间的接口(包括ODBC、JDBC和SQL)以及JavaBean 的基本概念和组件的创建过程，最后告诉读者如何利用Dreamweaver MX来创建JSP动态网页。<br>  本书可以作为高等院校计算机科学与技术、信息与计算科学等专业高年级选修课教材，也可供中、初级程序设计员和计算机爱好者学习JSP技术的参考书。 本书所有源程序都经过严格的调试和测试，读者可从高等教育出版社的网站上免费下载，网址为www.hep.com.cn或www.hep.edu.cn。<br><br><br><br><br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>零点起航Visual C++.NET 基础教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5445 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual C++.NET2003版是Visual Studio.NET 2003家庭的主要成员之一，是微软公司基于.NET框架开发的最新的可视化集成开发工具，它可以帮助用户更快地建立和实现解决方案。本书通过大量实例，图文并茂地由浅入深介绍Visual C++.NET2003的使用和编程知识。全书共7章，主要内容包括：Visual C++.NET入门、C++语言基础、Windows编程的基本概念、构建Windows应用程序框架、应用程序界面设计、多媒体应用程序设计和高级编程基础知识等。<br>    本书内容深入浅出，目的是使Visual C++.NET的初、中级读者从零开始，快速入门，轻松地掌握Visual C++.NET的基本知识和使用方法，并通过生动实用的实例学习掌握利用Visual C++.NET开发应用程序的技巧，提高软件开发能力。<br>    本书可作为大、中专院校计算机专业教材，也可作用计算机软件培训教材，并可作为广大计算机爱好者的参考用书。 <br><br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

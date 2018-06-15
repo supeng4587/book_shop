@@ -5,6 +5,36 @@
     <title>HTML从入门到精通（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5499 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>HTML(超文本标识语言)是Web页面的描述性语言，无论是在Web上发布信息，或者是编写可供交互的程序，都离不开HTML语言，可以说在网页制作技术日新月异的今天，HTML语言是任何高级网页制作技术的核心与基础。<br>    本书由国内资深页设计专家精心编写，将难以理解的代码和概念融入到了几十个真实的网站实例当中，详细说明了上百个语法知识点。不仅为初次接触HTML语言的读者提供了大量基础知识与操作技巧，也为已经具有一定网页设计基础的用户准备了大量实际应用中不可缺少的精彩网页设计案例。本书在编写对力求内容准备、细致、易于理解，以期使读者在轻松、亲切的学习过程中快速掌握HTML语言，专家速成为网页制作高手。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

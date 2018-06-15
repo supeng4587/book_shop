@@ -5,6 +5,36 @@
     <title>网站建设与管理</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5264 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书系统地介绍了网站规划与设计、HTML语言、Dreamweaver网页设计、JavaScript动态网页制作、ASP动态网页应用和网站发布与管理维护等内容。本书内容难度适中，没有过多的专业术语，理论结合实际，涵盖了网站设计师应该掌握的大部分知识和操作技法。<br>    本书以一个完整的网站为蓝本，通过95个精彩实例，由易到难、学用结合地讲解静、动态网页的制作方法和Web数据库的使用，选例经典且具有代表性。为了让读者更好地学习和掌握网站建设的知识与技巧，每章末都配有思考与练习。<br>    本书适用于普通高校、高职高专和成人高校，也适用于各类社会培训班以及业余爱好者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

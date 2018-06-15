@@ -5,6 +5,36 @@
     <title>Visual Basic开发技术大全(附光盘)/软件工程师典藏</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5893 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本关于Visual Basic 6.0综合开发参考手册，书中几乎囊括了使用Visual Basic进行实用程序开发的全部知识，在讲解中结合了大量实用而又有代表性的示例和典型应用。全书共分33章，包括认识Visual Basic，Visual Basic语言基础，控制结构与算法，数组，函数与过程，窗体和系统对象，控件，菜单、工具栏和状态栏设计，对话框，文件处理技术，图形处理技术，图像处理技术，多媒体处理技术，数据库的安装与创建，SQL语句在VB中的应用，DAO对象编程，ADO技术的应用，数据控件编程，高性能处理技术，图表技术，数据环境设计器，数据报表技术，打印技术，网络编程技术，Internet编程技术，数据通信技术，Win32 API，注册表，程序优化，程序调试与错误处理和帮助文件等。书中各部分内容既相互独立又相互联系，可以逐步引导读者深入学习并掌握Visual Basic。<br>　　本书附有配套光盘。光盘提供了书中示例和典型应用实例的全部源代码，所有源代码都经过精心调试，在Windows 2000下测试通过，保证能够正常运行。<br>　　本书内容精练、重点突出、实例丰富，是各级程序开发人员的必备参考书，同时也非常适合大中专院校师生阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

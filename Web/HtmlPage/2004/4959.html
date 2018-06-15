@@ -5,6 +5,36 @@
     <title>C程序设计语言（第2版·新版）习题解答</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4959 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书对Brain W. Kernighan和Dennis M. Ritchie所著的《The C Programming Language》（第2版）的所有练习题都进行了解答。K&R的原著是C语言方面的经典教材，而这本与之配套的习题解答将帮助您更加深入地理解 C语言并掌握良好的C语言编程技能。本书有关练习题都是用K&R原著中当时已经介绍过的语言结构来解答的，对每道练习题的答案要点都给予了清晰的解释，实用性强。适合于大专院校师生作为计算机专业或非计算机专业C语言教学的辅助教材，也可以作为从事计算机相关软硬件开发的技术人员的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

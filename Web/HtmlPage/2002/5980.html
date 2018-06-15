@@ -5,6 +5,36 @@
     <title>面向对象程序设计Visual Basic 6.0</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5980 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过大量的实例，深入浅出地介绍了如何使用Visual Basic 6.0开发应用程序的方法与技巧。全书共分13章，主要内容包括：面向对象程序设计基本概念、Visual Basic 6.0程序设计基础、窗体设计、文件系统操作、多媒体、API的函数的应用、数据库编程等。各章均附有习题，可供老师和学生选用。<br>    本书将Visual Basic 6.0的可视化界面设计与程序代码设计部分有机地融合在一起，突出程序设计这条主线，注重实际操作能力的培养。内容精练，文字简洁，结构合理，例题经典，综合性强，符合性强，符合高职教育的目标要求和教师教学与学生自学的习惯。可作为高职高专计算机专业及其它专业的可视化程序设计的教材，也可供广大计算机程序设计人员参考。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

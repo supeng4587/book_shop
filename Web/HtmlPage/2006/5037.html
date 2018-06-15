@@ -5,6 +5,36 @@
     <title>Visual C++实践与提高——数字图像处理与工程应用篇（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5037 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书用面向对象的方法向读者介绍了VisualC++进行数字图像处理的方法和技巧。全书共分13章，内容涵盖了数字图像概述、VisualC++数字图像编程基础、图像的几何变换、图像的灰度变换、图像的正交交换、图像增强、图像复原、图像的压缩编码、边缘检测与图像分析、图像的数学形态学运算、图像融合，以及图像特技显示等，在本书最后综合运用了图像处理的多种理论和方法实现了一个人脸检测的案例，以助于读者对各种图像处理方法的系统掌握和综合应用。<br>    在进行原理介绍时，力求通俗易懂，简明扼要而又不失完整性。在代码实现时力求简洁明了，注释详尽，为读者的阅读和理解提代最大便利。<br>    本书的特色决定了本书不但适用于初、中级读者，其中的部分内容对高级读者也有一定的参考价值，同时也可用作高校相关专业师生的参考教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

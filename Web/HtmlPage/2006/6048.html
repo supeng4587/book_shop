@@ -5,6 +5,36 @@
     <title>Visual Basic.NET程序设计实用教程（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6048 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从教学实践的角度系统地介绍了Visual Basic .NET的编程环境、程序设计基本知识、程序控制结构、数组、过程、数据结构及常用算法、常用控件的用法、菜单、工具框、对话框、面向对象程序设计、文件操作、多媒体、数据库和网络程序设计技术。全书共12章，每章通过大量丰富的实例以图文并茂的形式给予说明。<br>    本书内容丰富翔实，涉及范围广泛，并做到概念清晰、逻辑性强，阐述时由浅入深、循序渐进。本书注重结构化程序设计、面向对象程序设计等编程方法的训练。本书中的大量实例大多来自作者多年的工作和应用软件开发实践，其中有些还颇具趣味性，因而具有较高的实用性和参考性。<br>    随书配有一张光盘，其中包含与本书相配套的动态演示教学课件，以备教师授课或学生自学之用；光盘还包含本书的辅导教材《Visual Basic .NET实验指导与编程实例》一书中两个编程实例的文档、源代码和可执行文件，程序都在Windows .XP平台和Visual Studio .NET环境下调试通过并经过严格测试。<br>    本书可作为高等院校非计算机专业或计算机科学与技术、软件工程专业程序设计的教材，也可供广大软件设计爱好者参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>C++ Builder数据库开发经典案例解析（含CD-ROM光盘一张）——经典案例解析</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5070 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以进销存管理系统、人力资源管理系统、生产管理系统、财务管理系统、酒店管理系统、图书馆管理系统、医院管理系统、教务管理系统等多个当今最热门的信息管理系统为例，详细地介绍了这些系统的地需求分析及管理信息系统开发的过程和方法。对项目背景、业务需求分析、功能需求分析、数据库需求分析、数据库建模、系统开发、系统编译及系统发行等过程进行了详细的讲解。<br>　　本书实例的实用性非常强，读者可以从中迅速了解相应实例的行业特点和用户需求，成为行业专家；同时还可以全面掌握利用C++ Builder开发信息管理系统的过程和方法。<br>　　同时本书提供了所有系统完整的数据库建库脚本，读者在实际的工作中可以直接使用，在此基础上进行补充，从而可以大大减少系统数据库设计的工作量和时间。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

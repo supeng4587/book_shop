@@ -5,6 +5,36 @@
     <title>XML基础与应用(原书第三版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5676 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本全面介绍XML的书籍。人书分为四部分，第一部分（第1章至第4章）介绍XML标记语言的演进历史以及基本要领和语法；第二部分（第5章至第10章）介绍了的相关文档，包括XML处理过程、文档类型的定义以及大纲和RELAX等；第三部分（第11章至第17章）相关支持规范，介绍了浏览器的处理以及CSS，XPath,XSL,XPointer,超文本、查询等方面的内容；第四部分（第18章至第24章）XML是的实践部分，着眼于XML的规划、商业应用、文档管理以及数据库驱动等，并且介绍了XML的创建和管理方面的许多问题。<br>    该书是一本门书，适合对XML感兴趣的程序员和其他读者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

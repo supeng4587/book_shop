@@ -5,6 +5,36 @@
     <title>Visual BASIC计算机绘图实用技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5959 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是《工程图学系列教材》中介绍Visual BASIC计算机绘图实用技术的专著。<br>    全书分教学篇和实验篇两大部分。教学篇分5章，第1章是VB计算机绘图技术简介，第2章介绍计算机绘图的数学基础，第3章较详细地介绍交互式绘图系统设计中的一些数据结构和实用算法，第4章以力学问题为例介绍Visual BASIC计算机绘图技术的应用，第5章以机械工程问题为例介绍Visual BASIC计算机绘图技术的应用；实验篇为教学篇配置了相应的实验内容。<br>    本书既适用于作为各大专院校本科生、研究生的教材，也可供科研院所从事计算机软件开发的专业人员作为参考资料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

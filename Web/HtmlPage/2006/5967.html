@@ -5,6 +5,36 @@
     <title>Visual Basic数据库通用模块及典型系统开发实例导航（附光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5967 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic是数据库应用程序开发的利器。本书的切入点是数据库应用程序开发的“通用模块”和“典型系统”。本书的第1章~第6章介绍了数据库连接、数据操作、用户登录与权限管理、报表设计和界面设计等多个数据库应用程序通用的功能模块，通过一个或多个实例详细讲解功能模块的设计和实现过程。第7章~第10章介绍了4个不同应用环境的典型系统，每个系统都有一定的代表性。<br>　　本书注重实用性和工程实践性，书中提供的通用模块和典型系统稍加修改就可以为读者所用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

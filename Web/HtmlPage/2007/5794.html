@@ -5,6 +5,36 @@
     <title>Java大学基础教程（第六版）（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5794 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是Java How to Program, Sixth Edition，即Java大学教程（第六版）的基础版，针对Java 2平台标准版5.0，详细介绍了如何使用Java语言进行面向对象编程。本书全面介绍了Java语言的基础知识，包括输入/输出、基本类型、运算符、控制语句和方法/数组等。与Java How to Program, Sixth Edition相比，较早地引入了类、对象和面向对象编程的概念，即继承、多态和接口等。同时，针对J2SE 5.0的特点，描述了Java语言中的许多新功能与特性，例如格式化输出printf，Scanner类，Enum类和变长形参表等。本书还引入了通用建模语言UML 2.0，以便帮助读者打下良好的面向对象设计基础。本书通过多个详尽的实例研究，使读者能够尽快掌握面向对象编程技巧。最后，本书的附录还介绍了如何使用调试器、Java API文档等多个有用的工具。<br>    本书可作为高等院校的Java语言程序设计教材，也可作为软件设计人员进行Java程序开发的参考资料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

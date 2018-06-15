@@ -5,6 +5,36 @@
     <title>Delphi for.NET开发人员指南（附CD-ROM光盘一张）——Borland核心技术丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5373 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书不只讲解Delphi和.NET Framework的基本特点，它还深入讨论了如何使用Borland最好的开发工具编写.NET应用程序。在本书中，你会找到关于如何高效地利用.NET Framework的实用范例、技术和原则。当前的Delphi用户通过掌握这种新的令人兴奋的技术可以将自己的技能提高到新的层次。Delphi for .NET的初学者可以快速掌握使用Delphi进行.NET开发的各个方面。<br>    本书内容丰富，包括Delphi语言、高级.NET开发概念（比如内存管理）、COM-Interop、反射、GDI+、Windows和Web Forms组件开发等等。在这里，你还会找到关于ADO.NET和ASP.NET等核心.NET技术的大量信息，以及演示有价值技术的范例。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>C#网络应用高级编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4980 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是《C#网络应用编程基础》的姊妹篇。是在《C#网络应用编程基础》介绍的基础知识之上，进一步讲解利用C# 进行各种高级应用编程的方法和技巧。全书语言简洁，重点突出，思路清晰，实用性强。<br>　　本书共分8章。主要内容包括C#多线程处理、TCP、UDP、SMTP和POP3的高级应用以及P2P应用编程，网络数据加密与解密的方法，三维设计与多媒体编程方法，同时还有与本书配套的上机实验指导、电子教案、所有例题与习题的源程序和全部习题参考解答。<br>　　本书可作为高等院校计算机及相关专业高年级学生的教材，也适合有一定的C#语言编程基础，想利用VS2005和C#进行更复杂的高级应用编程的人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

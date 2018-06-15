@@ -5,6 +5,36 @@
     <title>C程序设计（第二版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4971 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>C语言是国内外广泛使用的计算机语言，是计算机应用人员应掌握的一种程序设计工具。本书第一版于1991年出版，全书针对初学者的特点，精心策划、准确定位、概念清晰、例题丰富、深入浅出，受到专家和读者的一致好评。普遍认为它是学习C语言的好教材，被全国大多数高校选用。几年来发行量达270万册，创同类书发行量的全国纪录。被电子工业部评为部级优秀教材一等奖。 <br>根据发展的需要，作者对本书进行了修订，加强了算法，按C的新标准改写全书各章，增加了C++的初步知识。本书内容新颖、体系合理、逻辑性强、文字流畅、通俗易懂，是学习C语言的理想教材。凡具有计算机初步知识的读者都能读懂本书。本书可作为高等学校各专业的正式教材，也是一本自学的好教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

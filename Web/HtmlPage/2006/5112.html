@@ -5,6 +5,36 @@
     <title>Visual C++.NET案例开发集锦(含盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5112 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书围绕Visual C++.Net 提供的技术，详细探讨了如何使用Visual C++.Net 开发应用程序，每个技术要点均有具体的实例来解析，每个实例均由实例效果、实现步骤、源码详解三部分组成。从简单的控件应用到复杂的数据库函数，从本地应用到复杂的网络处理都详细地进行了剖析，涵盖了C++编程基础、图形图像处理、多媒体应用、系统文件处理、硬件的控制、数据库、网络处理等多个方面，本着循序渐进、因势利导的方式为读者一步步由浅入深、由简单到复杂、由示例到原理、由原理到应用地解析Visual C++.Net的神秘面纱，使读者在看完本书后，就能够结合实际，快速、高效、灵活的设计出专业级应用程序来，所有的实例基本上可以直接嵌入到自己的应用中去。<br>    本书适合对Visual C++感兴趣的大中专院校学生、软件开发人员以及Visual C++.NET产品爱好者阅读，尤其是希望能够精通Visual C++.NET编程的读者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

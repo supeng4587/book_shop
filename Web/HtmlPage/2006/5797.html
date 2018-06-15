@@ -5,6 +5,36 @@
     <title>Java2实用教程（第三版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5797 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Java是一种很优秀的编程语言，具有面向对象、与平台无关、安全、稳定和多线程等特点，是目前软件设计中极为健壮的编程语言。Java语言不仅可以用来开发大型的应用程序，而且特别适合于在Internet上应用开发，Java已成为网络时代最重要的编程语言之一。<br>    本书注重可读性和实用性，配备了大量的例题，许多例题都经过精心的考虑，既能帮助读者理解知识，又具有启发性。本书通俗易懂，便于自学，针对较难理解的问题，例子都是从简单到复杂，内容逐步深入，便于读者掌握Java编程的技巧。<br>    全书共分17章，分别介绍了Java的基本数据类型、语句、类、对象、接口、内部类、异常处理、字符串、实用类、AWT组件、多线程、输入输出流、网络编程、Java Applet、数据结构类、JDBC、Java Swing等内容。<br>    本书不仅可以作为高等院校相关专业的教材，也适合自学者及软件开发人员参考使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

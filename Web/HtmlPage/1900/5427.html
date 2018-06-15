@@ -5,6 +5,36 @@
     <title>精通ASP.NET  2.0  的 Web 2.0 应用：Blog.Tags.Rss.NAS.XML 社区.Ajax  Msil（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5427 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书重点介绍了使用ASP.NET 2.0（C#）技术开发Web 2.0时代的热门网络应用系统（如RSS、Blog、Tags、Web Service、BBS、XML、Ajax、WIKI等）的方法，以及开发这些系统所需的ASP.NET 2.0预备知识。本书首先介绍了开发的预备知识，如ASP.NET Web窗体页，ASP.NET基本对象和配置，SQL Server数据库和ADO.NET，数据服务控件，网络文件和图像处理技术等；然后介绍使用ASP.NET 2.0技术开发的网络应用系统，包括RSS、Blog、社会标签（Tag）、基于Web Service的网络存储系统、基于XML技术的BBS系统、基于ASP.NET Ajax技术的邮件管理系统等大型网络应用系统；最后介绍了创建Web 2.0网络应用程序的Web安装程序、数据库脚本、桌面安装程序以及Web 2.0网络应用程序的安装和发布。 <br>　　本书不仅适合初学Web 2.0的网络开发人员使用，对具有一定的ASP.NET 2.0（C#）开发经验和希望全面了解Web 2.0的技术人员也很有帮助。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

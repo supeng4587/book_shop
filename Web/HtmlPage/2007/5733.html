@@ -5,6 +5,36 @@
     <title>基于J2EE的Ajax宝典（含光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5733 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Ajax技术是目前最流行的技术，它极大地改善了传统Web应用的用户体验，因此也被称为对传统Web技术的革命。<br>　　本书介绍的内容非常全面，覆盖了Ajax技术的各个方面，包括Ajax技术的核心对象XMLHttpRequest对象、JavaScript脚本的详细知识以及DOM和 XML的相关知识。除了Ajax的这些基础知识外，本书还详细介绍了Ajax的5 个相关框架：Prototype.zis，Dojo，DWR，JSON—RPC一Java和AjaxTags。<br>　　本书介绍的不是单纯的Ajax技巧，而是侧重于介绍Ajax技术与J2EE技术的融合，让Ajax技术融入实际的J2EE应用。<br>　　本书适用于有一定J2EE编程基础的读者，因为单纯的Ajax技术是没有太大用处的。通过阅读本书，不但可以掌握Ajax的开发技巧，而且可以掌握如何让Ajax技术和J2EE应用实现完美融合。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

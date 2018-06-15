@@ -5,6 +5,36 @@
     <title>Visual C++2005编程实例精粹（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5033 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书用200个独立实例程序重点展示Microsoft Visual C++ 2005(Microsoft.NETFramework 2.O)编程技术精华。全书摒弃语法说教，通篇贯穿实例，主要内容包括：使用ADO.NET 2.0访问数据库技巧、使用ASP.NET 2.0设计网站技巧、使用GDI+开发图形文字特效技巧、使用水晶报表专家创建报表技巧及VSTO 2005新技术编程技巧等。在本书中，还介绍了托管状态下的Office自动化技术、WMI管理规范应用、XML文件读写、系统API函数调用、注册表个性化设置、文件压缩和解压缩、智能客户端部署、异常捕获、异步调用、ToolStrip系列控件应用、Web Part系列控件应用等大量难得一见的实用新技术，是广大程序员使用Micros oft Visual C++ 2005编程语言深入学习Microsoft．NET Framework 2.O的重要参考书。本书所有实例程序在配套光盘中均有源代码，让您所见即所得、所学即所用。<br>　　本书适合于使用Microsoft Visual Studio 2005的初、中级用户以step by step方式深入研习Microsoft．NET Framework 2.0高级编程技术精华，也可作为高等院校及计算机培训学校在校学生的学习案例，对C++高级程序员也极具参考和收藏价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

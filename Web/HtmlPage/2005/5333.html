@@ -5,6 +5,36 @@
     <title>Visual C#.NET精彩编程实例集锦——万水计算机技术实用大全系列（含CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5333 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书用150个独立的实例程序介绍了Microsoft Visual C# .NET重点编程技术。书中所有实例程序摒弃语法说教，侧重实际应用，主要内容包括：使用GDI+技术开发图形文字特效程序技巧、ADO.NET编写Access和 SQL Server数据库程序技巧、使用ASP.NET开发Web应用程序技巧、使用Crystal Report水晶报表向导开发报表程序技巧以及Web Service程序设计技巧。本书还介绍了文件加解密、文件切分组合、XML转换等大量的系统和文件管理及界面设计的实用技术。本书所有实例在配套光盘中均有源代码，让您所见即所得、所学即所用。<br>    本书适合于使用Microsoft Visual C# .NET进行程序开发的初、中级用户参考，也可作为高等院校及计算机培训学校在校学生的学习案例。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

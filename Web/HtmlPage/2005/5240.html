@@ -5,6 +5,36 @@
     <title>网页制作与JSP技术——国家技能型紧缺人才培训工程.高职高专软件技术专业规划教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5240 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书结合高职高专特点系统地介绍了HTML语言、JSP设计的编程方法以及MYSQL数据库的应用。具体内容包括网页和HTML基础、设计网页、使用CSS、JSP基础知识、JSP的命令和默认对象、JSP常用对象使用、JSP与MySQL数据库的简单应用及JSP与MySQL的综合案例。<br>    学生通过本书的学习，可以掌握一个简单的动态网页的设计方法，从而提高动态网页综合开发制作能力。本书适合大专院校计算机专业师生、计算机网络爱好者和各类培训班学员使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

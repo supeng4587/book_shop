@@ -5,6 +5,36 @@
     <title>HTML网页设计参考手册（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5501 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>HTML语言是制作网页的基础语言。作为一个网页制作爱好者或者专业的网页设计师，HTML语言知识是不可或缺的。本书由最基本的HTML语法开始讲解网页设计的基础技术，详细介绍了各种网页制作的标记；然后介绍如何运用CSS控制网页画面中文字与图片的样式；接下来讲解了JavaScript语言与网页特效的制作；最后以应用最广泛的Dreamweaver为例，介绍网页设计的方法。在讲解中配有大量范例，使读者在实际操作中学习制作网页。<br>    本书适合作为各类网页设计制作培训学校的教材，也可供想要把网页做得更好的广大普通网页制作爱好者学习，以及从事网站建设和网页设计制作的专业人士分析借鉴。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

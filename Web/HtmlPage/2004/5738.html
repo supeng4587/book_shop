@@ -5,6 +5,36 @@
     <title>Java程序设计教程(第5版)/国外经典教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5738 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Java经过多年发展，现在已经真正成长为严格的、主流的开发语言。本书的作者是国际知名的教育专家H.M.Deitel和P.J.Deitel。全书通过Deitel特有的“活代码”方式，详细讲解了如何使用Java开发数据库应用程序、多媒体应用程序、网络应用程序。本书还介绍了软件工程知识、界面设计知识、调试技巧、性能提示等方面的内容。另外，本书还配有实验手册，它提供了一个优秀的学习环境，学生们可以用所学概念解决精心设计的各种问题。教师也能更好地评估学生对教材的理解程度。该实验手册也可以作为开放式实验、家庭作业以及自学用。<br>    本书的读者对象是各类编程人员，计算机相关专业的本科生和研究生。  <br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

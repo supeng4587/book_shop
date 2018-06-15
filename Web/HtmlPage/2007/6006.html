@@ -5,6 +5,36 @@
     <title>Visral Basic大学基础教程（第2版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6006 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书根据国家教育部对非计算机专业计算机基础教学提出的要求，选择 Visual Basic 6．O作为“高级语言程序设计”课程的教学内容，通过大量实例，深入浅出地介绍了Visual Basic 6．0基础知识、程序设计基础知识、顺序结构程序设计、选择结构程序设计、循环结构程序设计、数组、过程、多重窗体与环境应用、菜单和对话框、数据文件、图形和图像、访问数据库等设计技术。本书在内容安排上紧扣教学要求，充分考虑到目前大学生的实际水平和实际需要，讲解力求基本概念清晰、通俗易懂、例题丰富。本书适合作为大学本科各专业学生“高级语言程序设计”课程的教材，也可作为学习windows程序设计、visual Basic程序设计的入门教材。<br>　　为了便于教师授课和学生复习，本书配套有“电子教案”、“习题答案 ”、“实例源代码”和“附加练习题及答案”等内容，这些内容可以从华信卓越网站（www.hxex.cn）的“资源下载”栏目查找并免费下载。<br>　　本书是教材《visual Basic大学基础教程》的第2版，在内容和结构等方面都针对目前的教学要求和学生实际能力进行了调整和优化，对上一版教材中存在的问题进行了修订。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

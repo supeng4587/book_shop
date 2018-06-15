@@ -5,6 +5,36 @@
     <title>站长札记：JSP动态网页编程精读精讲</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5158 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>JSP是Sun公司在Java和Servlet技术基础上推出的服务器端动态脚本技术。JSP类似于ASP和PHP，却比它们有更多的优势。JSP网页可以在各大作业平台中正常运作，不受作业平台间兼容性的限制。<br>    本书共分13讲，由浅入深、循序渐进地讲述了JSP技术所涉及的方方面面，全面研究了JSP开发的平台结构、配置和最新网站功能系统的开发技术，结合具体的操作实例介绍了JSP的组成、Servlet的配置、JSP的语法、数据库访问控制等，书中涉及Java、Tomcat、XML、MySQL等多种与JSP相关的技术。本书实例丰富，包含计数器系统、在线投票系统、留言版系统、博客系统等多个应用实例，使读者在学习的同时能够快速开发出实用的程序。 <br>    本书适合Web程序开发人员、Java程序开发人员以及所有网页制作爱好者使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

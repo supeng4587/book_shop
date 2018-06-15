@@ -5,6 +5,36 @@
     <title>Visual Basic数据库应用开发教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5978 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是《Visual Basic程序设计基础》的后续课程《数据库技术与应用基础》的主教材。全书将数据库应用基础与VB程序设计较好地结合在一起，既节省了学习数据库应用知识的时间，又能做到学以致用，使学生迅速掌握数据库应用程序开发的基本理论和方法。全书分上中下三篇，共14章。上篇为数据库系统基础，内容包括数据库系统概论、关系数据模型、Access关系数据库、关系数据库语言SQL、数据库设计等理论基础。中篇为数据库系统开发基础，内容包括VB与数据库应用开发、使用数据控件访问数据库、使用 DAO访问数据库、使用ADO访问数据库、数据报表与数据输出、错误异常处理、建立帮助文件和打包发行等实用技术。下篇为数据库应用系统开发实例，内容包括教学信息管理系统和网络考试系统的设计与实现，并给出详细的开发过程和程序代码。<br>    本书可作为高等院校本科非计算机专业的教材，也可作为高职高专院校计算机应用、计算机信息管理等专业的数据库应用教材，还可供需要学习Visual Basic数据库开发技术的其他读者自学。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

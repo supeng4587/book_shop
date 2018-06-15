@@ -5,6 +5,36 @@
     <title>Beginning C# Objects中文版——概念到代码</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4951 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书关注的是软件对象：什么是软件对象、为什么它们如此神奇而直白以及如何正确使用对象去构建一个软件应用。这也是一本关于C#的书，但它并非一本“C#大全”，而是一份对该语言的温文但全面的介绍，还特别强调了如何把对象模型转换到功能完备的C#应用程序。本书分三部分，结合C#深入浅出地阐述面向对象理论的基本内容，即从对象基本概念到对象建模，到C#代码的整个学习过程。为了完善本书，我们还写了标题为“下一步”的最后章节，它给出一些建议，让你在读完本书后，懂得如何继续自己的面向对象发现之旅。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

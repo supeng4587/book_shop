@@ -5,6 +5,36 @@
     <title>.NET分布式编程--C#篇</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5316 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>分布式编程和.NET平台这两个主题都需要花费大量笔墨才能描述清楚，但在本书中，作者择其精要，深入浅出地介绍了在构建分布式应用时需用到的一些主要的.NET技术，如.NET Remoting、Web服务、串行化、COM＋和MSMQ等。对于每一项技术，都首先进行详细的分析，然后再在实际应用中体会该技术解决问题的能力。<br>    本书适用的对象为希望利用.NET技术来构建分布式应用程序的并且具有C＃和面向对象编程经验的程序员。<br><br>    ·采用培训专业开发人员时的教学方式进行编写<br>    ·用.NET Remoting和Web服务进行分布式编程<br>    ·作者是Intertech公司的一位有经验的教员，是针对企业Web开发人员的实用研究班的负责人<br>    随着.NET的发布，Microsoft再次改变了分布式编程的前景。几乎所有一切都发生了根本的改变，从数据访问到远程对象调用，再到软件组件的部署。当然，.NET在XML Web服务中引入了新技术，这将使Web开发产生彻底的变革。<br>    本书描述了如何使用这些新的.NET技术构建快速、可伸缩的和健壮的分布式应用程序。同时，它解决了一些常见的问题，例如如何使用.NET Remoting Framework？COM＋在.NET中扮演的角色？如何与 COM组件进行互操作？.NET Remoting和 Web服务之间的区别？这些改变将如何影响分布式应用程序的体系结构和设计？<br>    作者假定您熟悉.NET的基本原理。不过，在.NET概述中也简单地解释了一些核心.NET技术，如构建、版本控制和部署程序集：垃圾回收；串行化和基于特性的编程等，它们对于分布式编程来说很重要。<br>    对于想了解如何利用C＃进行分布式编程的开发人员来说，本书是一本不可多得的学习用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

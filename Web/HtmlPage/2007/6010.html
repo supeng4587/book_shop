@@ -5,6 +5,36 @@
     <title>大学VB程序设计实践教程（附光盘一张）——博学·大学计算机公共课系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6010 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书为计算机公共课教材，全书以上海市计算机Visual Basic程序设计二级考试大纲要求为编写原则，以任务驱动的方式通过11个项目学习VB程序设计方法，集教材、实验和习题于一体。<br>    全书从实用角度出发，在每一个项目中都设计了一个主题，并围绕主题组织安排了若干个活动示例，每个活动由“活动说明”栏目交代任务，由“活动分析”栏目剖析任务解答方法，由“编程实现”栏目给出关键的程序代码，由“学习支持”栏目讲解涉及的编程知识点，最后由“实践活动”栏目给出相关的实验以巩固知识点。本书对程序设计基本步骤、基本知识和语法、编程方法和常用算法进行了较为系统详细的介绍，除介绍了可视化界面设计的方法外，内容还涉及数据库、多媒体和网络方面的编程。实例丰富有趣，阅读轻松容易。<br>    本书可作为高等院校各专业、高职高专各专业、计算机成人教育或职业教育类进修班与培训班以及广大工程技术人员和管理人员学习计算机基础知识的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>JSP应用开发技术（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5151 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书全面系统地介绍了JSP应用开发技术，包括JSP预备知识和环境配置、JSP编程基础、JSP应用开发进阶、在JSP中使用数据库、Servlet技术、标签库和表达式语言、Web编程模式和应用框架等几个方面的内容。本书不但由浅入深地介绍了JSP程序设计的原理、方法和技术，还提供了大量的JSP应用开发实例，给出了相应的实用技巧、操作步骤及优化思路。<br>    本书着重于JSP技术的应用性和可操作性，不但融合了作者在JSP应用开发过程中遇到的各种常见问题和应用案例，还结合网上各个论坛中网友们提出的相关问题，针对目前读者的需求进行了内容结构的设计和布局。本书涉及不同类型的应用，多角度地引导读者学习相关知识，使读者能够真正掌握JSP技术并在实际工作中灵活运用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

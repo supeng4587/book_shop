@@ -5,6 +5,36 @@
     <title>DHTML 动态网页高级编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5640 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>DHTML即动态的HTML语言，除了具备HTML语言的一切性质外，其最大的突破就是使人们在下载的Web负面上就能够看到五彩缤纷、绚烂夺目的动态效果。DHTML并不是一种独立的语言，通过将HTML与层叠样式单（CSS）和脚本语言结合起来，除了具备传统HTML的所有功能外，DHTML增加了动画、多媒体以及动态交互功能。目前,DHTML已经成为万维网上最强大的Web页面开发语言。<br>    全书共14章，内容包括: DHTML简介、HTML基础、HTML高级内容、样式表单。样式单属性参考及应用实例、VBScript、Javascript脚本语言、DHTML中的事件、安排及面元素的位置、动态改变样式、动态改变内容、给页面添加动画效果、在页面中添加多媒体效果、数据与对话框的运用等。<br>    本书内容丰富，叙述详细，实用性强，适合于广大的计算机用户阅读参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

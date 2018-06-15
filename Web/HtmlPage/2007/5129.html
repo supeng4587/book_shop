@@ -5,6 +5,36 @@
     <title>C#网络应用编程实验指导与开发实例</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5129 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是《C#网络应用编程基础》和《C#网络应用高级编程》的配套教材，内容包括上述两本教材的上机实验指导和3个比较大的应用开发实例。<br>　　上机实验指导部分充分考虑到学生学习的进度和编程思路，精心设计在VS2005开发平台下使用C#编写的有代表意义的上机实验内容，并在实验步骤提示中介绍如何逐步完成所需的功能，使学生通过提示和上机练习，快速掌握C#编程方法和基本的设计技巧。<br>　　应用开发实例分别介绍数据库应用、网站开发以及智能客户端的具体设计与实现技术。从项目分析、界面设计、代码实现到安装程序的制作与发布，实例部分均作了详细介绍。<br>　　本书可作为高等院校计算机及相关专业的教材，也适合初、中级程序员以及想利用C#进行更复杂的应用编程的人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

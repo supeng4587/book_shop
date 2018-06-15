@@ -5,6 +5,36 @@
     <title>Linux环境下C编程指南</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5004 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书系统地介绍了在Linux平台下用C语言进行程序开发的过程，通过列举大量的程序实例，使读者很快掌握在Linux平台下进行C程序开发的方法和技巧，并具备开发大型应用程序的能力。<br>本书内容翔实，主要包括：Linux平台下c语言及其编程环境的介绍，C语言编译器、调试工具和自动维护工具的使用方法，进程、文件的相关操作，输入输出操作和内在管理，C语言网络编程方法等。<br>　　本书是作者根据多年来的开发和教学经验并融合大量的编程实例而著成此书。读者通过本书的学习能够快速地学会Linux下C语言编程，掌握其中的方法和编程技巧，并能从一开始就养成良好的编程习惯，以便于读者低起点、高效率地掌握Linux环境下的编程知识。<br>　　本书结构合理、概念清晰、实例丰富，并具有限强的启发性和实用性，适合有一定的C语言基础，需要在Linux系统上编程的程序设计人员阅读，也可作为本、专科学生的教材或参考书，还可供广大计算机爱好者学习C语言使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

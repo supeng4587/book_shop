@@ -5,6 +5,36 @@
     <title>Java 2编程21天自学通：第二版（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5828 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书按照时间安排内容，全书共分为两大部分。前一部分为3周共21天，主要讲解Java的基本概念、图形化编程的思想和方法、线程和动画、Java的声音处理、出错处理、对象串行化、因特网通信以及JavaBeans和数据库编程等高级主题。最后一周为附加的深入篇，主要是扩展了前3周所学的知识，介绍了有关软件开发工具和编程环境，编写小应用程序和Java Server Page以及处理XML文件等有关的技术问题。<br>  本书面向Java新手，从自学的特点出发每天一个主题，每个主题都有与之相关的常见问题及其解答，并附以测验及练习题，以21天的课程希望你自学成为Java高手。		<br>		<br>		<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

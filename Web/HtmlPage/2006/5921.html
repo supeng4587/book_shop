@@ -5,6 +5,36 @@
     <title>Visual Basic.NET 自动化系统监控</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5921 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic.NET为广大Visual Basic用户打开了通往程序设计殿堂的大门。本书具体内容包括：串行通信的相关硬件概念、Visual Basic.NET的常用组件、Win32API的运用、串行通信的传输方式、串行通信的类别、串行数据的处理方式、仪器设图示上的串行通信、分布式的串行通信。本书不仅介绍了串行通信的概念，还详细解析了在窗口环境中设计通信程序的过程，并给出一些技巧与注意事项。<br>    本书可供自动控制和通信领域的开发人员和其他相关技术人员使用或参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

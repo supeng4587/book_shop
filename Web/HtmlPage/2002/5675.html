@@ -5,6 +5,36 @@
     <title>Imstant HTML4 实例解析HTML4.0网络编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5675 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td><br>　　本书基于HTML的最新版本，用103个实例对HTML的功能和用法进行了详细讲解。全书由12章、3个附录组成。第一章到第十章对HTML4.0语言的用法及其编程进行了全面的阐述，通过这十章的学习，读者不但可以解读几乎所有网页的HTML源代码，而且还能够亲手制作出具有较主水平的个性网页。除了对HTML4.0网络编程的完全讲解外，第十一章还用实例详细介绍了23种网络编程技巧和网络动态特效，其中有用最新的CSS（层叠样式表）技术制作，也有用JavaScript脚本语言制作。读者只需把这些特效稍做修改就可用到自己的网页之中。书中还介绍了一些奇特的网络编程技巧，这些编程思路充分地挖掘出了HTML语言的应用潜能。最后为了让大家对网页的整体制作有感性的认识，在本书的最后三章中详细介绍了三个大型综合网页的制作方法，并有完整的源代码。这三个综合网页涵盖了主页、综合表单和具有很强动态的页面等各种网页技术。<br>本面向初、中级用户，对高级用户了有参考价值，同时出可作为社会AutoCAD2002培训教材。 <br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

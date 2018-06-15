@@ -5,6 +5,36 @@
     <title>JSP案例开发——项目开发风暴</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5239 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Java Server Page是一种基于Java的技术，用于生成动态网页，支持跨平台、跨Web服务器，是现在开发Web应用的最常见工具之一。<br>    本书属于案例开发系列，以“进口设备管理系统”为基线，贯穿介绍JSP相关高级实现技术和理论，不仅可以全面掌握JSP高级开发知识，而且可以了解更多JSP应用技巧，研究本书大案例还有助于记者体会到使用JSP开发大型应用时需要注意哪些问题，帮助读者建立大局观。<br>    本书共10章，第1章介绍本书大案例的情况，包括系统体系结构、相关实现技术和方法等，第2章-第10章分别基于JSP主要技术特点进行讲解，理论结合实践，并基于每章技术点完善本书大案例，主要技术点包括：异常处理、会话状态保持，文件管理、数据库、JavaBean Servlet XML等。<br>    本书不仅适合从事软件系统开发的软件工程师和架构师，而且适合于大中专院校的信息专业学生，本书还可以作为软件培训班的教材或者辅助材料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

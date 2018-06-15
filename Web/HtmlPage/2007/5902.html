@@ -5,6 +5,36 @@
     <title>Visual Basic 2005数据库通用模块开发与系统移植（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5902 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic 2005作为Visual Basic.NET的最新版本，与以往的版本相比功能更强大，使用更简洁，它是用户开发数据库应用程序必不可少的工具之一，也是目前用户开发数据库使用最多的工具之一。<br>　　本书从实例入手，介绍了数据库通用模块、综合实例和数据库的移植等内容。第1章和第2章介绍了Visual Basic 2005数据库开发的基本知识和常用数据库访问控件。第3章~第7章介绍了用户登录与用户管理、基本数据库访问、高级数据库访问、报表设计和界面设计等多个数据库应用程序通用的功能模块。第8章~第11章介绍了4个不同工程应用背景的典型系统，每个系统都具有很强的代表性。第12章介绍了在原有Winform窗体的Client/Server系统基础上开发基于Web页面的Browser/Server系统的方法。第13章主要介绍了相似系统的开发以及数据库系统前端应用程序和后台数据库的升级。本书注重代码通用性和工程实践性，书中提供的通用模块和典型系统稍加修改就可以为读者所用。<br>　　本书不仅适合使用Visual Basic 2005进行软件开发的具有编程经验的软件开发人员使用，也适合高等院校师生学习和参考使用，特别对高等校计算机专业的学生进行毕业设计具有非常高的参考价值，也可以作为广大计算机编程爱好者的自学、参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

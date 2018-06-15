@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6042 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以Visual Basic程序设计零起点的读者作为主要对象，按照学生的认知规律和学习特点，介绍大量有趣的实用性的例题，并用感性认识升华到理性认识的过程展开教学。<br>    本书共包括9章： 第1章介绍简单Visual Basic程序；第2~4章介绍3种基本结构和常用控件；第5、6章介绍数组和文件并补充介绍控件；第7、8章介绍菜单的制作方法和用Visual Basic访问数据库的方法；第9章介绍过程。每一章增设上机指导和小结，提供单号习题的参考答案和动画丰富的电子教案。<br>    本书既可作为应用型或教学型院校应用类教材，也可用作传统教学模式的课程实践教材或自学者的指导书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

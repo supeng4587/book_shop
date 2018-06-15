@@ -5,6 +5,36 @@
     <title>ASP.NET网站开发典型模块与实例精讲（附光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5363 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书讲解了使用ASP.NET开发网站的经典模块和工程实例。全书的内容分为三部分，第一部分介绍ASP.NET的运行原理，开发运行环境的搭建及ASP.NET安全等开发必备的知识，并给出相关的学习建议；第二部分介绍使用ASP.NET开发网站时常用的经典模块，包括注册登录、访问统计及新闻发布模块；最后一部分精选5个典型的网站案例，包括在线选课管理系统、招聘管理系统、网上鲜花销售系统、用户权限管理系统及博客船系统等进行讲解，并提供部份源代码。这些实例源码都已经过测试，运行通过，并且收集在本书配套的多媒体光盘中。<br>    为了方便本书的读者相互交流学习中遇到的问题，我们特地在本书的服务网站上为读者公布了若干QQ群，读者只要拥有QQ号码，就可以参与到本书的QQ学习群中，一起讨论学习心得。本书的作者还在一定的时间给读者提供在线答疑服务。<br>    本书特别适合对ASP.NET基础知识有一定了解，但是不知道如何下手开发完整网站的初级学者，同时，也适合欲学习ASP.NET中的各种心得技巧，以提高开发水平的中高级学者，还可以作为广大院校毕业生的毕业设计用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

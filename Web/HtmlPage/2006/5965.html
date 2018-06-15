@@ -5,6 +5,36 @@
     <title>Visual Basic.NET2003大学简明教程：实例程序设计（附CD-ROM光盘一张）——国外计算机科学教材系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5965 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>这是一本Visual Basic .NET的DEITEL系列丛书，它通过辅导教程的方式，分专题技术讲授了Visual Basic .NET程序设计环境及相关语言的基本特色，涵盖了可视化编程、图形用户界面（GUI）组件、多媒体（音频、图像、动画和视频）、文件处理、数据库处理，以及Internet和基于WWW的客户/服务器网络互联。全书内容丰富，讲解生动，并给出大量实用的应用程序示例。在大多数章节的末尾提供了带有参考答案的自测题，并在每章最后给出丰富的练习题，有助于读者提高和巩固学习效果。<br>    本书非常适合作为高等院校的程序设计语言课程的教材或教学参考书，同是也是广大计算机爱好者自学Visual Basic .NET的经典读本。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

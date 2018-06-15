@@ -5,6 +5,36 @@
     <title>精通Visual Basic.NET网络与输入/输出技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5450 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书利用Visual Basic.NET语言探计在.NET平台进行网络以及I/O相关技术的应用程序开发。全书共分10章，主要内容包括：网络与I/O数据流、文件与目录操作、输入/输出数据流、文本处理与数据加密、.NET网络程序设计、要求/响应模型与HTTP通信协议、TCP与SOCKET应用程序、电子邮件与FTP、UDP通信协议与多播、远程服务与对象序列化等。<br>    本书的读者要求具有以下基础：了解Visual Basic.NET基础语法，具备利用Visual Basic.NET编写基础应用程序的能力，熟悉类库的应用，具备.NET Framework多线程、事件委派等基础要领的相关知识。<br>    本书适合那些想了解如何利用Visual Basic.NET进行I/O操作折程序开发人员，使用Visual Basic.NET开发Socket与TCP网络应用程序的人员，想全盘了解.NET Framework对于I/O与网络技术支持的.NET程序设计人员，想了解.NET Framework类库、支持I/O以及网络技术相关类别的Java程序设计人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

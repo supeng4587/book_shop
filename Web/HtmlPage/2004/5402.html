@@ -5,6 +5,36 @@
     <title>ASP.NET 1.1入门经典--VB.NET 2003编程篇</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5402 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>ASP.NET 1.1 是Microsoft公司的Active Server Page (ASP)技术的最新版本，它是一种基本服务器的、功能非常强大的技术，可以为Web站点或企业内部网创建动态和交互式的Web页。ASP.NET 1.1也是Microsoft的.NET战略的核心内容，可以为功能强大的.NET开发环境提供基于Web的访问。<br>    本书从基础知识入手，全面详细地讲解了创建动态ASP.NET web站点所需要的全部概念。首先介绍了HTML、XML、ASP.NET、.NET Framework 和VB.NET的基础知识；接着介绍了面向对象编程的概念，以及ASP.NET为提高其性能所采用的技术和开发技巧；最后讲解了优化ASP.NET Web站点性能的各种方法。<br>    本书内容全面、浅显易懂，适用于尚未掌握ASP、VB、XML或面向对象编程等知识，但希望学习ASP.NET 1.1的初学者。如果您具备HTML的基础知识，则在学习本书时会有很大的帮助。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Visual Basic高级编程技术--从VB6.0向VB.NET 过渡(附CD-ROM光盘一张)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5431 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过大量的示例，按近年来的程序设计思想，系统地介绍了面向对象、ActiveX、OLE、Windows API、多媒体、数据库、资源文件、注册表、串行通信、Internet等较有深度的编程方法。同时本书还着重探讨了如何从VB 6.0相VB.NET的过渡以及使用升级向导的种种问题，并以示例的形式介绍了VB.NET的继承性实现和VB.NET调用VB 6.0组件的方法。本书在结构和内容的编排上注重深入浅出、循序渐进。<br>    本书可以作为大专院校、培训班的教学参考书，也可以作为有VB开发经验的专业人士的提高读物和工具书。对于承担项目的科研人员、教学人员以及研究生，在将科技成果软件化时本书是很有实用价值的参考资料。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

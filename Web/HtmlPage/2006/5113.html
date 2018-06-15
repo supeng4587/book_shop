@@ -5,6 +5,36 @@
     <title>C++程序设计习题解答与考试指导</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5113 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书与钱能编着的《C++程序设计教程》紧密结合，同时兼顾主流C++教材，以指导学生学习、练习及考试为目的编着而成。本书共分21章，主要内容包括：C++入门、基本数据类型与输入输出、表达式和语句、过程化语句、函数、程序结构、数组、指针、引用、结构、类、构造函数、面向对象程序设计、堆与拷贝构造函数、静态成员与友元、继承、多重继承、运算符重载、I/O流、模板、异常处理。各章都给出了知识结构图、疑难解惑、典型例题与考试题分析、重要习题精选精解和训练题5个板块的内容。此外，书后的附录给出了各章训练题的参考答案。<br>    本书内容丰富，能够对学生学习、作业、复习、自测和实验等各环节进行指导，可作为计算机专业本、专科学生C++课程学习的辅导书，还特别适合准备参加C++语言考试（如计算机等级考试、考研）的读者训练、备考之用，也可供编程人员自学参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

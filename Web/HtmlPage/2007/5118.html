@@ -5,6 +5,36 @@
     <title>实用C语言FPGA编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5118 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>目前用FPGA实现嵌入式系统呈现越来越最流行的趋势。本书介绍了用C 语言为FPGA编程的原理和技术，以及如何用C语言实现FPGA硬件的平台。该平台提供了一个类似C语言的描述硬件需求的语言Impulse C，设计者只需用该语言描述要实现的硬件的行为，在设计平台的支持下，就可以在FPGA 上实现所要求的硬件。因此，这种设计方法既简化了硬件设计者的设计过程，又为软件设计人员提供了一种可行的硬件设计的途径。<br>    本书注重理论与实际相结合，既有原理的介绍，又对设计方法和过程作了详尽的介绍，同时提供了丰富的实例。本书可作为高等院校自动化、电子信息类专业高年级本科生和研究生的教材和学习参考资料，也可作为从事FPGA编程的工程技术人员和EDA工具开发者的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>基于.NET的Web数据库开发技术实践教程——高等院校计算机实验与实践系列示范教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5339 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍基于.NET的Web数据库开发技术，内容包括建立ASP.NET Web数据库开发平台、数据库操作基础、创建ASENET Web应用程序、数据库连接与数据绑定、使用数据控件访问数据库、使用ADO.NET访问数据库、使用验证控件验证用户输入、设计Web应用程序的布局和导航、开发学生成绩管理系统、实现Web应用程序的安全控制、ASP.NET应用程序的配置和优化以及开发网上书店综合应用程序。对每一部分的知识点、概念和难点，本书都力求以精练的语言进行讲解并配有必要的实例。读者按照书中的任务实例和实践练习上机操作，即可掌握基于.NET的Web数据库开发的思路、技巧与体系，并可在此基础上举一反三，根据自己的需要开发出功能强大的数据驱动的Web动态网站。<br>    本书讲解的各种Web数据库技术均是目前商业网站建设中普遍采用的主流开发技术，适合于大专院校、中高职以及各类培训班学习基于.NET的网页开发和网站建设与管理技术的培训教材，同时也可作为广大网站建设者、开发者和爱好者的自学参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

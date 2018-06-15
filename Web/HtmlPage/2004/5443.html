@@ -5,6 +5,36 @@
     <title>深入浅出Visual Basic.net 2003程序设计（含盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5443 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书只针对程序设计基本流程、对象基本观念、活用VB.NET年提供的常用控件、键盘和和鼠标控制技巧、Crystal Report报表、绘图与多媒体应用以及ADO.NET与Access数据库访问技巧进行介绍。每个单元由浅入深、循序渐进，让初学者从范例练习中学习到程序设计的精神与技巧，并学会如何使用Visual Basic.NET所提供的窗口控件来开发Windows 应用程序以及学会如何部署窗口应用程序等多咱技能，是一本初学者在Windows下学习程序设计的最佳选择。		<br>		<br>		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

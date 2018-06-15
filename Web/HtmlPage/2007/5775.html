@@ -5,6 +5,36 @@
     <title>精通NetBeans——Java桌面、Web与企业级程序开发详解（附光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5775 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>NetBeans是目前市场上流行的、使用方便的Java集成开发环境。本书结合丰富的程序实例讲述了NetBeans集成开发环境的使用，读者在阅读本书的同时，不仅能够掌握NetBeans的使用，还能学习如何进行项目的开发。 <br>　　本书共分为5篇，第1篇是起步篇，详细地讲述了NetBeans开发环境的各个功能组件。第2篇是Swing/JFC篇，结合具体的实例对开发Swing程序用到的功能组件进行了介绍。第3篇为Web开发篇，结合Tomcat详细地讲述了如何在NetBeans中进行Web程序开发。第4篇为Java EE篇，结合具体的实例讲述了如何在NetBeans中开发企业级程序，以及开发企业级程序需要用到的Java知识。第5篇为高级工具篇介绍了如何在NetBeans中集成已存在的Ant脚本，如何使用JUnit进行单元测试，如何使用NetBeans Profiler进行分析，以及如何将已有的Eclipse项目导入到NetBeans中。<br>　　本书适用于具有一定开发经验的开发人员参考学习使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

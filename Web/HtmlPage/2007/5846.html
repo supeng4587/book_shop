@@ -5,6 +5,36 @@
     <title>Java EE5实用教程：基于WebLogic和Eclipse</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5846 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以原内部讲义为基础，增加了Java EE 5（2006年5月发布的最新版本）中新增加的内容。本书共分为五部分，其一为Java基础服务，包括JDNI，JDBC和JTA技术。其二为Web组件部分，包括JSP，JavaBean，JSTL，EL，Servlet和JSF等。其中，JSTL和EL是JSP 2.0之后的规范才加入的，而JSF是Java EE 5规范新加入的。第三是EJB部分，包括对EJB 2.X和新增加的EJB 3的介绍。第四是Java持久性，是EJB 3中新增加的内容，是EJB 2.X中实体Bean的替代技术。最后为高级服务，主要介绍Java Mail API和Java企业级应用的安全问题。<br>　　本书可作为计算机相关专业高年级本科生或者研究生课程Java企业级应用开发和Java EE等课程的教材，也可以作为自学Java EE5的开发人员的参考书籍。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

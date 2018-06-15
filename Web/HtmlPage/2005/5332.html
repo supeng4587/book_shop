@@ -5,6 +5,36 @@
     <title>.NET技术大系；NET与设计模式</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5332 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书力求将设计模式与实际开发紧密联系起来，具体讲述了哪种模式可以在哪种现实的应用场景中采用。全书融入了作者多年的开发经验，介绍了许多现实案例，具有很强的实用性。本书分为4篇：第1篇讲述了面向对象设计的一些基本原则和.NET引入的新概念；第2篇以GOF的23种设计模式为主线用相当多的实例介绍了每一种设计模式的引入原因、动机、使用环境、结构及其收益与代价；第3篇介绍设计模式在DotNetNuke、NUnit、Ndoc和Gentle等开放源码中的应用；第4篇介绍了有关模式的历史，如何发现和书写模式，以及模式社会的交流场所PLOP等。<br>    本书适合所有程序员及相关技术开发人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

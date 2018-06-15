@@ -5,6 +5,36 @@
     <title>使用Visual C#.NET开发Windows应用</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5453 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍利用Visual C#．NET开发Windows应用程序。全书内容主要讲述：NET介绍，WindoWS Forms简介，准备VS开发环境，C#基础，控件基础，处理XML，ADO．NET，提高程序的可访问性，异步编程，部署．NET程序，indows应用实例等方面的内容，在每一章开始都简单介绍本章的主要内容，以及本章的学习目标，以便读者在学习过程中作为参照。同时在每章的开头均有重点介绍，每章结尾均包含模拟试题和分析。<br>　　本书适用于C#．NET专业编程人员，广大编程爱好者，以及高校相关专业师生，此外还可作为备考微软MCAD／MCSD考试的参考书，考试号70—316。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>ASP.NET数据库管理系统开发实例导航（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5448 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书共分7章，在前两章中介绍了ASP.NET的体系结构、配置文件、系统发布及管理、访问数据库的接口技术等基础知识，为本书后面的案例做好铺垫。<br>    本书在后5章中安排了5个典型的Web系统作为案例，分别是“网上选课系统”、“网上合同管理系统”、“在线售书系统”、“分销业网络管理系统”和“实验室内部办公系统”。在案例中，深入地剖析了系统的开发思路、方法和技巧，以帮助读者透彻掌握ASP.NET开发数据库系统的方法和步骤，从而自行设计出具有实用价值的应用系统。<br>    本书适合具备一定ASP.NET和数据库编程基础、正在从事或希望从事相关行业应用开发的人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

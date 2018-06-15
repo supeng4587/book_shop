@@ -5,6 +5,36 @@
     <title>ASP.NET Web程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5395 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书详细介绍了使用ASP.NET 2.0进行Web应用程序开发的基础知识，并且结合实例全面阐述了ASP．NET 2.0的各种编程技巧以及新版本带来的巨大变化，以帮助读者快速掌握在．NET平台下开发ASP.NET 2.0应用程序的方法。全书共13章，内容包括ASP.NET 2.0的新特性、Visual Web Developer2005的使用、C#编程基础、服务器控件、样式、母版页、外观和主题、站点导航、数据源控件和新的数据绑定方法、文件和流处理、验证和登录控件、身份验证和授权、成员和角色管理、ASP.NET 2.0中的XML编程、移动wcb设计以及ASP.NET 2.0应用程序的管理和配置等。<br>    本书既适合AsP．NET 2.0的初学者阅读，也适合了解ASP.NET 1.x的读者阅读，书巾包含的大量实例对ASP.NET 2.0应用程序的开发人员具有一定的参考价值。本书可作为各大中专院校相关专业的教材或参考用书，也可作为其他学习ASP.NET 2.0人员的自学材料。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

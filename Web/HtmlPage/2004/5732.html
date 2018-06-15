@@ -5,6 +5,36 @@
     <title>Servlet与JSP核心编程(第2版)/Java技术丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5732 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书由浅入深，全面而深入地介绍了Servlet和JSP 技术。本书重点介绍核心技术，同时对相关的内容，如Web服务器的配置、安装和应用，数据库的安装和配置等都做了详细明了的介绍。本书的例子简练但真实，将复杂的任务拆分成多个步骤逐一介绍，大大减轻了读者阅读的负担。另外，和其他同类书籍不同的是，本书引导读者概据实际需要取长补短，同时，还基于实际的应用给出大量的指示。<br>    本书叙述详尽，条理清晰。对于初学者来说是一本不可多得的入门书籍，经验丰富的Servelet和JSP开发人员也可以通过阅读本书得到巩固和提高。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Visual Basice游戏设计（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5942 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书使用VB作为游戏程序设计的入门语言。从基础语法开始，切入DirectX技术的讲解，最后给出了数款游戏开发实例，包括益智游戏设计、角色扮演游戏设计、动作游戏设计等，以加深学习效果和提高实践操作能力。在DirectX技术中，涉及的主题有2D和3D成像、硬件输入设备控制、音效播放与控制、多媒体文件播放等，让读者能够通过DirectX技术学习制作出一套真正属于自己的游戏。 <br>　　本书主要针对想学习游戏制作的初级用户，采用了偏向学校教学的模式，便于读者学习掌握。全书章节结构完整、条理清晰，由浅入深、循序渐进地分析了游戏设计的过程，语言叙述通俗易懂，兼顾理论与实践，引领读者走进游戏设计的殿堂。随书光盘中包含书中全部的范例文件，使操作学习全无障碍。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

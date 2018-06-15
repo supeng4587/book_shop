@@ -5,6 +5,36 @@
     <title>基于C/S架构的软件项目实训：VB.NET——高等职业院校国家技能型紧缺人才培养培训工程规划教材·计算机应用与软件技术专业</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5989 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从构建MDI应用系统的框架入手，通过一系列连贯的例子来引导读者循序渐进地学习数据库应用系统中最重要的元素——数据窗体所具备的基本功能，并以此为基点拓展和完善数据库应用系统中的其他功能，同时把VB.NET中基于.NET平台的完全面向对象的编程技术融入到每个实例中，逐步建立起自己的类库，充分体验面向对象的设计思想给程序员带来的效率和质量。<br>    本书还讲解如何用ADO.NET访问数据库的方法，从借助可视化工具来配置属性开始，到最终完全用代码来控制，并建立起数据类。同时也介绍SQL Server数据库中的存储过程、视图和触发器，让读者了解这些服务器端的程序在C/S架构中的重要作用和使用方法。<br>    本书既可作为高等职业院校的实训教材，也可作为大学本科、专科学生学习VB.NET、ADO.NET、SQL Server相关课程的教材，同时还可以作为广大用户自学的参考书。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

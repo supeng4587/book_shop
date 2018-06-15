@@ -5,6 +5,36 @@
     <title>C++程序设计语言题解</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5067 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是与Bjarne Stroustrup的《C++程序设计语言》一书配套使用的习题解答，为从《C++程序设计语言》中精选出来的许多练习提供了富有见解的、容易领会的解答，并且附有大量对该书的交叉引用，以便于读者更好地将两本书结合使用。此外，作者对有关练习给出了细致的解释，并为每个选出的练习提供极有价值的提示，以便读者能够找出自己的解答。本书的补充练习提供了对现代软件设计的深入见解，并通过解决一组富有启发性和现实性的练习帮助读者深入理解ANSI/ISO的C++标准。本书可作为学习C++语言的教学辅导书，也可作为讲授C++程序设计语言的教师的教学参考书。当然，本书同样适于专业程序设计人员使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

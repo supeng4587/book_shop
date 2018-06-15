@@ -5,6 +5,36 @@
     <title>.NET模式：架构、设计与过程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5312 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>事实已经被证明，对那些能够灵活运用模式的程序员们来说，它们是实用的工具。在这本书中，分布式计算和.NET专家Christian Thilmany身正在.NET环境下进行开发的程序员们介绍了模式，以及.NET平台特有的模式库。<br>    作为软件模式图书之一，本书的重点是将被证实过的模式概念延伸到.NET环境下的设计和开发中。现在.NET的开发人员就能够利用这些模式，对软件设计中反复涉及的问题提供快捷的解决方案。<br>    除了覆盖模式的低级和高级编程之外，本书还包括XML和Web Services 方面的基础，以及调试、异常、错误处理、架构等内容。<br>    不管你现在是否在  环境下进行开发，还是正在往.NET环境上转变，你将会发现 本书正是软件解决方案的资源大全。    <br>    在本书中，作者结合了设计模式世界的抽象和包含于.NET中的具体开发方案。书中的观念对于众多的.NET开发人员来说都是非常有用的。本书分为三个部分，共７章。第一部分介绍.NET、设计的元素以及开始编写应用程序所需要的架构。第二部分强调了在一个架构层的该做和不该做的事情，将模式分类到三个层当中：表示层、中间层和存储层。最后一部分包括了更高级的模式，介绍了异步行为、复杂线程和缓存等内容。本书结构合理、概念清晰、实例丰富，并具有很强的启发性和实用性。 <br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

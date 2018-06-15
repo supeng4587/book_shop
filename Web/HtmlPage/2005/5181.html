@@ -5,6 +5,36 @@
     <title>JSP程序设计（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5181 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是教育部新世纪高职高专教育人才培养模式和教学内容体系改革与建设项目成果，是组织有关教育部高职高专教育、教学改革试点院校编写的。作者从教学的角度出发，从JSP的基础知识、基本语法入手，配以实际的范例，细致地讲解了JSP网站编程的方法与技巧。<br>　　本书共有8章，按照循序渐进的学习原则，从基础知识入手，详细讲解了JSP的语言规范、HTML表单的检验方法和JSP与客户机的交互等内容，并介绍了JavaServlet、JavaBeans、JDBC等重要技术，最后用JSP编写了一个比较完整的电子商务网站。本书的特点是内容紧凑，详尽，每章后还配有实验。本书配有光盘，其中不仅有本书的所有代码，还有教学和实验的内容，供学生自学使用。<br>　　本书适合高等职业学校、高等专科学校、成人高校、本科院校举办的二级职业技术学院，也适合示范性软件职业技术学院、继续教育学院、民办高校技能型紧缺人才培养使用，还可供本科院校、计算机专业人员和爱好者参考使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

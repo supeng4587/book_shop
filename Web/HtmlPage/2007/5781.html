@@ -5,6 +5,36 @@
     <title>Java JDK实例宝典（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5781 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以J2SE 5.0为开发环境，选取Java应用的典型实例，循序渐进地介绍了Java语言的各种开发方法和技巧。全书共有19个章节，169个实例，内容涉及Java的语言基础、面向对象程序设计、数字处理、数组与集合、字符串、异常处理、文件操作、多线程、Swing编程、图形和多媒体编程、反射机制、网络程序设计、数据库编程、Applet、Java与XML、Java Mail、JSP与Servlet，并专门用一章介绍J2SE 5.0的新特性。本书内容丰富，结构清晰，实例的选择紧贴实际应用，具有很强的实用性和针对性，力求让读者通过实例学到更多、更好的编程方法和技术。<br>    本书适用于Java初级、中级和高级开发人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

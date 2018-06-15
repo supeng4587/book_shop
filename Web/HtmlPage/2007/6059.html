@@ -5,6 +5,36 @@
     <title>Visual Basic 2005程序设计（第六版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6059 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic 自问世以来，已成为全球广泛使用的编程语言，其最新版本为Visual Basic 2005。<br>    本书简明扼要地阐述Visual Basic 2005 核心内容，全书共给出了150多个示例和1000多个练习题，每小节后面还提供了实践性强的程序设计项目，帮助读者掌握所学知识。全书的4个实例分析更是让读者从宏观上掌握程序开发技术。<br>    本书不仅可以作为Visual Basic程序设计的教材，也是程序开发人员学习Visual Basic程序设计很好的的参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

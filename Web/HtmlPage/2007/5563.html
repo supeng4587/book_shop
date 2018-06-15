@@ -5,6 +5,36 @@
     <title>Java XML  应用程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5563 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从程序设计的角度讲解了XML的系统知识。本书主要内容包括XML基础知识，XML应用程序，使用CSS格式化XML页面，使用XSL显示XML页面，XML文档类型定义，XML中的名称空间，XML Schema概述，XML的数据源对象，JAXP与Java XML程序设计，Java SAX程序设计，使用DOM管理XML文档，使用JDOM管理XML文档和XML对象加载型配置系统设计。本书由浅入深，由易到难，通过丰富的教学案例的应用技术。本书中的程序不需要特殊运行条件和编程环境，有IE 6 JDK 1。6 JDOM Xalan和写字板就可以了。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

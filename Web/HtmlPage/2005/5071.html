@@ -5,6 +5,36 @@
     <title>C#基础与实例教程（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5071 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书立足于让读者在学习C#语言的同时，能够掌握面向对象编程技术的一般思想和方法，并以清晰的概念和大量的代码示例相结合的方式，来讲解使用C#语言进行程序设计的基础与技巧。全书共分12章和2个附录，重点讲述了C#语言关键字、语法和程序结构。书中不仅介绍了C#语言的各种简单数据类型、运算符和运算表达式、常量、变量、数组、程序顺序结构、选择结构以及循环结构等传统的程序基本元素，还讲述了类和面向对象的基本概念、C#语言类成员的使用、继承、接口、代理、编译预处理以及程序调试、代码属性等高级知识。为了方便读者自学，在每章都安排了思考与练习，附录中提供了练习题答案和C#编码规范。<br>    本书不仅适合C#的初中级读者学习，还可帮助已经对C和C++语言有所了解的用户顺利掌握C#。本书可作为本，专科学生学习计算机编程语言的教科书，也可以作为广大编程爱好者学习和提高的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>XML数据管理技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5527 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>随着Web技术的快速发展，如何有效地存储、索引和查询XML数据已经成为数据库研究领域的一个热点研究问题。本书的作者在20世纪90年代末就开始研究XML数据管理问题，本书是在他们多年来形成的研究成果的基础上，经过总结和整理而成的。<br>　　本书由浅入深，介绍了XML数据的聚簇存储技术和外延索引技术；XML查询处理和优化技术；并行处理技术；基于高级数据模型的XML数据更新技术；面向对象的XML技术；XML数据的语义约束；XML数据的访问控制技术，XML文档发布中的数据安全定义、基于XML约束的数据推演以及信息泄露及其安全技术等。<br>　　本书条理清晰，注重理论和实践相结合，对计算机及相关专业研究生或高年级本科生以及从事XML数据管理及其相关技术研究开发人员均有帮助。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

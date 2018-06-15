@@ -5,6 +5,36 @@
     <title>Visual Basic程序设计实用教程——21世纪高等院校计算机系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5990 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以VisualBasic6．0中文版语言为背景，介绍了程序设计的基础知识和面向对象的程序设计方法。主要内容包括：VisualBasic的综合开发环境，VisualBasic数据类型及窗体，常用控件的属性、事件、方法，结构程序设计，数组和多窗体的使用，过程的编写和调用，菜单程序设计，图形操作、文件和数据库的访问，VisualBasic在网络环境中的应用及程序调试方法。<br>　　本书的教学理念是：认识新知识是从完成任务开始，在解决问题的过程中学习知识，把控件和程序设计紧密结合起来。其具体表现在：介绍控件使用的同时有针对性地介绍了代码的编写。通过大量的例题介绍了可视化程序的设计方法，并结合事件过程讲解了结构化程序的基本结构。<br>　　本书可作为高等院校各专业本科生学习Visual Basic程序设计的教材，也可以作为全国计算机等级考试的自学辅导用书及从事计算机工作的技术人员自学Visual Basic程序设计的参考用书。<br>　　本书为任课教师免费提供电子教案，需要者可到中国水利水电出版社网站http://www.waterpub.com.cn/softdown/下载。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

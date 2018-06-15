@@ -5,6 +5,36 @@
     <title>Visual Basic 6.0 程序设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6017 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是为学习和使用Visual Basic进行程序设计的初、中级用户编写的，该书以Visual Basic 6.0为背景，介绍了在windows环境下进行程序设计的基本思想和方法，主要内容包括：Visual Basic语言程序设计基础，面向对象的概念和程序设计方法，Visual Basic的窗体、控件、菜单等的设计与应用，程序调试和排错等。<br>    本书内容丰富，例题、习题详尽，除注意培养基本的程序设计能力外，重点介绍了可视化编程技术，面向对象方法。不仅可以作为广大软件开发人员和自学者的参考用书，还可以作为高等院校非计算机专业或计算机应用专业的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

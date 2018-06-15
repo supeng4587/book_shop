@@ -5,6 +5,36 @@
     <title>Expert C# 2005 Business Objects中文版（第二版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4949 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书描述了怎样应用面向对象的概念来进行.NET应用程序的架构、设计和开发。作者将重点放在了面向业务的对象，即业务对象和怎样在包括Web和客户机/服务器结构的不同分布式环境中来实现它们。本书使用了大量的.NET技术，面向对象的设计与编程思想，以及分布式架构。本书的前半部分叙述了如何在.NET环境创建这个框架来支持面向对象的应用程序开发的流程，后半部分应用这个框架创建了一个带有几个不同接口的示例应用程序，本书适合C#应用开发人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

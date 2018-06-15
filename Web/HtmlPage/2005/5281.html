@@ -5,6 +5,36 @@
     <title>电子商务网站设计与维护——21世纪高等学校应用型规划教材·电子商务系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5281 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是21世纪高等学校应用型规划教材·电子商务系列教材之一。本书系统地介绍了电子商务网站建设相关理念、技术以及应用，使读者对电子商务网站设计与维护有一个比较全面的认识，清楚地了解并掌握网站的规划及设计的各个步骤，顺利而迅速地搭建起自己的商务平台。本书充分考虑高职高专学生的学习特点和就业需要，基于“理论够用”的原则，精简知识点，对重要的知识点，力求多配图和例题加以详细介绍。本着实用、易懂、易学、易做的原则进行编写，其格式编排上由理论知识、思考题、实训三部分组成。本书共8章，主要介绍电子商务网站概述，网站的规划与设计，网站服务器的安装、配置与管理，电子商务网站开发技术，电子商务网站后台数据库的设计，电子商务网站测试与发布，电子商务网站的宣传与推广技巧，电子商务网站的维护与管理等内容。<br>    本书可作为高职高专院校电子商务及相关专业教材或参考用书，也适合具有中等以上文化程度的读者自学。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>XML示例程序导学(第二版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5686 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书采用概念与实例紧密结合的方法，通过对示例代码的解析，使读者在编程过程中体会XML强大的Web开发动能。全书分为12章。前11章对XML与HTML的关系与差异、名称空间、DVD、模式、样式表、解析器、 XSL、DOM、SAX、XLink、XPoiter、SOAP等做了全面详尽的阐述，最后一间综合讨论了一个完整的的电子商务实例。附录A“Java速成”提供了理解本书示例所需要的Java知识。跟随书中的精彩实例，您可以循序渐进、轻松掌握功能强大的XML。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

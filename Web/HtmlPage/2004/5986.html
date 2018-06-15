@@ -5,6 +5,36 @@
     <title>Visual Basic．NET程序设计——教育部实用型信息技术人才培养系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5986 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Visual Basic.NET 是.NET平台中新一代面向对象的可视化开发工具，也是Visual Basic.NET家族的重要成员之一，其设计目的是用于简洁、快速地开发.NET框架内的应用程序。本书包含丰富的例题和练习题，便于读者自学和练习。<br>    全书共12章，内容包括 Visual Basic.NET的概述，开发环境的安装及使用，Visual Basic.NET的数据类型，面向对象编程，Windows窗体及高级应用等。<br>    本书可以使读者很好地掌握Visual Basic.NET语言的基本语法规则，并具备分析和设计典型应用程序的能力。本书适合作为普通高等院校各专业开设程序设计语言课程的教材和教学参考书。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

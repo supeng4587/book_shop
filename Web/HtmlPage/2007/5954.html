@@ -5,6 +5,36 @@
     <title>Visual Basic 2005大学教程（第3版）/国外计算机科学经典教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5954 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是由畅销书作家Bradley和Millspaugh编著的一本优秀教程，旨在帮助学生掌握Viusal Basic编程技术。<br>    本书在完善原理知识的基础上，补充和改进了一些应用实例，并着重介绍了Visual Basic 2005的新特性，如泛型和Web Master页面等。<br>    本书特色：<br>    介绍了Viusal Basic中全新的数据库访问组件，包括存储过程、新的Data Sources窗口、连接数据源的新技术和新的数据绑定控件。<br>    每一章都包含一个完整的编程示例，从开始的问题陈述到设计解决方案，都进行了分析。<br>    展示了新的IDE特性，包括类图、可简化应用程序的数据源设置的Data Sources窗口、智能标记、调试异常的Exception Assistant，以及窗体体计器中新增的捕捉线。<br>    新的内置Web服务器不再需要使用IIS进行Web开发，极大地简化了可移式Web应用程序的构建，并允许在Web应用程序中进行数据库访问。<br>    要了解本书的更多信息，可访问本书的网站www.mhhe.com/bradleyadv2e。本书的相关学习资料可访问www.tupwk.com.cn/downpage.</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

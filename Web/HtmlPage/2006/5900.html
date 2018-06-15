@@ -5,6 +5,36 @@
     <title>Visual Basic程序开发范例宝典(附盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5900 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书全面介绍了Visual Basic 程序开发所用到的技术和技巧。全书分为17章，内容包括窗体与界面，控件应用、数据处理技术、图形技术、多媒体技术、文件系统、操作系统与Windows相关程序、注册表、数据库技术、SQL查询相关技术、打印与报表技术、图表技术、硬件相关开发技术、应用与控制、网络开发技术、Web 编程、安全与软件注册等。全书提供513个实例，每个实例都突出了其实用性。<br>    本书适合于Visual Basic编程人员，也可供大、中专院校相关专业的师生学习参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

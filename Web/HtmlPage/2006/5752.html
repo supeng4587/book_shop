@@ -5,6 +5,36 @@
     <title>Head First EJB（中文版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5752 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>有些人只是想通过认证来取悦挑剔的老板，但相信你不是这种人。确实，你也想通过Su n认证业务组件开发人员（SCBCD）考试，但不仅如此，你还需要真正把EJB用到实处。你要构建应用，要对付最后期限，如果通过考试之后第二天早上就把你学过的EJB知识忘得一干二净，你肯定会受不了。<br>    我们会看着你稳稳当当地通过考试，而且会帮你在实际中使用EJB。你会深入地了解EJB体系结构、会话、实体和消息驱动bean的生命周期、CMP、EJBQL、事务、安全、模式等等内容，还会知道基于组件的开发究竟是什么意思。你理解得越多，需要记的就越少，所以不要指望一点都不懂，通过死记硬背向大脑里塞东西。<br>    如果你看过《Head First Java》，就会知道这本《Head First EJB》是怎样的一本书 D D它会完全出乎你的意料！如果你没有看过那本书，你要做好心理准备。《Head First EJB》应用了最新的学习理论，将知识直接送到你的大脑里（不用开刀）。你会通过不寻常的方式同这本书打交道，可以学得更深入、更快，而且最重要的是，你能真正地学以致用。使用EJB构建业务组件，这是Java的一种最流行的使用，不过SCBCD考试很让人头疼。这我们很清楚，因为我们就参与了编写这个考试的工作。因为考试确实很难，所以我们认为至少可以指引一条路，让你通过这个考试，而且只需要少买3个超大披萨，买这本书的钱就有了。<br>    Kathy Sierra（JavaRanch.com的创始人）和Bert Bates是Sun的多个Java认证考试开发小组的成员，其中就包括SCBCD考试。这两位作者携手使用Head First概念，已经为成千上万的开发人员教授了Java技术。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

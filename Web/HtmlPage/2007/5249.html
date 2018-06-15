@@ -5,6 +5,36 @@
     <title>Web开发敏捷之道——应用Rails进行敏捷Web开发（第2版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5249 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>全书主要分为两大部分。在“构建应用程序”部分中，读者将看到一个完整的“在线购书网站”示例。在随后的“Rails框架”部分中，作者深入介绍了Rails框架的各个组件。<br>    除了上述两部分之外，对Rails缺乏了解的读者应该首先阅读“起步”部分，通过一个最简单的示例应用感性了解这个时下热门的web框架。不熟悉Ruby 的读者应该阅读“附录”部分中的“Ruby简介”，以便了解Ruby的基本语法与常见用法。<br>    本书第1版曾荣获Jolt大奖“最佳技术图书”奖。在第1版的内容架构基础上，第2版增加了对Rails 1.2中新特性和最佳实践的介绍。相比第1版中的内容，Rails 1.2增加了数据迁移、RJS模板、集成测试框架等重要的新特性，在部署、项目组织等方面有了很多新的最佳实践。本书涵盖了这些全新的内容，因此更好地体现出Rails框架的发展现状。<br>    整体而言，全书既有直观的实例，又有深入的分析，同时还涵盖了 web应用开发中各方面的相关知识，堪称一部深入浅出的佳作。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

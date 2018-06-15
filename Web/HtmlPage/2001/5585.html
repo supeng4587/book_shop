@@ -5,6 +5,36 @@
     <title>XML实用进阶教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5585 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本学习XML基本概念和基础理论，掌握XML开发技术的实用参考书；参照W3C的最新标准，较为全面地介绍了XML语言及其相关技术；在详细地介绍了XML语言及其相关标准的同时，注重XML技术的实际应用。本书从内容的组织上循序渐进，语言简洁易懂，既适合于XML初学者入门使用，同时对具有一定XML基础的读者也有极大的参考价值。通过阅读本书，读者可以设计并实现自己的基于XML的应用系统，构造基于XML的WEB站点。从创建XML文档，有效性的检查，到样式单转换，数据交换与数据库技术的应用，本书都有详细介绍。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

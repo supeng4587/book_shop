@@ -5,6 +5,36 @@
     <title>UML基础与应用——高等学校规划教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5557 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从应用的角度介绍了UML统一建模语言的基本知识和应用技术。与传统的写法不同，本书从UML实际应用出发，从面向对象软件开发的角度组织内容，将知识点融入到实际项目的开发中，注重使用UML来解决实际应用问题。本书通过UML基础知识的学习、课后习题的练习、应用项目AutoWeight系统的开发三个层次来帮助读者掌握知识点，第一个层次为学习和模仿，第二个层次为练习和深化，第三个层次为应用和提高。<br>    本书浅显易必，并结合实例和案例进行讲解，有助于读者在较短的时间内学会如保在软件开发过程中应用UML。本书既可以作为高等院校计算机专业的学生学习UML或面向对象程序设计的基础教材，也可作为从事计算机行业的技术人员学习UML的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

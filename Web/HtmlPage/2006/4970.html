@@ -5,6 +5,36 @@
     <title>Effective C++ Third Edition ：改善程序技术与设计思维的55个有效做法（英文版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4970 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>有人说C++程序员可以分成两类，读过Effective C++的和没读过的。然而世界顶级C++大师Scott Meyers成名之作的第三版的确这样深入。或许有点夸张了，但无论如何，当您拥有这本书之后，就获得了迅速提升自己C++功力的一个契机。<br>    在国际上﹐本书所引起的反响之大﹐波及整个计算器技术出版领域﹐余音至今未绝。几乎在所有C++书籍的推荐名单上﹐本书都会位于前三名。作者高超的技术把握力﹐独特的视角﹑诙谐轻松的写作风格﹑独具匠心的内容组织﹐都受到极大的推崇和仿效。甚至连本书简洁明快的命名风格﹐也有着一种特殊的号召力﹐我可以轻易列举出一大堆类似名字﹐比如Meyers本人的More Effective C++和Effective STL﹐Don Box的EffectiveCOM﹐Stan Lippman主编的Efficient C++系列﹐Herb Sutter的Exceptional C++等等。要知道﹐这可不是出版社的有意安排﹐而且上面这些作者﹐同样是各自领域里的绝顶大师﹐决非人云亦云﹑欺世盗名之辈。这种奇特的现象﹐只能解释为人们对这本书衷心的赞美和推崇。<br>    这本书不是读完一遍就可以束之高阁的快餐读物，也不是能够立刻解决手边问题的参考手册，而是需要您去反复阅读体会，极力融入自己思想之中，融入自己每一次敲击键盘的动作之中。C++是真正程序员的语言，背后有着精深的思想与无以伦比的表达能力，这使得它具有类似宗教般的魅力。希望这本书能够帮助您跨越C++的重重险阻，领略高处才有的壮美，做一个成功而快乐的C++程序员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

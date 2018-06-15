@@ -5,6 +5,36 @@
     <title>C语言参考手册.第5版.英文版</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5097 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是关于C语言的详尽的参考手册。最新的第5版增加了对C99标准的介绍，更加符合当前读者学习C语言的需要。 <br>　　全书分为两大部分，共24章。第一部分讨论了C语言的所有语言特征，包括词法、预处理机制、声明、类型、表达式、语句以及函数等基本语言特性。第二部分讨论了C语言的标准库，根据它们不同的功能分别详细介绍。为帮助读者理解相关概念，本书在讨论C语言及其标准库的各方面问题时，提供了许多实例和解释。在第一部分的各章中还提供了练习题，书后则给出了主要练习的解答。这些练习的主要目的是帮助读者理解C语言的基本机制及其重要细节，其中并不涉及复杂的程序设计技术与问题。 <br>　　本书可以作为高等院校计算机专业C语言课程的教材和参考书，对于一般的C程序员也有重要的参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

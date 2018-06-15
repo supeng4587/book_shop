@@ -5,6 +5,36 @@
     <title>Visual Basic2005入门经典</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5931 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书通过引导读者应用Visual Basic 2005创建一个图片查看程序，全面阐述了使用Visual Basic创建应用程序所需的各种基本技能。<br>　　全书分5个部分，总共24章。第一部分介绍了Visual Basic 2005速成版开发环境，引导读者熟练使用该IDE；第二部分探讨如何创建应用程序界面，包含窗体和各种控件的用法；第三部分介绍了编程技术，包括编写和调用方法、处理数值、字符串和日期、决策和循环结构、代码调试、模块和类的创建以及图形绘制等；第四部分阐述了文件和注册表的处理、数据库的使用和自动化其他应用程序等；第五部分介绍了应用程序部署并概述了.NET框架。<br>　　本书适合没有任何编程经验的读者和Visual Basic新手阅读，也可作为大中专院校Visual Basic课程的参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>JavaScript精粹</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5755 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要介绍JavaScript应用中一些常见的问题及其解决方法，从最基础的数字、字符串、数组到进阶的DOM、表单验证、cookie，再到较为高级的Ajax，书中均有涉及。本书覆盖现在非常流行和通用的技术，提出很多出现频率较高的Web开发常见问题，并提供了大量的技巧和解决方案，具有很强的实用性和通用性，书中的代码也具有很强的兼容性。本书还介绍了一些面向对象编程内容，这部分内容可以帮助用户以更高的角度来看待自己的设计，以提高代码的质量和可维护性。最为难得的是，由于具有丰富的业界实践经验，作者在本书中不仅仅提出了对各种问题的解决方法，还展现了自己的思考方法和一些良好的程序设计习惯，与具体的细节性知识相比，这些无疑更加具有价值。 <br>　　本书适合参与创建网站以及开发Web应用程序的工程技术人员和管理人员阅读参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

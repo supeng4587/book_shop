@@ -5,6 +5,36 @@
     <title>精通Spring 2.0</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5725 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是关于Spring 2.0的权威教程，是Java/Java EE开发者必备的参考书。本书详尽系统地介绍了Java EE的基础知识、Spring 2.0的各种功能，以及Spring 2.0的高级使用技巧和最佳实践。全书共分为4篇：第1篇介绍Spring 2.0核心技术，主要围绕Spring元框架进行阐述；第2篇介绍DAO层集成技术，主要围绕JDBC、Hibernate和JPA等持久化技术展开论述，针对Spring使能应用的事务管理和集成测试，也进行了相关介绍；第3篇介绍Java EE服务及技术的集成，主要围绕企业应用中使用的各种Java EE服务及技术展开论述；第4篇介绍Spring 2.0最佳实践，主要从平台差异性和应用差异性角度给出论述。全书理论与实践并重，通过大量的实例帮助读者尽快掌握Spring 2.0的使用技巧，从而提高本书的参考、阅读价值。<br>    本书适合作为Java/Java EE开发者、系统分析师和架构师的参考书，同时，本书非常适合于高校相关专业的学生，以及对Java/Java EE开发有兴趣的各类开发者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

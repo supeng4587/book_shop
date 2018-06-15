@@ -5,6 +5,36 @@
     <title>CSS DHTML FOR WES专业设计</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5602 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书取自顶尖级的Web设计者和编程人员的工作经验，通过为2个虚拟公司创建和更新Web站点实例，指导你如何用样式表（CSS）和动态超文本标识语言（DHTML）为实际客户构建Web站点的关键技术。<br>    全书内容共分2部分：第1部分讲述CSS和DHTMI。基础知识，从实用例子中学习如何创建网页第2部分从动态Web站点的创建中讲述如何获取CSS和DHTML效果和高级功能，以及跨平台和电子商务的解决方案。<br>    本书各章都有练习旨在为你打下牢固的DHTML基础，同时也教你一些高级技巧和技术，供你日后完成大型的DHTML工程之用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

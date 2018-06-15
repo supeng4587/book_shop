@@ -5,6 +5,36 @@
     <title>XML及WML教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5573 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是为读者学习XML元标记语言和WML实例标记语言而准备的教材。书中首先介绍了XML基础知识，包括扩展标记语言XML的基础知识及XML系列协议中的主要相关协议，如Namespaces、XLink、XSLT、Xpointer等。然后，结合大量实例全面而详尽地介绍了以下内容：基于XML的实例标记语言WML（Wireless Markup Language，无线标记语言）及其脚本语言WMLScript；如何对WML文档进行二进制压缩；如何利用WML来设计丰富多彩的WAP网页。并对相关的WAP开发等问题进行了深入的阐述。<br>本书可供从事计算机网络工作的高级技术人员参考，也可供高等院校计算机专业和电子专业的高年级学生或研究生作为XML及WML的教材使用。<br><br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

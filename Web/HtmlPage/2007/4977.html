@@ -5,6 +5,36 @@
     <title>C语言解惑</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4977 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书脱胎于作者在C语言的摇篮——贝尔实验室教授C语言的讲稿，几乎涵盖了C语言各个方面的难点，并包含了一些其他书籍很少分析到的问题。在每个谜题后面都有详尽的解题分析，使读者能够清晰地把握C语言的构造与含义，学会处理许多常见的限制和陷阱，是一本绝佳的C语言练习册。<br>    本书结构清晰，循序渐进，适合于C语言的初学者，可用作高校计算机相关专业的辅助教材，同时也可供具有一定C语言编程经验的读者复习提高之用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Visual C++.NET 图像处理编程（附CD-ROM光盘一张）——程序员书库</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5055 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以CImage类为基础介绍了Visual C++.NET环境下的图像基础知识与图像处理常用算法的编程原理和方法。通过自建CImage仿真类，本书方法也适用于Visual C++环境。<br>    本书包括4个部分。第1部分介绍图像显示与存储的基础知识；第2部分介绍Visual C++.NET应用程序框架的建立，图形编程，图像的存取、显示与生成，以及图像的变化；第3部分介绍图像的点处理，邻域处理，二值图像的处理，形态学图像处理，彩色图像的处理，轮廓跟踪与线段编码；第4部分介绍CImage仿真类的建立与图像文件的读写。<br>    本书附有光盘，提供了演示程序的全部源代码以及处理所需的图像实例。<br>    本书可作为计算机及相关专业数字图像处理的教材或教学参考书，也可作为电子、信息类专业的学生与科研人员在图像处理方面的参考书或程序库。<br><br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

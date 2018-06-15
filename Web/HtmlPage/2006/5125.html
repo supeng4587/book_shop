@@ -5,6 +5,36 @@
     <title>C++Builder数据库开发实用教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5125 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以一个涵盖开发数据库应用系统全部技术范畴、采用先进软件技术水平开发出来的工程实例——《国家英语四级考试网报系统》为主线索，采用“做中学”和“小步幅前进”的教育理念，以“任务驱动”模式、按数据库应用系统实际工作过程中开发顺序组织教材，让学生在明确目标、掌握背景知识的情况下，轻松地从带有理解性的模仿中享受到成功的喜悦，目的是让学生在很短的一段时间内拓宽C++Builder 6数据库应用系统开发的视野。<br>　　本书涵盖C++面向对象技术、数据库技术、网络通信技术、多媒体图像处理技术、组合查询技术、报表分栏打印技术、摄像头读取技术和随机排序算法、winRAR和Install Shield打包及Web部署数据库应用系统技术等一整套时下流行的软件开发技术，并具有精深的背景知识，通过本书的学习，可以使学生的计算机理论知识得到一次深层次的综合应用，将引导学生从课堂走向软件开发实践。<br>　　本书适合大学应用本科或高职计算机专业高年级以上的学生学习，也可作为大学计算机专业毕业生的数据库应用系统开发职前强化训练教程。本书对于CC++程序员、数据库软件开发工程师也同样具有学习和参考价值。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

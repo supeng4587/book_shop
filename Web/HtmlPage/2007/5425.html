@@ -5,6 +5,36 @@
     <title>Java EE 和.NET互操作性</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5425 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍Java EE与.NET集成策略和最佳实践。涉及计算机系统集成过程中遇到的各种问题，例如多样的技术集、不兼容的API和完全不同的环境维护等。主要内容包括两个方面：首先是集成类型方面的内容，例如同步和异步，概述了独立的Java和.NET组件是如何运用多种多样的技术集成在一起的；其次是与服务需求质量有关的内容，例如安全性、可靠性、可伸缩性，以及满足不同企业环境的服务水平协议的要素。<br>　　本书作者具有丰富的实践经验，为Java EE和.NET开发团体提供了多个集成Java EE和.NET平台的策略，可节省开发人员的时间和工作量，有效地缩短应用程序开发周期。本书适合软件开发人员和软件项目管理人员参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

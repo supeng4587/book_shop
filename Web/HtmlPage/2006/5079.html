@@ -5,6 +5,36 @@
     <title>标准C语言基础教程（第四版）——国外计算机科学教材系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5079 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>这是一本介绍用C语言进行计算机编程的经典教材。在总结前三版的经验基础上，作者对内容进行了重新整理，并新添了介绍计算机软硬件发展历史的一章。全书详细介绍了数据类型、算术运算、逻辑运算、变量、条件语句、函数、数组、指针、字符串、结构、文件操作、位操作、宏、库函数等基本内容，使读者在阅读之后就能很快掌握C语言编程的精髓。关于C++编程的一章也是精简而重点明确的。书中每章都有大量简答题和编程练习题，附录还列出了它们的答案。<br>    本书结构合理，内容深入浅出，适合用做高等学校本科和专科教材，也适合初学编程的自学者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>ASP.NET开发人员指南</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5464 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>ASP.NET是伴随Microsoft的Visal Studio.NET平台一起发布的，它并不是单纯是ASP3.0版本的简单升级，而是为你开发Web应用提供了许多全新的功能。本书包括了Microsoft的.NET平台建立一个成功的Web应用所需要学习的所有知识要点，具体包括Visual Basic.NET建立Web页画、利用ADO.NET处理数据访问、创建和使用Web服务、配置和部署ASP.NET解决方案等。<br>    本书非常适合初、中级编程人员学习，也可以作为大中专院校及培训班学生的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

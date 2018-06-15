@@ -5,6 +5,36 @@
     <title>企业级应用开发—— 使用VS.NET、UML和MSF</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5338 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>为在激烈的市场竞争中立于不败之地，IT企业必须用正确的方法设计复杂的解决方案，并尽量缩短交付时间。<br>   本书蕴含大量是实例，全面介绍了如何构建企业级解决方案，讨论企业建模，分析设计事项、项目管理设计过程、UML建模及.NET实现等，并阐述了MSF的用法，指导您正确设计项目，从而确保项目平稳运行，带您亲历企业内部和外部解决方案的整个开发过程——收集需求、构建UML模型图和生成代码。<br>   本书观点新颖、论述精辟、编排得当，内容翔实准确。主要面向企业级.NET解决方案的开发人员、团队领导和项目经理，以及那些希望增强自己的企业应用开发能力的中高级.NET程序员</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

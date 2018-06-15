@@ -5,6 +5,36 @@
     <title>C++语言程序设计<第3版>学生用书/清华大学计算机基础教育课程系列教材</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5019 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是在原《C＋＋语言程序设计习题与实验指导》一书的基础上编写的，作为与《C＋＋语言程序设计（第3版）》配套的学生用书。<br>    本书首先给出一个简要的“学习指南”，其余章节与主教材《C＋＋语言程序设计（第3版）》相对应，每章内容分为3部分：第一部分是“要点导读”，主要是为自学读者指明学习重点，建议学习方法。第二部分是“实验指导”，每章都有一个精心设计的实验，与《C＋＋语言程序设计（第3版）》相应章内容配合，使读者在实践中达到对主教材内容的深入理解和熟练掌握。每一个实验都包括“实验目的”、“实验任务”和“实验步骤”。第三部分是习题解答，给出了《C＋＋语言程序设计（第3版）》各章习题的参考答案，共198道习题。<br>    本书附录中还给出3个非常实用的附录——“Visual C＋＋开发环境简介”、“ASCII码表”和“STL中通用算法函数原型及说明”。<br>    本书适合作为高等院校程序设计课程的教辅书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

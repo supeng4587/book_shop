@@ -5,6 +5,36 @@
     <title>ASP.NET安全性高级编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5389 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>随着Internet在各行各业的应用和普及，安全问题越来越受到Web应用程序开发人员的关注。为了帮助您全面掌握ASP.NET应用程序安全性问题的解决方案，本书深入探讨了各种安全攻击类型以及相应的ASP.NET安全对策。具体网容包括常规的安全攻击类型和可以实现的多种安全措施、在ASP.NET安全架构中的身份验证和授权、包括.NET Passport和Windows授权在内的多种不同授权方式、代码访问安全性、Web服务安全性、IIS和ASP.NET安全性配置等、通过阅读本书，可大大提高您的安全意识和预防Internet攻击的能力。<br>    本书适合那些具有一定的ASP.NET和.NET Framework编程经验并需要自己开发各种安全选项，以确保ASP.NET应用程序安全的中高级ASP.NET开发人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

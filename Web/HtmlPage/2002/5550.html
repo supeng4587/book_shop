@@ -5,6 +5,36 @@
     <title>XML网络编程实例(附赠光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5550 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以实例的形式全面、详细讲解了XML的基础和在WINDOWS平台上的常见应用。本书共有14个实例。前五个实例以构建和扩展一个基本的拍卖站点为例，介绍了XML的基本语法知识、转换和显示XML的XSL样式技术，以及IE支持的数据岛和DSO数据源技术。实例6和实例7分别介绍CSS语言和XSL语言在浏览器中显示XML的例子。实例8介绍如何设计DTD，实例9介绍使用SCHEMA定义文件格式和XSL控制显示的例子，实例10和实例11介绍XML编程，实例12—14介绍XML在多媒体、CDF技术和无线通信领域的三个应用实例。本书适合中级以上的读者使用，对计算机应用软件开发工程师、技术人员具有很高的参考价值。		<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Visual Basic+SQL Server数据库应用系统开发与实例（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5051 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍了Visual Basic和SQL Server 2000的必备知识，并完整地介绍了几个使用Visual Basic开发SQL Server 2000数据库应用程序的实例，包括学生档案管理系统、软件项目开发管理系统、旅游资源及线路管理系统和企业库存管理系统，既可以作为独立的系统运行，也可以作为应用软件的一个模块，具有很强的实用性和可移植性。本书最后还给出了程序优化和发布方法。<br>  本书适合SQL Server 2000数据库管理员和应用程序开发人员，以及对相关技术感兴趣的读者阅读。阅读者中人要具备基本的Visual Basic编程知识，无需有任何经验，就可以按照书中的实例开发数据应用程序。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

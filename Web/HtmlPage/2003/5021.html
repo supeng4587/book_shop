@@ -5,6 +5,36 @@
     <title>泛型编程与STL（影印版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5021 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>许多程序员可能并不知道，C++不仅是一个面向对象程序语言，它还适用于泛型编程(generic programming)。这项技术可以大大增强你的能力，协助你写出高效率并可重复运用的软件组件(software components)。<br>     本书由知名的C++专家Matthew H.Austern执笔，引导你进入泛型编程思维模型，并将你带往此一模型的最重要成品：C++ Standard Template Library(STL)。本书揭示STL的奥秘，告诉你STL不仅仅是一组方便运用的容器类(container classes)。对于泛型组件和可交互作用的组件而言，STL是一个具备扩充能力的框架(framework)。<br>     本书阐述了泛型编程的中心思想：concepts、modeling、refinement，并为你展示这些思想如何导出STL的基础概念：iterators、containers、function Objects。循此路线，你可以把STL想像为一个由concepts(而非明确之functions或classes)组成的程序库。你将学习其正式结构并因此获得其潜在威力所带采的完整优势。<br>		<br>     作者简介<br>     Matthew H.Austern：拥有博士学位，曾于MIT和UC Berkeley做研究。现任职于Silicon Graphics编译器团队，是SGI STL的主要作者。他是Dr.Dobb's Journal和C++Report两本刊物的撰稿人，并主持newsgroup comp.std.c++，同时也是ISO/ANSI C++标准委员会的一位活跃成员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

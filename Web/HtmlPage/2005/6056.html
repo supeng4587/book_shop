@@ -5,6 +5,36 @@
     <title>新编Visusl Basic 程序设计教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6056 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从一个很简单的程序制作实例开始读者介绍Visual Basic的概貌，使读者迅速体验到编程的感觉，力求减少或消除读者从以往一些教材中产生的恐惧感；接着从程序设计语言方面对程序设计的基本知识、基本语法、编程方法和常用算法进行了较为系统、详细的介绍，让学生学会分析问题、掌握简单问题编程的方法，这也是初学者的难点。本书用了3章的篇幅介绍较易掌握和实现的可视化界面设计方法以及文件与数据库的用法，其中文件与数据库这两章为选学部分。教学实践证明，若只看重可视化界的设计，而不重视程序设计基础功的训练，则课程的教学易于失败；而只强调程序设计方法、常用算法、不兼顾可视化界面设计方法，则不能很好地满足实际应用的需要。把二者有机地结合，才能既提高学生学习的积极性，又提高编程的效率和教学效果，实现学以致用。附录部分汇集了常用的语句、运算符、属性、方法、事件、函数、对象的介绍，便于学生在复习和自学时查阅。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

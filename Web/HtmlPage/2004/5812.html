@@ -5,6 +5,36 @@
     <title>JavaScript程序设计基础教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5812 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是学习JavaScript程序设计的基础教材，共分10章，主要内容包括：HTML制作、JavaScript编程基础、流程控制、函数、对象编程、文档对象模型与事件驱动、使用浏览器对象、级联样式表(CSS)技术和JavaScript网页特效等。为便于教学，每章均附有练习题。<br>　　本书内容丰富，讲解循序渐进、深入浅出，简明易懂。本书为高等院校本、专科各专业JavaScript程序设计、动态网页制作、计算机应用基础(编程入门部分)等课程的教材，也可作为电子商务、电子政务的辅助培训教材。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

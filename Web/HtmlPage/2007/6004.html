@@ -5,6 +5,36 @@
     <title>全国计算机等级考试命题大透视二级Visual Basic</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6004 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>2007年计算机等级考试将在新大纲标准下实施，为了帮助考生及时地适应最新大纲的要求，顺利地通过考试，全国计算机等级考试教材编写组和未来教育教学与研究中心联合设计、开发了本系列图书。本书包括以下几个部分。<br>　　命题点评，通过对历年笔试和上机试题的研究、分析，总结出了命题规律。<br>　　命题剖析，所有命题点均有命题分析，并通过真题例证，传授给考生解题的思路和技巧，并提供相应的习题，帮助考生巩固知识点。<br>　　真题汇编，本书汇集了近年数套笔试真卷和经典上机试题，通过做题可提高应试能力。<br>　　模拟训练，在分析命题规律的基础上，提供笔试和上机的模拟试题，帮助考生应对考试。<br>　　本书既可以作为计算机等级考试二级Visual Basic考生的自学用书，也可以作为计算机等级考试培训班的教学参考书</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

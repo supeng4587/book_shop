@@ -5,6 +5,36 @@
     <title>小型网站建设技术(第二版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5283 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是21世纪高校计算机应用技术系列规划教材之一，主要是小型网站建设技术，本书从浏览各种类型的网站入手，在认识网站基本特征和网站体系结构的基础上，逐步介绍了建设一个网站所需经历的4个步骤，网站的规划与设计、站点建设、网站发布和网站的管理与维护。在介绍网站建筑步骤的同时又深入了介绍了与网站建设相关的各种技术；静态网页技术、动态网页技术和动态服务器网页技术。<br>    本书语言简单、通俗易懂，并图有大量实例，既适合于高等院校及大、中专院校作为网站建设课程的教材，也适于初学者自学使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

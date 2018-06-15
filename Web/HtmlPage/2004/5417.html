@@ -5,6 +5,36 @@
     <title>Microsoft Windows程序设计(Visual Basic.NET语言描述)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5417 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Charles Petzold是全球最权威且知名的Windows程序设计专家，他将其最畅销Programming Microsoft Windows with C#一书加以改写，使之能完全适用于Visual Basic.NET的开发人员。这位畅销书的作家示范了如何使用Visual Basic.NET将Windows Forms的功能发挥到极致（Windows Forms是新一代的Windows程序设计类库）。您将学习如何使用Visual Basic的.NET版本替Windows应用程序建立动态的用户界面与图形化输出。通过丰富的用户端应用程序范例清楚示范了最常用的技术与不为人知的技巧，有了本书，您能真正深入到Visual Basic.NET的核心领域。<br>    本书内容：<br>   ·控制台本身<br>   ·Windows Forms<br>   ·基本结构<br>   ·文本输出练习<br>   ·直线、曲线与区域填充<br>   ·驾驭键盘<br>   ·页面与转换<br>   ·操纵鼠标<br>   ·文本与字体<br>   ·计时器与时间<br>   ·图像与位图<br>   ·按钮、标签与滚动条<br>   ·贝塞尔曲线与其他样条<br>   ·菜单<br>   ·路径、区域与裁剪<br>   ·对话框<br>   ·笔刷与画笔<br>   ·编辑、列表与数值微调<br>   ·字体的乐趣<br>   ·工具栏与状态栏<br>   ·打印<br>   ·树视图与列表视图<br>   ·图元文件<br>   ·剪贴与拖放</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

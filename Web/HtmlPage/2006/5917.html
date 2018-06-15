@@ -5,6 +5,36 @@
     <title>Visual Basic数据库开发从入门到精通（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5917 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍了使用Visual Basic 6.0对不同类型的数据库进行操作的方法和技巧，并从不同的方面，以不同角度介绍了在数据库程序设计中经常遇到的问题及解决方法。全书分7章。首先以操作Access 2000数据库为例，介绍了数据库的基本操作、高级操作、SQL语句的使用、通过ODBC操作网络数据库、ADO使用等知识；然后介绍了通过ADO操作SQL Server 2000数据库和Oracle 9i数据库的方法。<br>　　本书光盘中提供了与书中实例相对应的66个完整程序，这些程序稍加改动，即可在实际的工作中使用。<br>　　本书内容丰富，思路清晰，实用性强，既可供Visual Basic编程的初学者阅读，也可作为大、专院校相关专业师生的参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

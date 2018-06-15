@@ -5,6 +5,36 @@
     <title>Spring in Action中文版</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5693 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书分为三大部分和两个附录，每一部分专注于Spring框架的一个领域：核心层、中间层和Web层。第一部分展示了Spring框架的两个核心概念：反向控制(Inverstion of Control，IoC)和面向切面编程(Aspect-Oriented Programming，AOP)，以便读者理解Spring的基础原理，这些基础原理在本书各个章节都会用到。第二部分在第1章介绍的IoC和AOP基础之上，展示了如何将这两个概念应用到应用系统的中间层。第三部分走出中间层迈向显示层，在很多J2EE系统中显示层被称为Web层。附录A介绍如何开始自己的Spring应用系统，如何下载Spring以及如何编写Ant配置文件。附录B介绍一些与Spring有关的其他开源框架。本书的每一部分既是建立在前一部分的基础上，同时也都是独立存在的，所以，读者不必从头开始就可以深入到各个主题。<br>　　本书适合所有Java开发人员，特别是对企业级Java开发人员更有帮助。本书将循序渐进地指导读者浏览贯穿本书的复杂示例。Spring最突出之处在于它使企业级系统开发变得简单，所以，企业级系统开发人员会更加欣赏本书中的示例代码。本书最后4章描述了Spring是如何为Web层开发提供支持的，如果你是一位Web开发人员，你会发现本书的最后一部分特别有用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

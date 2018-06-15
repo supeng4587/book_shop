@@ -5,6 +5,36 @@
     <title>Visual Basic6.0/.NET程序设计实训教程（中职中专教材）——全国职业院校技能型紧缺人才培</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6025 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是专为落实教育部和信息产业部《关于确定职业院校开展计算机应用与软件技术专业领域技能型紧缺人才培养培训工作的通知》和《职业院校计算机应用与软件技术专业领域技能型紧缺人才培养指导方案》精神而编写的标准的职业院校教材。<br>    本书内容：本书以目前Visual Basic最常用的版本Visual Basic 6.0 和Visual Basic .NET为支持环境，系统介绍了利用Visual Basic开发Windows桌面应用程序、数据库应用程序、多媒体应用程序、网络应用程序的一般方法。全书分为11章，主要内容包括：Visual Basic 的基础知识、Visual Basic 6.0窗体设计、Visual Basic 程序设计语言基础、Visual Basic 标准控件、ActiveX控件、图形程序设计、菜单与工具栏、文件应用、多媒体技术、Visual Basic在数据库开发中的应用、Visual Basic.NET应用程序开发。书后附有部分习题参考答案。<br>    本书特点：1. 改变传统教材的编写方式，按照初学者的认知规律，将知识点打散，安排到一个个应用实例中，先强化技能，后总结、归纳，理解轻松，容易掌握；2. 高度体现理论的适度性，实践的指导性，应用的完整性；3. 每一条程序代码均给出注释，方便阅读、理解，一目了然；4. 大量的提示、注意内容以醒目的方式穿插在文中，既明确指出了应用中需注意的问题，又可达到举一反三、活学活用的目的；5.课后配有上机实战和习题，方便检测和巩固学习效果，并做到及时应用。<br>    读者对象：全国职业院校计算机专业教材；社会相关领域培训班用书和广大电脑爱好者优秀的自学读物。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Visual C++ .NET网络与通信高级编程范例（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5376 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书详细介绍了利用Visual C++ .NET集成开发环境开发网络通信应用程序的方法，同时对当今流行的FTP、E-mail、Telnet、HTTP、ICMP、串口通信等通信协议程序设计和应用开发进行了详细的介绍和讲解。<br>    本书在进行理论介绍的同时，配合以大量的实例，让读者能够深入地了解各种网络应用程序的开发技巧。另外，结合具体的设计实例，本书还讲解了网络通信协议的工作原理等内容。<br>    本书面向具有Visual C++ .NET网络通信编程基础知识的读者，此外也适合于中、高级程序员在网络和通信应用开发时阅读和参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>并行程序设计：C、MPI与OpenMP——大学计算机教育国外著名教材系列</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5057 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是美国Oregon州立大学的Miachael J. Quinn教授在多年讲授“并行程序设计”课程的基础上编写而成的，主要介绍用C语言，并结合使用MPI和OpenMP进行并行程序设计，内容包括并行体系结构、并行算法设计、消息传递编程、Eratosthenes筛法、Floyd算法、性能分析、矩阵向量乘法、文档分类、蒙特卡洛法、矩阵乘法、线性方程组求解、有限差分方法、排序、快速傅立叶变换、组合搜索、共享存储编程、融合OpenMP和MPI以及5个附录。<br>    本书按授课方式安排章节，通过划分、通信、集聚和映射等四步的并行程序设计方法，来解决各种实际的并行性问题，使读者掌握系统化的并行程序设计方法，开发出高效的并行程序。<br>    本书不仅是一本优秀的并行程序设计教材，对广大的相关专业人员也很有参考价</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

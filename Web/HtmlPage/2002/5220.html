@@ -5,6 +5,36 @@
     <title>JSP 网站编程教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5220 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是关于JSP网站编程的专著。作者从自学与教学的角度出发，从JSP的基本知识，基本语法入手，配以实际的范例细致讲解JSP网站编程的方法与技巧。<br>全书共有11章，第1章是JSP概述，并介绍JSP的运行环境和实现原理；第2章讨论了JSP的基本语法；第3章详细讲述了JSP内置对象的使用；第4章阐述了Java服务器小程序；第5章介绍了XML以及JSP和XMA的关系和使用；第6章讨论了JSP中访问数据库的技术——JDBC的原理和数据库的基本知识；第7章介绍了Java组件技术-JavaBean；第8章的内容是JSP的一些高级开发技术。如异常处理、标记库的扩展等；第9、10章分别给出编程实例：JSP的BBS论坛程序、JSP聊天室程序，第11章是JSP的编程技巧集；附录部分提供了6个上机指导操作。<br>本书结构清晰，内容丰富，讲解深入，实际范例与软件功能紧密结合。不但是从事用JSP进行网站开发和编程的广大初中级用户自学指导书，同时也可以作为高校相关专业师生教学、自学参考用书。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

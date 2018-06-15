@@ -5,6 +5,36 @@
     <title>C++程序设计教程（第二版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4947 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是《C++程序设计教程》的第二版。然而从指导思想、内容结构、写作特点等方面，都以全新的面貌呈现于读者。全书全部重新执笔，代码全部重写，涵盖了基本C++编程方法的全部技术特征。<br>    本书以C++标准为蓝本，从过程化编程的基本描述，到对象化编程的方法展开，乃至高级编程的实质揭示，形成一条自然流畅的主线，通俗易懂，形象风趣。本书在内容结构上自成体系，并以独特的描述手法，辐射到计算机专业其他诸课程，体系严谨，结构独特。<br>    作者在长期的教学、科研实践以及ACM大学生程序设计竞赛培训工作中，总结出了许多难能可贵的教学经验，能使读者快捷而准确地找到编程技术要领，洞穿C++内部实现要害，直击抽象编程本质。<br>    与本书配套，《C++课程设计指导》、《C++程序设计习题及解答》、《C++程序设计教程详解》和《C++程序设计教程精粹》也将陆续面世。除此之外，还配有C++程序设计教程课件和源代码供读者下载。<br>    本书适用于大学计算机程序设计教学，也适合于立志自学成才的读者，帮助他们从零开始走向高级程序员。本书也旨在引导读者从欣赏C++入门的初级精彩到享受C++经典名作的内在精彩，因而，也是一本软件工作者不可多得的案头参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

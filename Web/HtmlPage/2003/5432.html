@@ -5,6 +5,36 @@
     <title>ASP.NET性能高级编程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5432 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>ASP.NET为创建高性能的Web应用程序提供了很重要地功能。<br>    本书全面讲述了提高ASP.NET应用程序性能的方方面面，从设计、编码，到测试、监控。全书共包括9章和1个附录，书中首先讨论了性能的概念和性能的重要性，然后逐步讲解性能的设计，编写高性能代码的原则和实例，如何提高数据处理、数据访问、数据操作和数据表示的性能，使用WAS和ACT工具测试应用程序，使用系统的性能计数器和自定义的性能计数器监控应用程序。本书注重从整体上讲解如何改进性能，并供了很多实用的技巧。<br>    本书适合有ASP.NET和Visual Basic.NET的实际使用经验，又想全面了解如何创建高性能ASP.NET应用程序的开发人员阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

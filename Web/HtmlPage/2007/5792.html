@@ -5,6 +5,36 @@
     <title>解析BIRT-Eclipse商业智能和报表工具</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5792 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本有关Eclipse BIRT的技术书籍，全面介绍了该工具的具体应用和开发，并介绍了相关的概念和原理。全书共分9章，具体包括BIRT简介、BIRT报表开发示例、报表数据源与数据集、报表设计、复杂报表的设计、使用脚本开发和设计报表、共享的报表开发框架、在应用程序中集成BIRT、通过CVS构建BIRT。通过本书，读者将对ECLIPSE BIRT的原理、技术与应用有深入的了解和认识。<br>　　本书适合软件从业人员、自由软件爱好者、高等院校学生阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

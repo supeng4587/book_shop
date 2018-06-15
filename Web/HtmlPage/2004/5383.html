@@ -5,6 +5,36 @@
     <title>ASP. NET 2.0 大揭密</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5383 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是市面上第一本有关新版ASP.NET 2.0的图书，主要描述了ASP.NET 2.0相对于当前版本的新特性，包括40多个新增的控件、Master Page、集成站点导航功能、用户管理系统、个性化功能、WebPart、Theme/Skin、站点计数器、移动设备、配置等。应用这些新特性，可以使代码编写量减少约70％，从而大大提高开发效率。本书的最后一章还介绍了一些便于程序开发的小技巧。 <br>   读者必须对当前的ASP.NET版本（1.0或1.1）有很好的理解和掌握，所以本书主要是针对高级和专业级的用户而编写的。<br><br>    PATRICK A.LORENZ 住在德国，他是德国南部一家软件开发咨询公司的CTO。PGK SOFTWARE &<br>COMMUNICATION GMBH（WWW.PGK.DE）主要关注.技术，特别是ASP.NET。2003年该公司引入了QUA-LISITE，这是100%用.NET技术开发出来的首批企业级内容管理系统之一。<br>    在德国的开发人员协会中，PATRICK是一位著名的作家，也是一位培训专家。他出版了8本介绍C#和ASP.NET的图书，其中有两本著名的编程图书ASP.NET MIT C#KOCHBUCH和ASP.NET MIT VB.<br>NET KOCHBUCH是用德语编写的。PATRICK被MICROSOFT公司认为是.NET技术方面的MVP（最有价值专家），也是GERMAN MICROSOFT CODE WISE程序开发的一位重要成员。通过WEB站点WWW.ASPNET<br>2.DE可以与他联系。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

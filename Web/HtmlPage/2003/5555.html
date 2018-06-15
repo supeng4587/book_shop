@@ -5,6 +5,36 @@
     <title>网页制作实用技术</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5555 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是根据教育部高等教育司组织制定的《普通高等学校文科类专业计算机基础课程教学大纲（2000年版）》的基本要求编写的。全书主要阐述Internet网页的制作方法，内容包括网页制作概述、网页编辑软件FrontPage 2002、静态图像处理软件Photoshop 7.0、动画制作软件Flash MX，最后是网站发布与管理，可使读者理解和掌握网站开发的全过程。为了方便读者学习，各章均配备了范例、习题，并在附录中给出了习题答案。<br>本书针对最新的软件版本进行讲解，内容丰富、层次清晰、图文并茂，适合作为普通高等学校的教材，也可供网页制作培训班作为教材或参考书。 <br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

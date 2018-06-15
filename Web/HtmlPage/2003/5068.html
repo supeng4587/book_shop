@@ -5,6 +5,36 @@
     <title>C++网络编程 卷1</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5068 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>随着计算机网络、设备和系统的持续发展，软件工程师面临一个独特的挑战：在不断变化的环境中创建可靠的分布式应用。《C++网络编程，卷1》就此提供了实用、有效的方案：运用ADAPTIVE通信环境(ACE)——一个可以运行在数十个硬件平台和操作系统上、具有创造性的开放源码框架一来开发和优化复杂的分布式系统。 <br>    本书指导软件专业人员如何在开发高效、可移植、灵活的网络应用程序时避免陷阱和错误。它剖析了并发式网络应用固有的设计复杂性，以及克服这些复杂性时必须作出的权衡。<br>    《C++网络编程》以一则概论开篇，介绍了撰写分布式并发应用程序时涉及的议题和工具。然后，针对开发灵活、高效的并发式网络应用程序的需要，本书提供了重要的设计空间、模式和原则。本书作者从专家角度向你展示，在运用C++和模式效地开发面向对象网络应用时，应当如何提高你的设计技能。<br>   读者可以在书中看到以下内容： <br>   ·C++网络编程技术， 包括一篇概论和许多解决常见开发问题的策略 <br>   ·ACE工具包 <br>   ·连接协议、消息交换、消息传递与共享内存 <br>   ·可复用网络应用服务的实现方法 <br>   ·面向对象网络编程中的并发技术 <br>   ·ACE wrapper facades的设计原则和模式 <br>   有了这本书，C++开发者就有了一套最完整的、可以自如运用的工具包，从而能够方便、 高效地开发成功的、 多平台、并发式网络应用程序。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Visual C++6.0 程序设计从入门到精通（附CD-ROM光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":4969 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书首先从Visual C++6.0的基础知识入手，详细介绍了Visual C++6.0的操作环境和应用程序的基本框架，然后按照由易到难、由浅入深地顺序介绍了用Visual C++6.0开发Windows程序的方法，包括菜单和加速键、对话框、常用控件、文本和字体类、图形图像、文件操作、多线程、动态连接库、网络编程和数据库开发等内容。书中在每一个对应的知识点后面，给出了一个或多个示例。<br>    本书适合想按部就班学习Visual C++6.0编程并很快应用到实践中的初学者阅读。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

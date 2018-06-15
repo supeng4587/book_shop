@@ -5,6 +5,36 @@
     <title>.NET本质论第一卷：公共语言运行库（影印版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5341 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>对于我自己的产品，Don竟然教了我所不知道的东西。我坚信，你也一定能从中受益匪浅。本书为需要充分利用Microsoft.NET强大功能的开发人员提供了最重要的内容。这本书深刻地论述了．NET Framework(．NET框架)的精髓：公共语言运行库[Common Language Runtime(CLR)]。Box和Sells揭示了CLR的内部工作方式——CLR设计背后的基本原理，它能够解决的问题，以及CLR编程中类型的角色——并且，在帮助读者在对CLR工作机制有更为完整的理解的同时，指导他们如何利用.NET Framework构建更好的应用程序。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

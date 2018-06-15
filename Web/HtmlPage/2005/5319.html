@@ -5,6 +5,36 @@
     <title>VB. NET应用教程 (含CD-ROM光盘一张）——高等学校计算机语言应用教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5319 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>VB.NET是一门完全面向对象的程序设计语言，具有简单、现代、类型安全、性能优良等特点，是面向对象程序设计教学的主干语言之一。本书从教学实践全程的角度对VB.NET进行了全面阐述，全书共分13章，全面讲解了面向对象的程序设计概念、VB.NET的数据类型和表达式、VB.NET的程序设计语句、数组、面向对象的程序设计方法与原理、控件窗体与界面设计技术、文件程序设计、数据库程序设计和Web程序设计等内容。<br>    本书从教学实践的角度出发，立足于提高学生的程序设计应用能力，全书理论分析透彻严谨，实例丰富生动，内容由浅入深，能快速引导学生进入VB.NET编程世界。本书可作为高等院校程序设计课程教材，也可作为广大希望掌握VB.NET编程的程序设计人员的参考用书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>Hibernate项目开发宝典——宝典丛书</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5816 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以Hibernate为核心，详细讲解了基于组件的J2EE应用软件的开发方法。在讲解方式上，使用基础知识与具体实例相结合的方式对Hibernate进行了全面、深入、细致的讲解，使读者在学习的过程中可以通过具体的练习来加深对讲解内容的理解和把握。<br>    本书在讲解Hibernate的同时，还介绍了经常与Hibernate配合使用的Struts，JSF以及Spring等优秀的框架组件。另外，还涉及到了在开发中常会使用到的开源组件，包括Ant，Digester，XDoclet，Log4j，Eclipse和JFreeChart等。<br>    本书的配套光盘中包含了书中所有实例的完整源代码以及在开发中需要用到的开源组件的安装程序。另外，作者提供了交流空间为广大读者进行后续的支持。<br>    本书适用于使用Hibernate进行Web应用程序开发的技术人员，同时也非常适合对Hibernate相关技术感兴趣的读者进行学习和提高。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

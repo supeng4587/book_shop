@@ -5,6 +5,36 @@
     <title>面向对象设计UML实践（第2版）——世界著名计算机教材精选</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5544 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书自第1版出版以来，深受读者喜爱。为了适应面向对象设计发展，第2版在保留第1版特点的同时，根据当前软件工程的发展趋势和教学特点，精心选择了最主要的基本内容进行介绍。全书包括14章和3个附录，分别为UML导论，对象建模，软件开发过程，餐馆系统的业务建模、分析、设计及实现，类和对象图，交互图，状态图，构件图，约束，实现策略，原则和模式等。<br>    全书语言准确严谨，表达规范，简洁明了，很适合作为面向对象设计的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

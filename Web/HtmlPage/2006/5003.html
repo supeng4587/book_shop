@@ -5,6 +5,36 @@
     <title>More Effective C++（英文版）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5003 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书主要内容一些经过验证的用来改善程序效率的方法，包括检验c++语言特性所带来的时间和空间上的成本。全面地描述了C++专家所使用的高级技术，包括placement new、 virtual constructors、smart pointers、reference counting、proxy classes和double-disoatching等以实例说明异常处理带给C++类和函数的冲击。介绍新的语言特性，成员模板、标准模板库等。如果你的编译器不支持这些特性，本书还介绍了如何不利用它们完成工作。<br>     作者简介：<br>     迈耶斯，拥有布朗大学计算机科学博士学位，是世界上最著名的C++软件开发权威之一。他的“EffectiveC++两卷本”，开辟了技术图书写作新风格。他曾担任《C++Report》杂志的专栏专作家，经常为《C/C++Users Journal》和《Dr.Dobb's Jornal》撰稿。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

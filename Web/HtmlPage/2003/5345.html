@@ -5,6 +5,36 @@
     <title>.NET大局观</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5345 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>微软的．NET是一个对Windows-based软件开发起到革命性影响的新技术集。.NET主题之一是Web services的思想，允许软件运用Internet技术，和其他软件直接通讯。这个首创技术中的核心组成：．NET Framework和Visual Studio.NET，提供了一个多语言环境，让开发人员在其中开发Web services及其他类型的应用。.NET的另一方面：.NET My Services，提供我们一个用以创建新型应用的新型平台。总而言之，.NET技术将改变几乎所有Windows应用程序的构建方式。<br>    《．NET大局观》是为开发人员和技术管理人员撰写的一本书，是对Windows崭新开发景观的一份简明指南。页边注释、详细图表以及明晰的写作风格，使这本书易于阅读和浏览；分析文块则探索带争议的话题，并提出常见的关注点。这本书的独立观点和直白描述，清楚地阐示了．NET技术的运作机理和使用方式。<br>    本书关键主题包括：<br>    ．NET本身及其目标总览<br>    Web services技术， 包括SOAP(简单对象 存取协议)及其他…<br>    ．NET Framework通用语言运行层(CLR)<br>    C#和Visual Basic．NET<br>    ．NET Framework类库(Class Library)<br>    ADO．NET<br>    ASP．NET<br>    ．NET My Services</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

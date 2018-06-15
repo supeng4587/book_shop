@@ -5,6 +5,36 @@
     <title>Ajax设计模式</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5727 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本关于复杂Ajax应用的整体架构设计的图书。好的架构设计应该满足KISS的原则，容易理解和学习、开发效率高、容易维护和扩展。在各种必须要满足的约束条件之下，设计出一个最简化的架构是架构师孜孜不倦追求的目标。幸运的是，经过国外高水平的Web开发专家的探索，这样的架构设计已经有了一套行之有效的模式。这些模式都是围绕着REST的思想来设计的。RIA+REST将会成为继Web MVC之后，新一代Web应用的首选架构风格。<br>　　本书是国内出版的第一本深入探讨REST架构设计的书籍。书中的所有模式都有详细的讲解和丰富的代码，理论联系实践，确实是不可多得的一本好书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

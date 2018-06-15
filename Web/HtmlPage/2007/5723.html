@@ -5,6 +5,36 @@
     <title>POJOs IN ACTION中文版:用轻量级框架开发企业应用</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5723 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本实践指南，它围绕POJO（普通Java对象）构造了一个完整的应用程序，对框架之间的各种组合进行了详细的举例说明；描述了在采用POJO和轻量级框架如Hibernate、Spring时，如何制定主要设计决策，包括怎样组织和封装业务逻辑、访问数据库、管理事务以及如何处理数据库并发等。此外，本书还详尽地分析了事务管理、悲观锁、乐观锁、条件组合搜索等难点问题。<br>　　本书适用于已经掌握企业Java开发基础，愿意学习如何有效地使用POJO和轻量级框架，渴望突破和提高的开发人员和架构师。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

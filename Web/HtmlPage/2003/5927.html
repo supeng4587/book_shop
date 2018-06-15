@@ -5,6 +5,36 @@
     <title>Visual Basic 6.0程序设计教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5927 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从介绍Visual Basic的基础知识出发，以实例为线索，由浅入深、循序渐进地介绍了如何使用VB6.0开发Windows的应用程序。精心设计的编排顺序和精选有效的实例是本书的特点。从VB的安装到编写第一个VB的简单程序，从常用内部控件的使用到ActiveX控件和OLE容器对象的使用，从图形界面编程、文件使用、多媒体程序的开发到数据库应用程序的设计，都采用了用实例导出概念和方法的思路，使读者能快速掌握并充分运用VB6.0中文版的编程技巧和功能，得心应手地解决实际问题。<br>本书还结合教学的内容，专门提供了实训操作的内容，使读者可以按操作的步骤，快速地具备VB6.0上机操作的能力。<br>本书注重动手能力的培养，强调理论和应用的结合，是学习VB程序设计十分有用的一本教科书及教学参考书。作为计算机程序设计的一类入门语言，本书适合高等学校、高职高专计算机及非计算机专业的师生使用，也可供自学者学习参考。<br><br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

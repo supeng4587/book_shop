@@ -5,6 +5,36 @@
     <title>二级Viswal Basic上机考试轻松过（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6002 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是为准备参加全国计算机等级考试（二级Viswal Basic上机考试）的考生编写的高效实用教材。本书作者在研究历年上机真题（库）的基础上，将常考题型提炼出来，然后按章分类编排，并对其进行了细致深入的分析、解答和扩展，引导考生快速把握考试范围与命题规律，以便读者有针对性地复习过关。实践表明，这种“以题型为主线，以相关考点速记与辅线”的结构体例更便于记忆与理解，适合短时间内突破过关。<br>　　本书配有上机模拟盘，盘中含有书中全部上机考试达标试题，上机题的整个考试过程与真实考试完全相当，特别增长了试题评析功能，便于考生自学与提高。盘中提供的视频教学软件，如同名师亲临现场，手把手教会考生解题。<br>　　本书赠送笔试考试软件（在配书光盘内），内含数套笔试达标试卷及详解，供考生考前训练。<br>　　本书具有严谨、实用、高效、考点全面、考题典型、练习丰富等特点，非常适合有关考生使用，也可作为高等院校或培训班的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

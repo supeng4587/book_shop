@@ -5,6 +5,36 @@
     <title>JAVA ME核心技术与最佳实践（附光盘一张）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5778 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书深入分析了Java ME的核心技术，包括配置、简表和主要的可选包，同时提供了典型、有深度的案例，日的是从实践的角度向读者展示如何更好地在Java ME开发MIDlet应用程序。<br>　　本书从Java ME的概念和开发工具篇入于，首先为开发者扫清概念上的障碍，并介绍r如何使用NetbeansIDE5．0和MobilityPack5.0开发、调试和部署MIDlet。随后以JTWI1．0为主要介绍对象，深入分析了MIDlet应用程序模型、图形用户界面、记录管理系统、联网应用程序歼发、动作类和联网类游戏开发、无线消息API2．0和移动多媒体API编程。在移动应用篇，介绍了JSR75、蓝牙和Web服务等重要的可选包。每章的内容都不流于表面，而是从最佳实践的角度乃示给读者。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

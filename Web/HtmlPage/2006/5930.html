@@ -5,6 +5,36 @@
     <title>新一代Visual Basic 2005程序设计(珍藏版)(附盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5930 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书从基础开始，结合近200个贴近生活应用的经典范例，全方位介绍Visual Basic 2005编程方法与应用。<br>    全书分4大部分，共20章：“基础概念篇”主要介绍数据类型、流程控制等基础知识和VB 2005新增功能及.NET架构；“窗口对象应用篇”介绍VB 2005窗口程序的编译调试，以及所有控件和专业组件（Infragistics NetAdvantage和Dundas）的应用；“数据库与文件应用篇”介绍了数据库技术、SQL语言以及VB与Access、SQL Server 2005、ODBC等的连接方法；“实战专题篇”实现了程序行号产生器加强版、俄罗斯方块游戏及课务信息系统等3个专题；在附录中提供了VB安装指导、函数、程序的发布与安装等内容。<br>    书中所有范例的代码、运行结果和操作步骤均采用图解的讲解方式，直观易懂；书中只摘取了部分重点代码，完整实例在光盘中提供，信息量大，实用性强。<br>    本书适合VB 2005的初学者作为入门书；对于有基础的编程人员，可以作为进阶参考。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

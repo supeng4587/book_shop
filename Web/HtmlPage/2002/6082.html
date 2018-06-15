@@ -5,6 +5,36 @@
     <title>Visual Basic 程序设计教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":6082 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是按照教育部计算机基础教育教学三层次要求组织编写的，并以Visual Basic 6.0中文版为背景，通过大量示例介绍了Visual Basic程序设计的基础知识和使用方法，全书共15章，内容包括：Visual Basic程序开发环境、简单的Visual Basic程序设计、Visual Basic程序设计语言基础、基本的控制结构、数组、过程、常用控件、文件、Visual Basic 6．0图形处理、界面设计、面向对象的编程、Visual Basic与数据库、Visual Basic与多媒体、ActiveX部件、Visual Basic与Web编程初步等。全书围绕各章主题，通过大量示例循序渐进地讲解，做到概念清晰、层次分明、实用性强。每章都配有习题，并在配套教材《Visual Basic实验指导与习题解答》中给予详细解答。书中所有程序都在Visual Basic 6.0中运行通过。<br>    本书可以作为高等学校的教材，也可用作全国计算机等级考试二级——Visual Basic语言程序设计的培训教材，还可供从事计算机应用与开发的相关人员学习参考。本书配有电子教案并能提供书中所有程序源代码。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

@@ -5,6 +5,36 @@
     <title>IDL可视化分析与应用</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5751 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>语法简单的第4代可视化交互数据语言IDL（Interactive Data Language）是新一代交互式、跨平台、面向图形对象的应用程序开发语言，具有较强的数据分析和可视化功能。IDL同时支持命令交互、程序执行和菜单操作三种工作方式，是进行交互数据分析和可视化应用工程开发的高效软件和理想工具。<br>    本书系统地介绍了交互数据语言IDL的基本原理、操作方法、命令和函数的功能和使用方法、程序设计方法、各种流行菜单系统的制作方法、Windows窗口系统的设计方法、屏幕控制对象的设计方法、可视化应用系统的设计与实例和通用数据库管理系统及基本模式的设计方法和技巧。同时还详细介绍了IDL生成品的具体使用方法。书中含用大量取材新颖，并且均可以得立运行的例题和习题，其相关程序均已上机调试通过。<br>    本书可作为高校计算机、信息信号处理、数据可视化分析、图形图旬处理及相关专业的本科生和研究生教材及各类计算机培训教材，还可以作为初学计算机人员的自学参考书以及各类计算机用户和软件开发人员的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

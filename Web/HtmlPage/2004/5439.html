@@ -5,6 +5,36 @@
     <title>Visual Basic.NET函数技术教程（附光盘）</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5439 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书介绍了Visual Basic.NET（简称VB.NET）常用函数的基本功能，同时概括介绍了Web窗体的相关知识。<br>    本书共分为11章：第1章为VB.NET语言的函数；第2章为数学函数；第3章为字符串函数；第4章为转换函数；第5章为日期和时间函数；第6章为驱动器和文件夹函数；第7章为操作文件的函数；第8章为财务函数；第9章为信息和交互函数；第10章为其他函数；第11章为Web窗体与VB.NET函数。本书附带光盘中提供了126个常用函数的示例程序，供读者参考。<br>    本书对已经掌握一定Visual Basic编程基础知识并想学习VB.NET，尤其是想学习和全面掌握VB.NET函数的读者及软件开发人员有参考价值。<br></td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

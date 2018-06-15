@@ -5,6 +5,36 @@
     <title>Visual Basic 课程设计案例精编</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5984 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书以实际程序案例为基础，对Visual Basic编程从各方面进行深入介绍。全书共选择了17个Visual Basic案例，并在Visual Basic 6.0环境下编译通过。这17个案例包括计算类程序、多媒体类程序、数据库程序等类型，涉及了Visual Basic编程常用的控件和部件，使有一定基础的读者对Visual Basic能够透彻理解和灵活运用，可以从一个更高的起点全面、深入浅出地了解Visual Basic的基本功能、开发技巧和注意事项。<br>    本书主要面向有一定Visual Basic的基础的读者，但对于初次涉猎Visual Basic的新手，也有一定的参考价值。在案例中，不乏一些浅显易懂的程序范例，有助于读者快速入门Visual Basic。<br>    本书程序的源代码可以从中国水利水电出版社网站上下载，网址为：www.waterpub.com.cn。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

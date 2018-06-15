@@ -5,6 +5,36 @@
     <title>即用即查ASP+VBScript函数与对象参考手册(附光盘)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5923 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书是一本ASP参考手册，介绍了ASP常见对象的使用方法。对每个对象的属性和方法进行了细致的介绍，并全部配有典型实例，读者可以即查即用。 <br>　　全书共分5篇35章，涵盖了从ASP基础知识到高级应用的函数与对象，其中包括VBScript语言和HTML的基础知识、ASP的7大对象和10大内置组件的详细内容，以及文件访问对象FileSystemObject和数据库访问对象ADO的详细知识。本书在实例的编写上力求贴近工程实践、针对性强，有助于提高读者的实际应用能力。 <br>　　本书适合ASP初学者、ASP程序员以及其他Web应用程序开发和管理技术人员作为手册使用。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

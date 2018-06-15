@@ -5,6 +5,36 @@
     <title>Java基础教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5815 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>Java语言具有面向对象、与平台无关、安全、稳定和多线程等优良特性，是目前软件设计中极为强大的编程语言。Java语言不仅可以用来开发大型的应用程序，而且特别适合Internet的应用开发。尤其是Java Swing推出之后，不仅使Java的功能更加强大，而且使Java具备了“处处可用”的特点，Java已成为网络时代最重要的语言之一。<br>    本书以通俗易懂的语言，循序渐进地向读者介绍了Java语言编程的基础知识。针对较难理解的问题，所列举例子都是由简到繁，便于读者掌握Java编程技巧。全书分为12章，分别讲解了Java语言简介、基本数据类型和数组、运算符、表达式和语句、类、对象和接口、常用实用类、常用组件及事件处理、建立对话框、Java Applet基础、图形与图像、Java多线程机制、输入输出流及Java网络的基本知识等内容。<br>    本书适合初学编程或初学Java语言的读者使用，也可作为高等院校相关专业的教材。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

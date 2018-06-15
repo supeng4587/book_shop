@@ -5,6 +5,36 @@
     <title>Hibernate实战(第2版·英文版)</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5740 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书全面讲述了Hibernate和Java Persistence，并对两者进行了详细的对比分析。书中通过一个应用将数百个例子融合起来，不仅深入剖析了Hibernate 3.2和Java Persistence 丰富的编程模型，还深刻阐述了数据库设计、对象/关系映射（ORM）和优化等方面的基本原则、策略和最佳实践。书中处处闪烁着作者超凡的真知灼见，将大大升华读者对ORM乃至企业级应用开发的理解。<br>　　本书适合广大的开发人员，从ORM的初学者到经验丰富的开发人员。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

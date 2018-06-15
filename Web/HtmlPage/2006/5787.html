@@ -5,6 +5,36 @@
     <title>深入浅出J2EE架构</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5787 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书的三个部分采用全新的例证方法，向开发人员和设计师解释J2EE架构概念和应用程序设计原理。您可以了解到如何轻松地构建原型，部署企业解决方案。<br>    第Ⅰ部分深度分析了Java渗透到各个应用领域尤其是服务器端领域的历史意义。<br>    第Ⅱ部分首先简介核心规范Servlet、JSP和EJB，然后详述各个层、各层组件及组件的角色和职责。<br>    第Ⅲ部分列举两个案例，一个关于“体育用品”门户，另一个介绍一家在线汽车保险鹟。它们都将J2EE作为正确的解决方案。<br>    全书内容全面、编排精当，具有重要的学术和实用价值。另外，本书的配套资料是一份多媒体指南，将带领您畅游魅力无穷的J2EE世界。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>

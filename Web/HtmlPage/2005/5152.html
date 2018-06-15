@@ -5,6 +5,36 @@
     <title>从零开始——JSP动态网页制作基础培训教程</title>
     <meta charset="utf-8" />
     <link href="/Css/tableStyle.css" rel="stylesheet" />
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+                addComment();
+            });
+        });
+        function addComment() {
+            var msg = $("#txtContent").val();
+            if (msg != "") {
+                $.ajax({
+                    url: "/ashx/BookComment.ashx",
+                    type: "POST",
+                    data: { "msg": msg,"bookId":5152 },
+                    success: function (data) {
+                        if (data == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#txtSpan").text("评论成功！");
+                        } else {
+                            $("#txtSpan").text("评论失败！");
+                        }
+                    }
+                });
+            } else {
+                $("#txtSpan").text("评论不能为空！");
+                $("#txtContent").focus();
+            }
+        }
+    </script>
 </head>
 <body>
     <table>
@@ -30,5 +60,9 @@
             <td>本书内容围绕利用JSP进行动态网页制作这一主题展开，其中包括JSP开发的基础知识、HTML语言和JavaScript语言、JavaBean和Servlet、JSP文件操作和数据库编程等，最后详细介绍了两个典型的JSP结合数据库编程的动态网页制作应用实例。通过学习该书，读者可以全面掌握JSP相关的知识，以及利用JSP进行电子商务应用开发的方法和技巧。<br>　　本书循序渐进地介绍了使用JSP进行动态网页制作的相关知识，特别适合想进行JSP动态网页制作的读者阅读，可以作为各类网页制作与开发、电子商务等培训班的教程，也可以作为大专院校在校学生学习JSP编程的参考书。</td>
         </tr>
     </table>
+    <hr />
+    <textarea id="txtContent" rows="20" cols="100"></textarea><br />
+    <input type="button" value="发布评论" id="btnAdd" />
+    <span id="txtSpan" style="font-size:14px;color:red;"></span>
 </body>
 </html>
