@@ -48,7 +48,7 @@ namespace book_shop.Model
 			get{return _ismod;}
 		}
 		/// <summary>
-		/// 
+		/// 替换词
 		/// </summary>
 		public string ReplaceWord
 		{

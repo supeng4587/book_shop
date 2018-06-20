@@ -69,5 +69,38 @@ namespace Common
             }
             return sb.ToString();
         }
+
+        /// <summary>
+        /// 对时间差进行字符串化处理
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <returns></returns>
+       public static string GetTimeSpan(TimeSpan ts)
+        {
+            if (ts.TotalDays >= 365)
+            {
+                return Math.Floor(ts.TotalDays / 365) + "年前";
+            }
+            else if (ts.TotalDays >= 30)
+            {
+                return Math.Floor(ts.TotalDays / 30) + "月前";
+            }
+            else if (ts.TotalHours >= 24)
+            {
+                return Math.Floor(ts.TotalDays) + "天前";
+            }
+            else if (ts.TotalHours >= 1)
+            {
+                return Math.Floor(ts.TotalHours) + "小时前";
+            }
+            else if (ts.TotalMinutes > 1)
+            {
+                return Math.Floor(ts.TotalMinutes) + "分钟前";
+            }
+            else
+            {
+                return "刚刚";
+            }
+        }
     }
 }

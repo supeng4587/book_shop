@@ -14,6 +14,7 @@ namespace book_shop.Model
 		private string _msg;
 		private DateTime _createdatetime;
 		private int _bookid;
+        private bool _isPass;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -46,6 +47,11 @@ namespace book_shop.Model
 			set{ _bookid=value;}
 			get{return _bookid;}
 		}
+
+        public bool IsPass
+        {
+            set { _isPass = value; }
+        }
 		#endregion Model
 
 	}

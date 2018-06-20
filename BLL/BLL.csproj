@@ -118,6 +118,7 @@
     <Compile Include="CheckEmailBLL.cs" />
     <Compile Include="DepartmentBLL.cs" />
     <Compile Include="keyWordsRankBLL.cs" />
+    <Compile Include="MyClass\Articel_WordsBLL.cs" />
     <Compile Include="MyClass\BooksBLL.cs" />
     <Compile Include="MyClass\SettingsBLL.cs" />
     <Compile Include="MyClass\UsersBLL.cs" />
