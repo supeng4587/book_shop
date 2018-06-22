@@ -6,7 +6,7 @@
     <meta content="北京市新华书店王府井书店，致力于提供专业化购书服务.网上购书选择新华书店王府井书店(网上书店),购书放心有保障.王府井书店电话:010-65132842.010-65252592" name="description" />
     <meta content="王府井书店 新华书店 网上书店 网上购书 北京图书大厦" name="keywords">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+    <script src="../ckeditor/ckeditor.js"></script>
     <link href="/Css/tableStyle.css" rel="stylesheet" />
     <link href="/Css/index.css" rel="stylesheet" />
     <script src="/js/jquery-1.7.1.js"></script>
@@ -39,12 +39,45 @@
             $("#btnAdd").click(function () {
                 addComment();
             });
-            loadComment();
+            loadComment();//加载评论
+            loadUBBCode();//加载UBB编辑器
         });
+
+        //加载UBB编辑器
+        function loadUBBCode() {
+            CKEDITOR.replace('txtContent',
+                {
+                    extraPlugins: 'bbcode',
+                    removePlugins: 'bidi,button,dialogadvtab,div,filebrowser,flash,format,forms,horizontalrule,iframe,indent,justify,liststyle,pagebreak,showborders,stylescombo,table,tabletools,templates',
+                    toolbar:
+                    [
+                        ['Source', '-', 'Save', 'NewPage', '-', 'Undo', 'Redo'],
+                        ['Find', 'Replace', '-', 'SelectAll', 'RemoveFormat'],
+                        ['Link', 'Unlink', 'Image'],
+                        '/',
+                        ['FontSize', 'Bold', 'Italic', 'Underline'],
+                        ['NumberedList', 'BulletedList', '-', 'Blockquote'],
+                        ['TextColor', '-', 'Smiley', 'SpecialChar', '-', 'Maximize']
+                    ],
+                    smiley_images:
+                    [
+                        'regular_smile.gif', 'sad_smile.gif', 'wink_smile.gif', 'teeth_smile.gif', 'tounge_smile.gif',
+                        'embaressed_smile.gif', 'omg_smile.gif', 'whatchutalkingabout_smile.gif', 'angel_smile.gif', 'shades_smile.gif',
+                        'cry_smile.gif', 'kiss.gif'
+                    ],
+                    smiley_descriptions:
+                    [
+                        'smiley', 'sad', 'wink', 'laugh', 'cheeky', 'blush', 'surprise',
+                        'indecision', 'angel', 'cool', 'crying', 'kiss'
+                    ]
+                });
+        };
 
         //添加平论
         function addComment() {
-            var msg = $("#txtContent").val();
+            //var msg = $("#txtContent").val();
+            var oEditor = CKEDITOR.instances.editor1;//找到UBB编辑器
+            var msg = oEditor.getData();//获取UBB编辑器内容
             if (msg != "") {
                 $.ajax({
                     url: "/ashx/BookComment.ashx",
@@ -53,7 +86,8 @@
                     success: function (data) {
                         var serverData = data.split(':');
                         if (serverData[0] == "ok") {
-                            $("#txtContent").val("");
+                            //$("#txtContent").val("");
+                            oEditor.setData("");
                             $("#txtContent").focus();
                             $("#commentList").find("li").remove();
                             loadComment();

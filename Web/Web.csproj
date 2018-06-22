@@ -102,6 +102,7 @@
     <Content Include="SWFUpload\swfupload.swf" />
     <Content Include="SWFUpload\swfupload_fp9.swf" />
     <Content Include="Template\BookTemplate.html" />
+    <Content Include="Test\CKEditorDemo.aspx" />
     <Content Include="Test\SWFUpload_Demo.aspx" />
     <Content Include="Test\Test.aspx" />
     <Content Include="Web.config" />
@@ -235,6 +236,13 @@
     <Compile Include="ShowMsg.aspx.designer.cs">
       <DependentUpon>ShowMsg.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Test\CKEditorDemo.aspx.cs">
+      <DependentUpon>CKEditorDemo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Test\CKEditorDemo.aspx.designer.cs">
+      <DependentUpon>CKEditorDemo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Test\SWFUpload_Demo.aspx.cs">
       <DependentUpon>SWFUpload_Demo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -288,6 +296,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin\" />
+    <Folder Include="ckeditor\" />
     <Folder Include="Components\" />
     <Folder Include="HtmlPage\" />
     <Folder Include="Images\" />
