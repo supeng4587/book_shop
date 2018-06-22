@@ -49,10 +49,16 @@
                 $.ajax({
                     url: "/ashx/BookComment.ashx",
                     type: "POST",
-                    data: { "action":"add","msg": msg,"bookId":5333 },
+                    data: { "action": "add", "msg": msg, "bookId": 5333 },
                     success: function (data) {
                         var serverData = data.split(':');
                         if (serverData[0] == "ok") {
+                            $("#txtContent").val("");
+                            $("#txtContent").focus();
+                            $("#commentList").find("li").remove();
+                            loadComment();
+                            $("#txtSpan").text(serverData[1]);
+                        } else if (serverData[0] == "unaudit") {
                             $("#txtContent").val("");
                             $("#txtContent").focus();
                             $("#commentList").find("li").remove();
@@ -74,7 +80,7 @@
             $.ajax({
                 url: "/ashx/BookComment.ashx",
                 type: "POST",
-                data: { "action": "load","bookId":5333 },
+                data: { "action": "load", "bookId": 5333 },
                 success: function (data) {
                     var serverData = $.parseJSON(data);
                     var serverDataLength = serverData.length;
@@ -131,11 +137,10 @@
         </tr>
     </table>
     <hr />
-    <ul id="commentList">
-    </ul>
+    <ul id="commentList"></ul>
 
     <textarea id="txtContent" rows="20" cols="100" class="reply_box" placeholder="有什么感想?来说说!!"></textarea><br />
-    <input type="button" value="发布评论" id="btnAdd" class="reply_btn"/>
+    <input type="button" value="发布评论" id="btnAdd" class="reply_btn" />
     <span id="txtSpan" style="font-size:14px;color:red;"></span>
     <div id="footer">
         <table border="0" width="100%" class="categories1">

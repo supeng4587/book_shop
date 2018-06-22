@@ -51,6 +51,7 @@ namespace book_shop.Model
         public bool IsPass
         {
             set { _isPass = value; }
+            get { return _isPass; }
         }
 		#endregion Model
 

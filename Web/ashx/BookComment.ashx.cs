@@ -37,28 +37,33 @@ namespace book_shop.Web.ashx
         {
             BLL.Articel_WordsBLL articelWordManger = new BLL.Articel_WordsBLL();
             string msg = context.Request["msg"];
-            bool isPass;
+            bool isPass = true;
             //判断是否含有禁用词
             if (articelWordManger.CheckForbid(msg))
             {
                 context.Response.Write("no:评论中含有禁用词");
             }
-            else if (articelWordManger.CheckMod(msg)) 
+            // 判断是否含有敏感词
+            if (articelWordManger.CheckMod(msg)) 
             {
                 isPass = false;
             }
-            else
-            {
-                isPass = true
-            }
+
             Model.BookCommentModel bookComment = new Model.BookCommentModel();
             bookComment.BookId = Convert.ToInt32(context.Request["bookId"]);
-            bookComment.Msg = msg;
+            bookComment.Msg = articelWordManger.CheckReplace(msg);
             bookComment.CreateDateTime = System.DateTime.Now;
-            bookComment.isPass = isPass;
+            bookComment.IsPass = isPass;
             if (bookCommentManager.Add(bookComment) > 0)
             {
-                context.Response.Write("ok:评论成功");
+                if (bookComment.IsPass == true)
+                {
+                    context.Response.Write("ok:评论成功");
+                }
+                else
+                {
+                    context.Response.Write("unaudit:评论中含有敏感词，审核后方可显示");
+                }
             }
             else
             {
@@ -74,7 +79,7 @@ namespace book_shop.Web.ashx
         {
             Model.BookCommentModel bookComment = new Model.BookCommentModel();
             bookComment.BookId = Convert.ToInt32(context.Request["bookId"]);
-            List<Model.BookCommentModel> list = bookCommentManager.GetModelList("BookId = " + bookComment.BookId);
+            List<Model.BookCommentModel> list = bookCommentManager.GetModelList("IsPass <> 0 AND BookId = " + bookComment.BookId );
             List<BookCommentViewModel> newList = new List<BookCommentViewModel>();
             foreach (var item in list)
             {

@@ -2,4 +2,3 @@ D:\git\book_shop\Model\bin\Debug\book_shop.Model.dll
 D:\git\book_shop\Model\bin\Debug\book_shop.Model.pdb
 D:\git\book_shop\Model\obj\Debug\book_shop.Model.dll
 D:\git\book_shop\Model\obj\Debug\book_shop.Model.pdb
-D:\git\book_shop\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

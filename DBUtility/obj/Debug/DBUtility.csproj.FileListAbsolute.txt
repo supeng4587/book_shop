@@ -4,4 +4,3 @@ D:\git\book_shop\DBUtility\bin\Debug\MySql.Data.dll
 D:\git\book_shop\DBUtility\bin\Debug\System.Data.SQLite.DLL
 D:\git\book_shop\DBUtility\obj\Debug\book_shop.DBUtility.dll
 D:\git\book_shop\DBUtility\obj\Debug\book_shop.DBUtility.pdb
-D:\git\book_shop\DBUtility\obj\Debug\DBUtility.csprojResolveAssemblyReference.cache

@@ -46,17 +46,20 @@ namespace book_shop.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into BookComment(");
-			strSql.Append("Msg,CreateDateTime,BookId)");
+			strSql.Append("Msg,CreateDateTime,BookId,IsPass)");
 			strSql.Append(" values (");
-			strSql.Append("@Msg,@CreateDateTime,@BookId)");
+			strSql.Append("@Msg,@CreateDateTime,@BookId,@IsPass)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Msg", SqlDbType.NVarChar,-1),
 					new SqlParameter("@CreateDateTime", SqlDbType.DateTime),
-					new SqlParameter("@BookId", SqlDbType.Int,4)};
+					new SqlParameter("@BookId", SqlDbType.Int,4),
+            new SqlParameter("@IsPass",SqlDbType.Bit)};
+
 			parameters[0].Value = model.Msg;
 			parameters[1].Value = model.CreateDateTime;
 			parameters[2].Value = model.BookId;
+            parameters[3].Value = model.IsPass;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -77,19 +80,22 @@ namespace book_shop.DAL
 			strSql.Append("update BookComment set ");
 			strSql.Append("Msg=@Msg,");
 			strSql.Append("CreateDateTime=@CreateDateTime,");
-			strSql.Append("BookId=@BookId");
-			strSql.Append(" where Id=@Id");
+			strSql.Append("BookId=@BookId,");
+            strSql.Append("IsPass=@IsPass");
+            strSql.Append(" where Id=@Id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Msg", SqlDbType.NVarChar,-1),
 					new SqlParameter("@CreateDateTime", SqlDbType.DateTime),
 					new SqlParameter("@BookId", SqlDbType.Int,4),
+                    new SqlParameter("@IsPass",SqlDbType.Bit),
 					new SqlParameter("@Id", SqlDbType.Int,4)};
 			parameters[0].Value = model.Msg;
 			parameters[1].Value = model.CreateDateTime;
 			parameters[2].Value = model.BookId;
-			parameters[3].Value = model.Id;
+			parameters[3].Value = model.IsPass;
+            parameters[4].Value = model.Id;
 
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+            int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
 				return true;
@@ -205,7 +211,7 @@ namespace book_shop.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select Id,Msg,CreateDateTime,BookId ");
+			strSql.Append("select Id,Msg,CreateDateTime,BookId ,IsPass");
 			strSql.Append(" FROM BookComment ");
 			if(strWhere.Trim()!="")
 			{

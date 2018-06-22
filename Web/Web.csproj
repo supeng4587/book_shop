@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminManager\AddCode.aspx" />
+    <Content Include="AdminManager\AuditModWord.aspx" />
     <Content Include="AdminManager\CreateStaticPage.aspx" />
     <Content Include="BookDetail.aspx" />
     <Content Include="Controls\checkright.ascx" />
@@ -113,12 +114,22 @@
     <Compile Include="AdminManager\AddCode.aspx.designer.cs">
       <DependentUpon>AddCode.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AdminManager\AuditModWord.aspx.cs">
+      <DependentUpon>AuditModWord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminManager\AuditModWord.aspx.designer.cs">
+      <DependentUpon>AuditModWord.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AdminManager\CreateStaticPage.aspx.cs">
       <DependentUpon>CreateStaticPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AdminManager\CreateStaticPage.aspx.designer.cs">
       <DependentUpon>CreateStaticPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\AuditModWord.ashx.cs">
+      <DependentUpon>AuditModWord.ashx</DependentUpon>
     </Compile>
     <Compile Include="ashx\BookComment.ashx.cs">
       <DependentUpon>BookComment.ashx</DependentUpon>
@@ -300,6 +311,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ashx\BookComment.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\AuditModWord.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

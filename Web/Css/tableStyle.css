@@ -9,7 +9,7 @@
         th
         {
             font: bold 11px "Trebuchet MS" , Verdana, Arial, Helvetica, sans-serif;
-            color: #burlywood;
+            color: #4f6b72;
             border-right: 1px solid #C1DAD7;
             border-left: 1px solid #C1DAD7;
             border-bottom: 1px solid #C1DAD7;
@@ -18,7 +18,7 @@
             text-transform: uppercase;
             text-align: left;
             padding: 6px 6px 6px 12px;
-            background: #0066AA no-repeat;
+            background: #20aaee no-repeat;
         }
         
         th.nobg

@@ -19,7 +19,7 @@ namespace book_shop.DAL
         {
             string sql = "SELECT [WordPattern] FROM dbo.Articel_Words WHERE [IsForbid]=1";
             List<string> list = null;
-            using(SqlDataReader dr = DbHelperSQL.ExecuteReader(sql))
+            using (SqlDataReader dr = DbHelperSQL.ExecuteReader(sql))
             {
                 if (dr.HasRows)
                 {
@@ -49,6 +49,31 @@ namespace book_shop.DAL
                     while (dr.Read())
                     {
                         list.Add(dr["WordPattern"].ToString());
+                    }
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取一个list，包含所有的替换词
+        /// </summary>
+        /// <returns></returns>
+        public List<Model.Articel_WordsModel> GetReplaseWord()
+        {
+            string sql = "SELECT [WordPattern],[ReplaceWord] FROM dbo.Articel_Words WHERE ReplaceWord IS NOT NULL";
+            List < Model.Articel_WordsModel > list = null;
+            using(SqlDataReader dr = DbHelperSQL.ExecuteReader(sql))
+            {
+                if (dr.HasRows)
+                {
+                    list = new List<Model.Articel_WordsModel>();
+                    while (dr.Read())
+                    {
+                        Model.Articel_WordsModel articel = new Model.Articel_WordsModel();
+                        articel.WordPattern = dr["WordPattern"].ToString();
+                        articel.ReplaceWord = dr["ReplaceWord"].ToString();
+                        list.Add(articel);
                     }
                 }
             }
