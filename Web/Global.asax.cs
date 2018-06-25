@@ -101,6 +101,7 @@ namespace book_shop.Web
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
             string url = Request.AppRelativeCurrentExecutionFilePath;
+            //有点MVC路由的意思
             Match match = Regex.Match(url, @"~/BookDetail_(\d+).aspx");
             if (match.Success)
             {

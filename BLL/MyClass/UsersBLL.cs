@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Web;
 
 namespace book_shop.BLL
 {
@@ -15,7 +16,7 @@ namespace book_shop.BLL
         /// <param name="model"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public int Add(UsersModel model,out string msg)
+        public int Add(UsersModel model, out string msg)
         {
             int success = -1;
             if (ValidateUserName(model.LoginId))
@@ -83,7 +84,7 @@ namespace book_shop.BLL
                 msg = "此用户不存在。";
             }
 
-        return isSuccess;
+            return isSuccess;
         }
 
         /// <summary>
@@ -109,15 +110,50 @@ namespace book_shop.BLL
             dal.Update(userInfo);
             MailMessage mailMsg = new MailMessage();
             mailMsg.From = new MailAddress(settingBLL.GetValue("SysMailAddress"), "苏鹏");
-            mailMsg.To.Add(new MailAddress(userInfo.Mail,"新浪收件人supeng"));
+            mailMsg.To.Add(new MailAddress(userInfo.Mail, "新浪收件人supeng"));
             mailMsg.Subject = "在商城网站中的用户";
             StringBuilder sb = new StringBuilder();
             sb.Append("用户名是：" + userInfo.LoginId);
             sb.Append("新密码是：" + userInfo.LoginPwd);
-            mailMsg.Body =sb.ToString();
+            mailMsg.Body = sb.ToString();
             SmtpClient client = new SmtpClient(settingBLL.GetValue("SysMailSMTP"), int.Parse(settingBLL.GetValue("SysMailSMTPPort")));
             client.Credentials = new NetworkCredential(settingBLL.GetValue("SysMailUserName"), settingBLL.GetValue("SysMailUserPass"));
             client.Send(mailMsg);//短时间内发送大量邮件时容易阻塞，所以可以将要发送的邮件先发送到队列中
+        }
+
+
+        public bool ValidateUserLogin()
+        {
+            bool result = false;
+            HttpContext current = HttpContext.Current;
+            if (current.Session["userInfo"] != null)
+            {
+                result= true;
+            }
+            else
+            {
+                if (current.Request.Cookies["cp1"] != null && current.Request.Cookies["cp2"] != null)
+                {
+
+                    string userName = current.Request.Cookies["cp1"].Value;
+                    string userPwd = current.Request.Cookies["cp2"].Value;
+                    Model.UsersModel userInfo = GetModel(userName);
+                    if (userInfo != null)
+                    {
+                        if (userPwd == Common.WebCommon.GetMd5String(Common.WebCommon.GetMd5String(userInfo.LoginPwd)))
+                        {
+                            current.Session["userInfo"] = userInfo;
+                            result= true;
+                        }
+                    }
+                    else
+                    {
+                        current.Response.Cookies["cp1"].Expires = DateTime.Now.AddDays(-1);
+                        current.Response.Cookies["cp2"].Expires = DateTime.Now.AddDays(-1);
+                    }
+                }
+            }
+            return result;
         }
     }
 }

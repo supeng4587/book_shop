@@ -84,7 +84,7 @@ namespace book_shop.Web.ashx
             foreach (var item in list)
             {
                 ViewModel.BookCommentViewModel viewModel = new BookCommentViewModel();
-                viewModel.Msg = item.Msg;
+                viewModel.Msg = Common.WebCommon.UbbToHtml(item.Msg);//将UBB编码转换成HTML编码  
                 viewModel.CreateDateTime = Common.WebCommon.GetTimeSpan(System.DateTime.Now - item.CreateDateTime);//获取时间差
                 newList.Add(viewModel);
             }
