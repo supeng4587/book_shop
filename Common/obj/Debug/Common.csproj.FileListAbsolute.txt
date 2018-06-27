@@ -2,4 +2,3 @@ D:\git\book_shop\Common\bin\Debug\Common.dll
 D:\git\book_shop\Common\bin\Debug\Common.pdb
 D:\git\book_shop\Common\obj\Debug\Common.dll
 D:\git\book_shop\Common\obj\Debug\Common.pdb
-D:\git\book_shop\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache

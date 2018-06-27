@@ -96,6 +96,7 @@
     <Content Include="Member\FindPwd.aspx" />
     <Content Include="Member\Login.aspx" />
     <Content Include="Member\Register.aspx" />
+    <Content Include="Member\shoppingCart.aspx" />
     <Content Include="ShowMsg.aspx" />
     <Content Include="SWFUpload\handlers.js" />
     <Content Include="SWFUpload\swfupload.js" />
@@ -137,6 +138,9 @@
     </Compile>
     <Compile Include="ashx\FindPwd.ashx.cs">
       <DependentUpon>FindPwd.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\Login.ashx.cs">
+      <DependentUpon>Login.ashx</DependentUpon>
     </Compile>
     <Compile Include="ashx\ProductCart.ashx.cs">
       <DependentUpon>ProductCart.ashx</DependentUpon>
@@ -230,6 +234,13 @@
     </Compile>
     <Compile Include="Member\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\shoppingCart.aspx.cs">
+      <DependentUpon>shoppingCart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\shoppingCart.aspx.designer.cs">
+      <DependentUpon>shoppingCart.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShowMsg.aspx.cs">
@@ -329,6 +340,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ashx\ProductCart.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\Login.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

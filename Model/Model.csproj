@@ -116,6 +116,7 @@
     <Compile Include="CheckEmailModel.cs" />
     <Compile Include="DepartmentModel.cs" />
     <Compile Include="keyWordsRankModel.cs" />
+    <Compile Include="MyModel\CartModel.cs" />
     <Compile Include="OrderBookModel.cs" />
     <Compile Include="OrdersModel.cs" />
     <Compile Include="PublishersModel.cs" />

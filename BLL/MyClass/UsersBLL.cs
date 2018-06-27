@@ -71,17 +71,17 @@ namespace book_shop.BLL
             {
                 if (userPwd == user.LoginPwd)
                 {
-                    msg = "登陆成功";
+                    msg = "Login success";
                     isSuccess = true;
                 }
                 else
                 {
-                    msg = "用户密码错误。";
+                    msg = "Password is eror";
                 }
             }
             else
             {
-                msg = "此用户不存在。";
+                msg = "The user does not exist";
             }
 
             return isSuccess;

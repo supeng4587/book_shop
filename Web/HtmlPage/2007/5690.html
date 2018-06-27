@@ -10,6 +10,8 @@
     <link href="/Css/tableStyle.css" rel="stylesheet" />
     <link href="/Css/index.css" rel="stylesheet" />
     <script src="/js/jquery-1.7.1.js"></script>
+    <script src="/js/jquery-ui-1.8.2.custom.min.js"></script>
+    <link href="/Css/themes/ui-lightness/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
     <style type="text/css">
         .itcast_comments {
             width: 620px;
@@ -51,7 +53,67 @@
             });
             loadComment();//加载评论
             loadUBBCode();//加载UBB编辑器
+            $("#addCart").click(function () {
+                addProductCart();
+            })
         });
+
+        //将商品放入购物出
+        function addProductCart() {
+            $.ajax({
+                type: "POST",
+                url: "/ashx/ProductCart.ashx",
+                datatype: "JSON",
+                data: { "bookId": 5690 },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.action == "have") {
+                        $("#msg").text(data.message);
+                        $("#showResult").css("dispaly", "block");
+                        $("#showResult").dialog({
+                            height: 240,
+                            modal: true,
+                            buttons: {
+                                ok: function () {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        })
+                    } else if (data.action == "notHave") {
+                        alert(data.message);
+                    } else if (data.action == "notLogin") {//没有登陆
+                        showLoginDialog();
+                    } else { alert("返回参数错误") }
+                }
+            })
+        };
+
+        //内置登陆
+        function showLoginDialog() {
+            $("#loginDiv").css("display", "block");
+            $("#loginDiv").dialog({
+                height: 240,
+                modal: true,
+                buttons: {
+                    ok: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/ashx/Login.ashx",
+                            datatype: "JSON",
+                            data: { "txtLoginId": $("#txtName").val(), "txtLoginPwd": $("#txtPwd").val(), "hiddenReturnUrl": $("#hiddenReturnUrl").val(), "cbAutoLogin": $("#cbAutoLogin").val() },
+                            success: function (data) {
+                                data = JSON.parse(data);
+                                if (data.action == "pass") {
+                                    window.location.replace(data.message);
+                                } else {
+                                    alert(data.message);
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        }
 
         //加载UBB编辑器
         function loadUBBCode() {
@@ -169,7 +231,7 @@
         </tr>
         <tr>
             <td>单价</td>
-            <td>108.00&nbsp;&nbsp;<a href="javascript:void(0)" class="buy_now" style="color:#ffffff">加入购物车</a></td>
+            <td>108.00&nbsp;&nbsp;<a href="javascript:void(0)" class="buy_now" style="color:#ffffff" id="addCart">加入购物车</a></td>
         </tr>
         <tr>
             <td>封面</td>
@@ -199,6 +261,18 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div id="loginDiv" style="display:none">
+        <table>
+            <tr><th>用户名</th><td><input type="text" id="txtName" /></td></tr>
+            <tr><th>密码</th><td><input type="password" id="txtPwd" /></td></tr>
+            <tr><th>下次自动登陆</th><td><input type="checkbox" id="cbAutoLogin" value="1" /></td></tr>
+        </table>
+        <input type="hidden" id="hiddenReturnUrl" value="/HtmlPage/2007/5690.html" />
+    </div>
+
+    <div id="showResult" style="display:none">
+       <span id="msg" style="color:red"></span>,请访问<a href="/Member/shoppingCart.aspx" style="color:red;font-size:20px">购物车</a>页面，进行支付
     </div>
 </body>
 </html>

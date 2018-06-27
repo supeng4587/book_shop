@@ -63,19 +63,32 @@
             $.ajax({
                 type: "POST",
                 url: "/ashx/ProductCart.ashx",
-                datatype:"JSON",
+                datatype: "JSON",
                 data: { "bookId": $bookId },
                 success: function (data) {
-                    if (data["state"] == "ok") {
-                    } else if(data["state"]=="no"){
-
-                    } else {//没有登陆
+                    data = JSON.parse(data);
+                    if (data.action == "have") {
+                        $("#msg").text(data.message);
+                        $("#showResult").css("dispaly", "block");
+                        $("#showResult").dialog({
+                            height: 240,
+                            modal: true,
+                            buttons: {
+                                ok: function () {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        })
+                    } else if (data.action == "notHave") {
+                        alert(data.message);
+                    } else if (data.action == "notLogin") {//没有登陆
                         showLoginDialog();
-                    }
+                    } else { alert("返回参数错误") }
                 }
             })
         };
 
+        //内置登陆
         function showLoginDialog() {
             $("#loginDiv").css("display", "block");
             $("#loginDiv").dialog({
@@ -84,13 +97,19 @@
                 buttons: {
                     ok: function () {
                         $.ajax({
-                            url: "",
                             type: "POST",
-                            data: { "txtLoginId": $("#txtName").text, "txtLoginPwd": $("#txtPwd").text },
+                            url: "/ashx/Login.ashx",
+                            datatype: "JSON",
+                            data: { "txtLoginId": $("#txtName").val(), "txtLoginPwd": $("#txtPwd").val(), "hiddenReturnUrl": $("#hiddenReturnUrl").val(), "cbAutoLogin": $("#cbAutoLogin").val() },
                             success: function (data) {
-
+                                data = JSON.parse(data);
+                                if (data.action == "pass") {
+                                    window.location.replace(data.message);
+                                } else {
+                                    alert(data.message);
+                                }
                             }
-                        })
+                        });
                     }
                 }
             })
@@ -245,9 +264,15 @@
     </div>
     <div id="loginDiv" style="display:none">
         <table>
-            <tr><th>用户名</th><td><input type="text" id="txtName"/></td></tr>
+            <tr><th>用户名</th><td><input type="text" id="txtName" /></td></tr>
             <tr><th>密码</th><td><input type="password" id="txtPwd" /></td></tr>
+            <tr><th>下次自动登陆</th><td><input type="checkbox" id="cbAutoLogin" value="1" /></td></tr>
         </table>
+        <input type="hidden" id="hiddenReturnUrl" value="$hiddenReturnUrl" />
+    </div>
+
+    <div id="showResult" style="display:none">
+       <span id="msg" style="color:red"></span>,请访问<a href="/Member/shoppingCart.aspx" style="color:red;font-size:20px">购物车</a>页面，进行支付
     </div>
 </body>
 </html>

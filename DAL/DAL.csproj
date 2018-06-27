@@ -136,6 +136,7 @@
     <Compile Include="keyWordsRankDAL.cs" />
     <Compile Include="MyClass\Articel_WordsDAL.cs" />
     <Compile Include="MyClass\BooksDAL.cs" />
+    <Compile Include="MyClass\CartDAL.cs" />
     <Compile Include="MyClass\SettingsDAL.cs" />
     <Compile Include="MyClass\UsersDAL.cs" />
     <Compile Include="OrderBookDAL.cs" />
