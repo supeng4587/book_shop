@@ -80,6 +80,7 @@
     <Content Include="AdminManager\AuditModWord.aspx" />
     <Content Include="AdminManager\CreateStaticPage.aspx" />
     <Content Include="BookDetail.aspx" />
+    <Content Include="BusinessFlowPath\购物车设计流程.png" />
     <Content Include="Controls\checkright.ascx" />
     <Content Include="Controls\copyright.ascx" />
     <Content Include="Css\border-anim-h.gif" />
