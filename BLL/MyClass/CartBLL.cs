@@ -18,5 +18,6 @@ namespace book_shop.BLL
         {
             return dal.GetModel(userId, bookId);
         }
+
     }
 }

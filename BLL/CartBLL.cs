@@ -11,6 +11,8 @@ namespace book_shop.BLL
 	public partial class CartBLL
 	{
 		private readonly book_shop.DAL.CartDAL dal=new book_shop.DAL.CartDAL();
+        DAL.UsersDAL userService = new DAL.UsersDAL();
+        DAL.BooksDAL bookService = new DAL.BooksDAL();
 		public CartBLL()
 		{}
 		#region  BasicMethod
@@ -130,12 +132,28 @@ namespace book_shop.BLL
 				book_shop.Model.CartModel model;
 				for (int n = 0; n < rowsCount; n++)
 				{
-					model = dal.DataRowToModel(dt.Rows[n]);
-					if (model != null)
-					{
-						modelList.Add(model);
-					}
-				}
+                    model = new Model.CartModel();
+                    if (dt.Rows[n]["Id"].ToString() != "")
+                    {
+                        model.Id = int.Parse(dt.Rows[n]["Id"].ToString());
+                    }
+                    if (dt.Rows[n]["UserId"].ToString() != "")
+                    {
+                        int UserId = int.Parse(dt.Rows[n]["UserId"].ToString());
+                        model.User =userService.GetModel(UserId);
+                    }
+                    if (dt.Rows[n]["BookId"].ToString() != "")
+                    {
+                        int BookId = int.Parse(dt.Rows[n]["BookId"].ToString());
+                        model.Book = bookService.GetModel(BookId);
+                    }
+                    if (dt.Rows[n]["Count"].ToString() != "")
+                    {
+                        model.Count = int.Parse(dt.Rows[n]["Count"].ToString());
+                    }
+
+                    modelList.Add(model);
+                }
 			}
 			return modelList;
 		}

@@ -8,8 +8,8 @@ namespace book_shop.Model
 {
     public partial class CartModel
     {
-        private UsersModel _user;
-        private BooksModel _book;
+        private UsersModel _user = new UsersModel();
+        private BooksModel _book = new BooksModel();
 
         public UsersModel User
         {
@@ -19,7 +19,7 @@ namespace book_shop.Model
 
         public BooksModel Book
         {
-            set { value = _book; }
+            set { _book = value; }
             get { return _book; }
         }
     }

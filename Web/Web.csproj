@@ -80,7 +80,6 @@
     <Content Include="AdminManager\AuditModWord.aspx" />
     <Content Include="AdminManager\CreateStaticPage.aspx" />
     <Content Include="BookDetail.aspx" />
-    <Content Include="BusinessFlowPath\购物车设计流程.png" />
     <Content Include="Controls\checkright.ascx" />
     <Content Include="Controls\copyright.ascx" />
     <Content Include="Css\border-anim-h.gif" />
@@ -97,7 +96,7 @@
     <Content Include="Member\FindPwd.aspx" />
     <Content Include="Member\Login.aspx" />
     <Content Include="Member\Register.aspx" />
-    <Content Include="Member\shoppingCart.aspx" />
+    <Content Include="Member\ShoppingCart.aspx" />
     <Content Include="ShowMsg.aspx" />
     <Content Include="SWFUpload\handlers.js" />
     <Content Include="SWFUpload\swfupload.js" />
@@ -236,12 +235,12 @@
     <Compile Include="Member\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Member\shoppingCart.aspx.cs">
-      <DependentUpon>shoppingCart.aspx</DependentUpon>
+    <Compile Include="Member\ShoppingCart.aspx.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Member\shoppingCart.aspx.designer.cs">
-      <DependentUpon>shoppingCart.aspx</DependentUpon>
+    <Compile Include="Member\ShoppingCart.aspx.designer.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShowMsg.aspx.cs">
