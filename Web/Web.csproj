@@ -136,6 +136,9 @@
     <Compile Include="ashx\BookComment.ashx.cs">
       <DependentUpon>BookComment.ashx</DependentUpon>
     </Compile>
+    <Compile Include="ashx\EidtCart.ashx.cs">
+      <DependentUpon>EidtCart.ashx</DependentUpon>
+    </Compile>
     <Compile Include="ashx\FindPwd.ashx.cs">
       <DependentUpon>FindPwd.ashx</DependentUpon>
     </Compile>
@@ -343,6 +346,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ashx\Login.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ashx\EidtCart.ashx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

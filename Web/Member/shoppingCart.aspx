@@ -2,6 +2,44 @@
 
 <%@ Import Namespace="book_shop.Model" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="Header" runat="server">
+    <script type="text/javascript">
+        function changeBar(opertor, cartId, bookId) {
+            var count = $("#txtCount" + bookId).val();
+            count = parseInt(count);
+            if (opertor == "-") {
+                count--;
+                if (count < 1) {
+                    alert("商品数量最少为'1'");
+                    return false;
+                }
+            } else if (opertor == "+") {
+                count++;
+                if (count > 200) {
+                    alert("商品数量不能大于200");
+                    return false;
+                }
+            } else {
+                alert("参数异常");
+            }
+
+            $.ajax({
+                type: "POST",
+                datatype:"text",
+                url: "/ashx/EidtCart.ashx",
+                data: { "cartId": cartId, "Count": count },
+                success:function (data) {
+                    if (data == "ok") {
+                        //1.刷新数量或者重新给文本框赋值
+                        $("#txtCount" + bookId).val(count);
+                        //2.总价更新
+
+                    } else {
+                        alert("数量更新失败");
+                    }
+                }
+            })
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
